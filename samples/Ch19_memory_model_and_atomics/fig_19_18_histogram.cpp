@@ -9,7 +9,8 @@
 #include <random>
 
 using namespace sycl;
-using namespace sycl::ONEAPI;
+using namespace sycl::intel;
+
 
 template <typename T, int dimensions>
 using local_accessor =
@@ -27,8 +28,8 @@ std::tuple<size_t, size_t> distribute_range(group<1> g, size_t N) {
 
 // Define shorthand aliases for the types of atomic needed by this kernel
 namespace {
-  using memory_order = ONEAPI::memory_order;
-  using memory_scope = ONEAPI::memory_scope;
+  using memory_order = sycl::intel::memory_order;
+  using memory_scope = sycl::intel::memory_scope;
 
   template <typename T>
   using local_atomic_ref = atomic_ref<
