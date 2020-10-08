@@ -7,7 +7,7 @@
 #include <iostream>
 
 using namespace sycl;
-using namespace sycl::INTEL;
+using namespace sycl::intel;
 
 int main() {
   queue Q;

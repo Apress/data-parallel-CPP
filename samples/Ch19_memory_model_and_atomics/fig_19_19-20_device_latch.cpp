@@ -7,11 +7,11 @@
 #include <cstdio>
 
 using namespace sycl;
-using namespace sycl::ONEAPI;
+using namespace sycl::intel;
 
 struct device_latch {
-  using memory_order = ONEAPI::memory_order;
-  using memory_scope = ONEAPI::memory_scope;
+  using memory_order = sycl::intel::memory_order;
+  using memory_scope = sycl::intel::memory_scope;
 
   explicit device_latch(size_t num_groups) : counter(0), expected(num_groups) {}
 

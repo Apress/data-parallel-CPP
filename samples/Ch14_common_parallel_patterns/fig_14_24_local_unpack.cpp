@@ -13,7 +13,7 @@
 #include <random>
 
 using namespace sycl;
-using namespace sycl::ONEAPI;
+using namespace sycl::intel;
 
 const uint32_t max_iterations = 1024;
 const uint32_t Nx = 1024, Ny = 768;

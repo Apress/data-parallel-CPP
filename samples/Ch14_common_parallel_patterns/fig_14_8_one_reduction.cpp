@@ -7,7 +7,7 @@
 #include <numeric>
 
 using namespace sycl;
-using namespace sycl::ONEAPI;
+using namespace sycl::intel;
 
 int main() {
 

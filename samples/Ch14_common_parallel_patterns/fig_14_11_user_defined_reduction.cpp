@@ -7,7 +7,7 @@
 #include <random>
 
 using namespace sycl;
-using namespace sycl::ONEAPI;
+using namespace sycl::intel;
 
 template <typename T, typename I>
 struct pair {
