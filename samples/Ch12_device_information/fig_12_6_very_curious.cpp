@@ -2,16 +2,21 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <sycl/sycl.hpp>
+#include <CL/sycl.hpp>
 #include <iostream>
+#include <type_traits>
 using namespace sycl;
 
-template <typename queryT, typename T>
-void do_query( const T& obj_to_query, const std::string& name, int indent=4) {
+template<typename enumClass, enumClass enumValue, typename T>
+void do_query_impl(const T& obj_to_query, const std::string& name, int indent) {
   std::cout << std::string(indent, ' ') << name << " is '"
-    << obj_to_query.template get_info<queryT>() << "'\n";
+    << obj_to_query.template get_info<enumValue>() << "'\n";
 }
 
+template<auto enumValue, typename T>
+void do_query(const T& obj_to_query, const std::string& name, int indent=4) {
+  do_query_impl<decltype(enumValue), enumValue>(obj_to_query, name, indent);
+}
 
 int main() {
   // Loop through the available platforms

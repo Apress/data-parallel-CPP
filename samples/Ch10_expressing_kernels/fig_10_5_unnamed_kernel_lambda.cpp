@@ -2,7 +2,7 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <sycl/sycl.hpp>
+#include <CL/sycl.hpp>
 #include <array>
 #include <iostream>
 using namespace sycl;
@@ -18,7 +18,7 @@ int main() {
   {
     buffer data_buf{data};
 
-    queue Q{ default_selector_v };
+    queue Q{ default_selector() };
     std::cout << "Running on device: "
               << Q.get_device().get_info<info::device::name>() << "\n";
 

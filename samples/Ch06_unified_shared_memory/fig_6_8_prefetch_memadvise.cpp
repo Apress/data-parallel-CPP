@@ -2,7 +2,7 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <sycl/sycl.hpp>
+#include <CL/sycl.hpp>
 using namespace sycl;
 
 // Appropriate values depend on your HW

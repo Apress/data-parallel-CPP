@@ -2,11 +2,12 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <sycl/sycl.hpp>
+#include <CL/sycl.hpp>
 #include <algorithm>
 #include <cstdio>
 #include <numeric>
 #include <random>
+#include "../Errata/include/local_accessor.hpp"
 
 using namespace sycl;
 

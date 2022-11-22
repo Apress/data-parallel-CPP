@@ -7,10 +7,16 @@
 // old naming dpstd:: is now oneapi::dpl::
 // -------------------------------------------------------
 
+#ifndef DPL_USES_SYCL2020_CONFORMANT_APIS
+  #ifdef SYCL2020_CONFORMANT_APIS
+    #undef SYCL2020_CONFORMANT_APIS
+  #endif // SYCL2020_CONFORMANT_APIS
+#endif // DPL_USES_SYCL2020_CONFORMANT_APIS
+
 #include <oneapi/dpl/execution>
 #include <oneapi/dpl/algorithm>
 #include <oneapi/dpl/iterator>
-#include <sycl/sycl.hpp>
+#include <CL/sycl.hpp>
 
 int main(){
   sycl::queue Q;

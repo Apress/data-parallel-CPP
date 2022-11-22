@@ -10,11 +10,17 @@
 //   oneapi::dpl::execution::dpcpp_default
 // -------------------------------------------------------
 
+#ifndef DPL_USES_SYCL2020_CONFORMANT_APIS
+  #ifdef SYCL2020_CONFORMANT_APIS
+    #undef SYCL2020_CONFORMANT_APIS
+  #endif // SYCL2020_CONFORMANT_APIS
+#endif // DPL_USES_SYCL2020_CONFORMANT_APIS
+
 #include <oneapi/dpl/execution>
 #include <oneapi/dpl/algorithm>
 #include <oneapi/dpl/iterator>
 #include <iostream>
-#include <sycl/sycl.hpp>
+#include <CL/sycl.hpp>
 
 using namespace sycl;
 

@@ -2,7 +2,7 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <sycl/sycl.hpp>
+#include <CL/sycl.hpp>
 #include <iostream>
 using namespace sycl;
 
@@ -12,13 +12,13 @@ int main() {
   auto GPU_is_available = false;
 
   try {
-    device testForGPU(gpu_selector_v);
+    device testForGPU{ gpu_selector() };
     GPU_is_available = true;
   } catch (exception const& ex) {
     std::cout << "Caught this SYCL exception: " << ex.what() << std::endl;
   }
 
-  auto Q = GPU_is_available ? queue(gpu_selector_v) : queue(default_selector_v);
+  auto Q = GPU_is_available ? queue{ gpu_selector() } : queue{ default_selector() };
 
   std::cout << "After checking for a GPU, we are running on:\n "
     << Q.get_device().get_info<info::device::name>() << "\n";

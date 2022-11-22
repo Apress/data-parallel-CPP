@@ -9,7 +9,7 @@
 //   added sycl::ONEAPI:: to minimum.
 // -------------------------------------------------------
 
-#include <sycl/sycl.hpp>
+#include <CL/sycl.hpp>
 #include <iostream>
 #include <random>
 

@@ -2,31 +2,34 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <sycl/sycl.hpp>
+#include <CL/sycl.hpp>
 #include <iostream>
 using namespace sycl;
 
-int my_selector(const device &dev) {
-  int score = -1;
+class my_selector : public device_selector {
+  public:
+    int operator()(const device &dev) const override {
+      int score = -1;
 
-  // We prefer non-Martian GPUs, especially ACME GPUs
-  if (dev.is_gpu()) {
-    if (dev.get_info<info::device::vendor>().find("ACME") != std::string::npos)
-      score += 25;
+      // We prefer non-Martian GPUs, especially ACME GPUs
+      if (dev.is_gpu()) {
+        if (dev.get_info<info::device::vendor>().find("ACME") != std::string::npos)
+          score += 25;
 
-    if (dev.get_info<info::device::vendor>().find("Martian") ==
-        std::string::npos)
-      score += 800;
-  }
+        if (dev.get_info<info::device::vendor>().find("Martian") ==
+            std::string::npos)
+          score += 800;
+      }
 
-  // If there is no GPU on the system all devices will be given a negative score
-  // and the selector will not select a device. This will cause an exception.
-  return score;
-}
+      // If there is no GPU on the system all devices will be given a negative score
+      // and the selector will not select a device. This will cause an exception.
+      return score;
+    }
+};
 
 int main() {
   try {
-    auto Q = queue{ my_selector };
+    auto Q = queue{ my_selector() };
     std::cout << "After checking for a GPU, we are running on:\n "
               << Q.get_device().get_info<info::device::name>() << "\n";
   } catch (exception const& ex) {

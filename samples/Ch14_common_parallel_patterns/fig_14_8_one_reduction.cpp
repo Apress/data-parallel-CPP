@@ -9,7 +9,7 @@
 //   added sycl::ONEAPI:: to plus
 // -------------------------------------------------------
 
-#include <sycl/sycl.hpp>
+#include <CL/sycl.hpp>
 #include <iostream>
 #include <numeric>
 

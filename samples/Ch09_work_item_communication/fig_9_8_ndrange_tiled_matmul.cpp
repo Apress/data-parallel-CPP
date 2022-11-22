@@ -2,8 +2,10 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <sycl/sycl.hpp>
+#include <CL/sycl.hpp>
 #include <chrono>
+#include "../Errata/include/local_accessor.hpp"
+
 using namespace sycl;
 
 extern const int matrixSize = 128;

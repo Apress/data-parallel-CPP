@@ -2,7 +2,7 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <sycl/sycl.hpp>
+#include <CL/sycl.hpp>
 #include <array>
 #include <iostream>
 using namespace sycl;
@@ -13,8 +13,8 @@ int main() {
   constexpr int local_size = 16;
   buffer<int,2> B{ range{ global_size, global_size }};
 
-  queue gpu_Q{ gpu_selector_v };
-  queue cpu_Q{ cpu_selector_v };
+  queue gpu_Q{ gpu_selector() };
+  queue cpu_Q{ cpu_selector() };
 
   nd_range NDR {
     range{ global_size, global_size },
