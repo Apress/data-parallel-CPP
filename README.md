@@ -1,5 +1,13 @@
 # Data Parallel C++ Book Source Samples
 
+## This branch (sycl121\_original\_publication)
+
+This sycl121\_original\_publication branch corresponds to the original publication of the book, when SYCL 1.2.1 was the most recent version of the SYCL specification from The Khronos Group.  
+
+Since then, SYCL 2020 was released which incluedes many enhancements and changes relative to SYCL 1.2.1 (the now old version).  The main branch in this repository now tracks SYCL 2020 to be compatible with recent compilers, and this sycl121\_original\_publication branch maintains the original source in case anybody needs to reference it.
+
+## Overview
+
 This repository accompanies [*Data Parallel C++: Mastering DPC++ for Programming of Heterogeneous Systems using C++ and SYCL*](https://www.apress.com/9781484255735) by James Reinders, Ben Ashbaugh, James Brodman, Michael Kinsner, John Pennycook, Xinmin Tian (Apress, 2020).
 
 [comment]: #cover
