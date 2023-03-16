@@ -30,10 +30,9 @@ add_book_sample(
     TARGET fig_2_13_gpu_plus_fpga
     SOURCES fig_2_13_gpu_plus_fpga.cpp)
 
-# Currently not compiling - missing aspect selector implementation
-#add_book_sample(
-#    TARGET fig_2_15_aspect_selector
-#    SOURCES fig_2_15_aspect_selector.cpp)
+add_book_sample(
+    TARGET fig_2_15_aspect_selector
+    SOURCES fig_2_15_aspect_selector.cpp)
 
 add_book_sample(
     TARGET fig_2_16_custom_selector
