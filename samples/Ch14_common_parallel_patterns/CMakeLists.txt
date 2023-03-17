@@ -57,3 +57,8 @@ add_book_sample(
     TEST
     TARGET fig_14_X_array_reduction
     SOURCES fig_14_X_array_reduction.cpp)
+
+add_book_sample(
+    TEST
+    TARGET fig_14_X_algorithm_comparison
+    SOURCES fig_14_X_algorithm_comparison.cpp)
