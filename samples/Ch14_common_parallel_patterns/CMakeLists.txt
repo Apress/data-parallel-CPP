@@ -52,3 +52,8 @@ add_book_sample(
     TEST
     TARGET fig_14_24_local_unpack
     SOURCES fig_14_24_local_unpack.cpp)
+
+add_book_sample(
+    TEST
+    TARGET fig_14_X_array_reduction
+    SOURCES fig_14_X_array_reduction.cpp)
