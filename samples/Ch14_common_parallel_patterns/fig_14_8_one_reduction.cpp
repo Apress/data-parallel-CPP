@@ -5,8 +5,7 @@
 // -------------------------------------------------------
 // Changed from Book:
 //   dropped 'using namespace sycl::ONEAPI'
-//   this allows reduction to use the sycl::reduction,
-//   added sycl::ONEAPI:: to plus
+//   this allows reduction to use the sycl::reduction
 // -------------------------------------------------------
 
 #include <sycl/sycl.hpp>
@@ -18,7 +17,6 @@ using namespace sycl;
 int main() {
 
   constexpr size_t N = 16;
-  constexpr size_t B = 4;
 
   queue Q;
   int* data = malloc_shared<int>(N, Q);
@@ -29,10 +27,9 @@ int main() {
   Q.submit([&](handler& h) {
 // BEGIN CODE SNIP
      h.parallel_for(
-         nd_range<1>{N, B},
-         reduction(sum, sycl::plus<>()),
-         [=](nd_item<1> it, auto& sum) {
-           int i = it.get_global_id(0);
+         range<1>{N},
+         reduction(sum, plus<>()),
+         [=](id<1> i, auto& sum) {
            sum += data[i];
          });
 // END CODE SNIP

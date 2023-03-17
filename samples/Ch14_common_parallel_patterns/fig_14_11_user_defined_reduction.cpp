@@ -5,8 +5,7 @@
 // -------------------------------------------------------
 // Changed from Book:
 //   dropped 'using namespace sycl::ONEAPI'
-//   this allows reduction to use the sycl::reduction,
-//   added sycl::ONEAPI:: to minimum.
+//   this allows reduction to use the sycl::reduction
 // -------------------------------------------------------
 
 #include <sycl/sycl.hpp>
@@ -16,11 +15,10 @@
 using namespace sycl;
 
 template <typename T, typename I>
-using minloc = sycl::minimum<std::pair<T, I>>;
+using minloc = minimum<std::pair<T, I>>;
 
 int main() {
   constexpr size_t N = 16;
-  constexpr size_t L = 4;
 
   queue Q;
   float* data = malloc_shared<float>(N, Q);
@@ -34,8 +32,7 @@ int main() {
   auto red = sycl::reduction(res, identity, minloc<float, int>());
 
   Q.submit([&](handler& h) {
-     h.parallel_for(nd_range<1>{N, L}, red, [=](nd_item<1> item, auto& res) {
-       int i = item.get_global_id(0);
+     h.parallel_for(range<1>{N}, red, [=](id<1> i, auto& res) {
        std::pair<float, int> partial = {data[i], i};
        res.combine(partial);
      });
