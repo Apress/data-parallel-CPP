@@ -2,9 +2,9 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <sycl/sycl.hpp>
 #include <cstdio>
 #include <numeric>
+#include <sycl/sycl.hpp>
 
 using namespace sycl;
 
@@ -20,13 +20,13 @@ int main() {
 
   Q.parallel_for(nd_range<1>{N, B}, [=](nd_item<1> it) {
      int i = it.get_global_id(0);
-     int group_sum = reduce_over_group(it.get_group(), data[i], plus<>());
+     int group_sum = reduce_over_group(it.get_group(),
+                                       data[i], plus<>());
      if (it.get_local_id(0) == 0) {
-       atomic_ref<
-           int,
-           memory_order::relaxed,
-           memory_scope::system,
-           access::address_space::global_space>(*sum) += group_sum;
+       atomic_ref<int, memory_order::relaxed,
+                  memory_scope::system,
+                  access::address_space::global_space>(
+           *sum) += group_sum;
      }
    }).wait();
 

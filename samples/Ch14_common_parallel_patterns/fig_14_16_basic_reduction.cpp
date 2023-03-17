@@ -2,9 +2,9 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <sycl/sycl.hpp>
 #include <iostream>
 #include <numeric>
+#include <sycl/sycl.hpp>
 
 using namespace sycl;
 
@@ -18,11 +18,10 @@ int main() {
   *sum = 0;
 
   Q.parallel_for(N, [=](id<1> i) {
-     atomic_ref<
-         int,
-         memory_order::relaxed,
-         memory_scope::system,
-         access::address_space::global_space>(*sum) += data[i];
+     atomic_ref<int, memory_order::relaxed,
+                memory_scope::system,
+                access::address_space::global_space>(
+         *sum) += data[i];
    }).wait();
 
   std::cout << "sum = " << *sum << "\n";

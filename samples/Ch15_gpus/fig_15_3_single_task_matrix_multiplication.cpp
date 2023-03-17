@@ -2,19 +2,17 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <sycl/sycl.hpp>
 #include <chrono>
+#include <sycl/sycl.hpp>
 using namespace sycl;
 
 extern const int matrixSize = 128;
 static const int iterations = 16;
 
 template <typename T>
-double run_sycl(
-    const std::vector<T>& vecA,
-    const std::vector<T>& vecB,
-    std::vector<T>& vecC) {
-
+double run_sycl(const std::vector<T>& vecA,
+                const std::vector<T>& vecB,
+                std::vector<T>& vecC) {
   const int M = matrixSize;
   const int N = matrixSize;
   const int K = matrixSize;
@@ -30,7 +28,8 @@ double run_sycl(
 
   queue Q;  // Choose any available device
   std::cout << "Running on device: "
-            << Q.get_device().get_info<info::device::name>() << "\n";
+            << Q.get_device().get_info<info::device::name>()
+            << "\n";
 
   for (int i = 0; i < iterations; ++i) {
     auto start = std::chrono::steady_clock::now();
@@ -40,24 +39,28 @@ double run_sycl(
       accessor matrixB{bufB, h};
       accessor matrixC{bufC, h};
 
-// BEGIN CODE SNIP
+      // BEGIN CODE SNIP
       h.single_task([=]() {
         for (int m = 0; m < M; m++) {
           for (int n = 0; n < N; n++) {
             T sum = 0;
             for (int k = 0; k < K; k++) {
-              sum += matrixA[m * K + k] * matrixB[k * N + n];
+              sum +=
+                  matrixA[m * K + k] * matrixB[k * N + n];
             }
             matrixC[m * N + n] = sum;
           }
         }
       });
-// END CODE SNIP
+      // END CODE SNIP
     });
 
-    Q.wait();  // So that we know the kernel has finished before checking time
-    auto duration = std::chrono::steady_clock::now() - start;
-    auto time = std::chrono::duration_cast<ns>(duration).count();
+    Q.wait();  // So that we know the kernel has finished
+               // before checking time
+    auto duration =
+        std::chrono::steady_clock::now() - start;
+    auto time =
+        std::chrono::duration_cast<ns>(duration).count();
 
     best_time = std::min(time, best_time);
   }

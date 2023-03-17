@@ -2,9 +2,9 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <sycl/sycl.hpp>
 #include <algorithm>
 #include <iostream>
+#include <sycl/sycl.hpp>
 using namespace sycl;
 
 int main() {
@@ -22,7 +22,8 @@ int main() {
   {
     // Create buffers associated with inputs and output
     buffer<int, 2> a_buf(a.data(), range<2>(N, M)),
-        b_buf(b.data(), range<2>(N, M)), c_buf(c.data(), range<2>(N, M));
+        b_buf(b.data(), range<2>(N, M)),
+        c_buf(c.data(), range<2>(N, M));
 
     // Submit the kernel to the queue
     Q.submit([&](handler& h) {
@@ -30,18 +31,18 @@ int main() {
       accessor b{b_buf, h};
       accessor c{c_buf, h};
 
-// START CODE SNIP
+      // START CODE SNIP
       h.parallel_for(range{N, M}, [=](id<2> idx) {
         c[idx] = a[idx] + b[idx];
       });
-// END CODE SNIP
+      // END CODE SNIP
     });
   }
 
   // Check that all outputs match expected value
-  bool passed = std::all_of(c.begin(), c.end(), [](int i) {
-    return (i == 3);
-  });
-  std::cout << ((passed) ? "SUCCESS" : "FAILURE") << std::endl;
+  bool passed = std::all_of(c.begin(), c.end(),
+                            [](int i) { return (i == 3); });
+  std::cout << ((passed) ? "SUCCESS" : "FAILURE")
+            << std::endl;
   return (passed) ? 0 : 1;
 }

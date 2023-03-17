@@ -9,9 +9,9 @@
 //   added sycl::ONEAPI:: to minimum.
 // -------------------------------------------------------
 
-#include <sycl/sycl.hpp>
 #include <iostream>
 #include <random>
+#include <sycl/sycl.hpp>
 
 using namespace sycl;
 
@@ -24,33 +24,41 @@ int main() {
 
   queue Q;
   float* data = malloc_shared<float>(N, Q);
-  std::pair<float, int>* res = malloc_shared<std::pair<float, int>>(1, Q);
+  std::pair<float, int>* res =
+      malloc_shared<std::pair<float, int>>(1, Q);
   std::generate(data, data + N, std::mt19937{});
 
   std::pair<float, int> identity = {
-      std::numeric_limits<float>::max(), std::numeric_limits<int>::min()};
+      std::numeric_limits<float>::max(),
+      std::numeric_limits<int>::min()};
   *res = identity;
 
-  auto red = sycl::reduction(res, identity, minloc<float, int>());
+  auto red =
+      sycl::reduction(res, identity, minloc<float, int>());
 
   Q.submit([&](handler& h) {
-     h.parallel_for(nd_range<1>{N, L}, red, [=](nd_item<1> item, auto& res) {
-       int i = item.get_global_id(0);
-       std::pair<float, int> partial = {data[i], i};
-       res.combine(partial);
-     });
+     h.parallel_for(
+         nd_range<1>{N, L}, red,
+         [=](nd_item<1> item, auto& res) {
+           int i = item.get_global_id(0);
+           std::pair<float, int> partial = {data[i], i};
+           res.combine(partial);
+         });
    }).wait();
 
-  std::cout << "minimum value = " << res->first << " at " << res->second << "\n";
+  std::cout << "minimum value = " << res->first << " at "
+            << res->second << "\n";
 
   std::pair<float, int> gold = identity;
   for (int i = 0; i < N; ++i) {
-    if (data[i] <= gold.first || (data[i] == gold.first && i < gold.second)) {
+    if (data[i] <= gold.first ||
+        (data[i] == gold.first && i < gold.second)) {
       gold.first = data[i];
       gold.second = i;
     }
   }
-  bool passed = (res->first == gold.first) && (res->second == gold.second);
+  bool passed = (res->first == gold.first) &&
+                (res->second == gold.second);
   std::cout << ((passed) ? "SUCCESS" : "FAILURE") << "\n";
 
   free(res, Q);

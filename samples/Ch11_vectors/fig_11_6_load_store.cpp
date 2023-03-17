@@ -2,15 +2,15 @@
 
 // SPDX-License-Identifier: MIT
 
-#include<array>
-#include<sycl/sycl.hpp>
+#include <array>
+#include <sycl/sycl.hpp>
 using namespace sycl;
 
 int main() {
   constexpr int workers = 64;
   constexpr int size = workers * 16;
 
-// BEGIN CODE SNIP
+  // BEGIN CODE SNIP
   std::array<float, size> fpData;
   for (int i = 0; i < size; i++) {
     fpData[i] = 8.0f;
@@ -29,10 +29,10 @@ int main() {
       result.store(idx, buf.get_pointer());
     });
   });
-// END CODE SNIP
+  // END CODE SNIP
 
   host_accessor hostAcc(fpBuf);
-  if ( fpData[0] != 16.0f ) {
+  if (fpData[0] != 16.0f) {
     std::cout << "Failed\n";
     return -1;
   }
@@ -40,4 +40,3 @@ int main() {
   std::cout << "Passed\n";
   return 0;
 }
-

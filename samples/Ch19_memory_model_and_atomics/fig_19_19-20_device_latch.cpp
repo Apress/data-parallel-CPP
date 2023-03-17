@@ -2,34 +2,38 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <sycl/sycl.hpp>
 #include <cassert>
 #include <cstdio>
+#include <sycl/sycl.hpp>
 
 using namespace sycl;
 
 struct device_latch {
-  explicit device_latch(size_t num_groups) : counter(0), expected(num_groups) {}
+  explicit device_latch(size_t num_groups)
+      : counter(0), expected(num_groups) {}
 
   template <int Dimensions>
   void arrive_and_wait(nd_item<Dimensions>& it) {
     group_barrier(it.get_group());
-    // Elect one work-item per work-group to be involved in the synchronization
-    // All other work-items wait at the barrier after the branch
+    // Elect one work-item per work-group to be involved in
+    // the synchronization All other work-items wait at the
+    // barrier after the branch
     if (it.get_local_linear_id() == 0) {
-      atomic_ref<
-          size_t,
-          memory_order::acq_rel,
-          memory_scope::device,
-          access::address_space::global_space> atomic_counter(counter);
+      atomic_ref<size_t, memory_order::acq_rel,
+                 memory_scope::device,
+                 access::address_space::global_space>
+          atomic_counter(counter);
 
       // Signal arrival at the barrier
-      // Previous writes should be visible to all work-items on the device
+      // Previous writes should be visible to all work-items
+      // on the device
       atomic_counter++;
 
       // Wait for all work-groups to arrive
-      // Synchronize with previous releases by all work-items on the device
-      while (atomic_counter.load() != expected) {}
+      // Synchronize with previous releases by all
+      // work-items on the device
+      while (atomic_counter.load() != expected) {
+      }
     }
     group_barrier(it.get_group());
   }
@@ -41,16 +45,20 @@ struct device_latch {
 int main() {
   queue Q;
 
-  // The number of groups here must be chosen carefully to guarantee forward progress!
+  // The number of groups here must be chosen carefully to
+  // guarantee forward progress!
   size_t num_groups = 8;
   size_t items_per_group = 64;
-  nd_range<1> R = nd_range<1>(num_groups * items_per_group, items_per_group);
+  nd_range<1> R = nd_range<1>(num_groups * items_per_group,
+                              items_per_group);
 
   // Allocate two arrays in USM
   // The first will be used for communication
   // The second will be used for validation
-  size_t* data = sycl::malloc_shared<size_t>(num_groups * items_per_group, Q);
-  size_t* sums = sycl::malloc_shared<size_t>(num_groups * items_per_group, Q);
+  size_t* data = sycl::malloc_shared<size_t>(
+      num_groups * items_per_group, Q);
+  size_t* sums = sycl::malloc_shared<size_t>(
+      num_groups * items_per_group, Q);
 
   // Allocate a one-time-use device_latch in USM
   void* ptr = sycl::malloc_shared(sizeof(device_latch), Q);
@@ -65,7 +73,8 @@ int main() {
 
        // Every work-item sums the values it can see
        size_t sum = 0;
-       for (int i = 0; i < num_groups * items_per_group; ++i) {
+       for (int i = 0; i < num_groups * items_per_group;
+            ++i) {
          sum += data[i];
        }
        sums[it.get_global_linear_id()] = sum;

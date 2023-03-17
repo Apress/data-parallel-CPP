@@ -2,18 +2,17 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <sycl/sycl.hpp>
 #include <chrono>
+#include <sycl/sycl.hpp>
 using namespace sycl;
 
 extern const int matrixSize = 128;
 static const int iterations = 16;
 
 template <typename T>
-double run_sycl(
-    const std::vector<T>& vecA,
-    const std::vector<T>& vecB,
-    std::vector<T>& vecC) {
+double run_sycl(const std::vector<T>& vecA,
+                const std::vector<T>& vecB,
+                std::vector<T>& vecC) {
   using ns = std::chrono::nanoseconds;
   ns::rep best_time = std::numeric_limits<ns::rep>::max();
 
@@ -29,14 +28,16 @@ double run_sycl(
 
   queue Q;
   std::cout << "Running on device: "
-            << Q.get_device().get_info<info::device::name>() << "\n";
+            << Q.get_device().get_info<info::device::name>()
+            << "\n";
 
   for (int i = 0; i < iterations; ++i) {
     auto start = std::chrono::steady_clock::now();
 
     Q.submit([&](handler& h) {
-// BEGIN CODE SNIP
-      // Traditional accessors, representing matrices in global memory:
+      // BEGIN CODE SNIP
+      // Traditional accessors, representing matrices in
+      // global memory:
       accessor matrixA{bufA, h};
       accessor matrixB{bufB, h};
       accessor matrixC{bufC, h};
@@ -46,7 +47,8 @@ double run_sycl(
       auto tileA = local_accessor<T, 1>(tile_size, h);
 
       h.parallel_for(
-          nd_range<2>{{M, N}, {1, tile_size}}, [=](nd_item<2> item) {
+          nd_range<2>{{M, N}, {1, tile_size}},
+          [=](nd_item<2> item) {
             // Indices in the global index space:
             int m = item.get_global_id()[0];
             int n = item.get_global_id()[1];
@@ -56,32 +58,36 @@ double run_sycl(
 
             T sum = 0;
             for (int kk = 0; kk < K; kk += tile_size) {
-              // Load the matrix tile from matrix A, and synchronize
-              // to ensure all work-items have a consistent view
-              // of the matrix tile in local memory.
+              // Load the matrix tile from matrix A, and
+              // synchronize to ensure all work-items have a
+              // consistent view of the matrix tile in local
+              // memory.
               tileA[i] = matrixA[m][kk + i];
               group_barrier(item.get_group());
 
-              // Perform computation using the local memory tile, and
-              // matrix B in global memory.
+              // Perform computation using the local memory
+              // tile, and matrix B in global memory.
               for (int k = 0; k < tile_size; k++) {
                 sum += tileA[k] * matrixB[kk + k][n];
               }
 
-              // After computation, synchronize again, to ensure all
-              // reads from the local memory tile are complete.
+              // After computation, synchronize again, to
+              // ensure all reads from the local memory tile
+              // are complete.
               group_barrier(item.get_group());
             }
 
             // Write the final result to global memory.
             matrixC[m][n] = sum;
           });
-// END CODE SNIP
+      // END CODE SNIP
     });
     Q.wait();
 
-    auto duration = std::chrono::steady_clock::now() - start;
-    auto time = std::chrono::duration_cast<ns>(duration).count();
+    auto duration =
+        std::chrono::steady_clock::now() - start;
+    auto time =
+        std::chrono::duration_cast<ns>(duration).count();
 
     best_time = std::min(time, best_time);
   }

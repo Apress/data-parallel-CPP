@@ -9,14 +9,13 @@
 //   added sycl::ONEAPI:: to plus
 // -------------------------------------------------------
 
-#include <sycl/sycl.hpp>
 #include <iostream>
 #include <numeric>
+#include <sycl/sycl.hpp>
 
 using namespace sycl;
 
 int main() {
-
   constexpr size_t N = 16;
   constexpr size_t B = 4;
 
@@ -27,15 +26,14 @@ int main() {
   *sum = 0;
 
   Q.submit([&](handler& h) {
-// BEGIN CODE SNIP
-     h.parallel_for(
-         nd_range<1>{N, B},
-         reduction(sum, sycl::plus<>()),
-         [=](nd_item<1> it, auto& sum) {
-           int i = it.get_global_id(0);
-           sum += data[i];
-         });
-// END CODE SNIP
+     // BEGIN CODE SNIP
+     h.parallel_for(nd_range<1>{N, B},
+                    reduction(sum, sycl::plus<>()),
+                    [=](nd_item<1> it, auto& sum) {
+                      int i = it.get_global_id(0);
+                      sum += data[i];
+                    });
+     // END CODE SNIP
    }).wait();
 
   std::cout << "sum = " << *sum << "\n";

@@ -2,9 +2,9 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <sycl/sycl.hpp>
 #include <algorithm>
 #include <iostream>
+#include <sycl/sycl.hpp>
 using namespace sycl;
 
 using matrixType = float;
@@ -12,10 +12,9 @@ extern const int matrixSize;
 
 // This function must be implemented for each sample:
 template <typename T>
-double run_sycl(
-    const std::vector<T>& vecA,
-    const std::vector<T>& vecB,
-    std::vector<T>& vecC);
+double run_sycl(const std::vector<T>& vecA,
+                const std::vector<T>& vecB,
+                std::vector<T>& vecC);
 
 template <typename T>
 static T rand_uniform_01() {
@@ -25,15 +24,15 @@ static T rand_uniform_01() {
 template <typename T>
 static std::vector<T> make_random_square_matrix() {
   std::vector<T> matrix(matrixSize * matrixSize);
-  std::generate_n(matrix.data(), matrix.size(), rand_uniform_01<T>);
+  std::generate_n(matrix.data(), matrix.size(),
+                  rand_uniform_01<T>);
   return matrix;
 }
 
 template <typename T>
-static void compute_reference(
-    const std::vector<T>& matrixA,
-    const std::vector<T>& matrixB,
-    std::vector<T>& matrixC) {
+static void compute_reference(const std::vector<T>& matrixA,
+                              const std::vector<T>& matrixB,
+                              std::vector<T>& matrixC) {
   const int M = matrixSize;
   const int N = matrixSize;
   const int K = matrixSize;
@@ -50,19 +49,21 @@ static void compute_reference(
 }
 
 template <typename T>
-int check_results(
-    const std::vector<T>& matrixC, const std::vector<T>& referenceC) {
+int check_results(const std::vector<T>& matrixC,
+                  const std::vector<T>& referenceC) {
   const int M = matrixSize;
   const int N = matrixSize;
 
   float err = 0.f;
   for (int i = 0; i < M * N; ++i) {
     float localErr = std::fabs(matrixC[i] - referenceC[i]) /
-        std::max(std::fabs(matrixC[i]), std::fabs(referenceC[i]));
+                     std::max(std::fabs(matrixC[i]),
+                              std::fabs(referenceC[i]));
     err = std::max(localErr, err);
     if (localErr >= 0.001f) {
-      std::cerr << "Error at index " << i << ": Wanted " << referenceC[i]
-                << ", got " << matrixC[i] << std::endl;
+      std::cerr << "Error at index " << i << ": Wanted "
+                << referenceC[i] << ", got " << matrixC[i]
+                << std::endl;
       break;
     }
   }
@@ -73,10 +74,12 @@ int check_results(
 int main() {
   auto matrixA = make_random_square_matrix<matrixType>();
   auto matrixB = make_random_square_matrix<matrixType>();
-  auto referenceC = std::vector<matrixType>(matrixSize * matrixSize, 0);
+  auto referenceC =
+      std::vector<matrixType>(matrixSize * matrixSize, 0);
   compute_reference(matrixA, matrixB, referenceC);
 
-  auto matrixC = std::vector<matrixType>(matrixSize * matrixSize, 0);
+  auto matrixC =
+      std::vector<matrixType>(matrixSize * matrixSize, 0);
   auto seconds = run_sycl(matrixA, matrixB, matrixC);
 
   if (!check_results(matrixC, referenceC)) {
@@ -85,10 +88,10 @@ int main() {
   }
 
   auto gflops = double(matrixSize) * matrixSize *
-      (matrixSize +  // multiplications
-       matrixSize) / // additions
-      seconds /
-      1e9;
+                (matrixSize +   // multiplications
+                 matrixSize) /  // additions
+                seconds /
+                1e9;
   std::cout << "Success!\n";
   std::cout << "GFlops: " << gflops << std::endl;
 
