@@ -12,7 +12,7 @@ int main() {
   try {
     // Do some SYCL work
   } catch (sycl::exception &e) {
-    // Do something to output or handle the exceptinon 
+    // Do something to output or handle the exception
     std::cout << "Caught sync SYCL exception: " << e.what() << "\n";
     return 1;
   } 
