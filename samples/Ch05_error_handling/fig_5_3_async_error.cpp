@@ -30,7 +30,7 @@ int main() {
     h.host_task( [](){
       throw( something_went_wrong{} );
     });
-  }).wait_and_throw();
+  }).wait();
 
   return 0;
 }
