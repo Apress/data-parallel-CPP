@@ -15,7 +15,7 @@ int main() {
 
   } catch (sycl::exception &e) {
     // Do something to output or handle the exception 
-    std::cout << "Caught sync SYCL exception: " << e.what() << "\n";
+    std::cout << "Caught synchronous SYCL exception: " << e.what() << "\n";
     return 1;
   } catch (std::exception &e) {
     std::cout << "Caught std exception: " << e.what() << "\n";
