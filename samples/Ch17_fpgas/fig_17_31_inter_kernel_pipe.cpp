@@ -28,7 +28,7 @@ int main() {
   // BEGIN CODE SNIP
   // Create alias for pipe type so that consistent across
   // uses
-  using my_pipe = pipe<class some_pipe, int>;
+  using my_pipe = ext::intel::pipe<class some_pipe, int>;
 
   // ND-range kernel
   Q.submit([&](handler& h) {
