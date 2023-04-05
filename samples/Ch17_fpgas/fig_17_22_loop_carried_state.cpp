@@ -2,7 +2,7 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <sycl/ext/intel/fpga_extensions.hpp>  // For fpga_emulator_selector
+#include <sycl/ext/intel/fpga_extensions.hpp>  // For fpga_emulator_selector_v
 #include <sycl/sycl.hpp>
 using namespace sycl;
 
@@ -14,7 +14,7 @@ int main() {
   constexpr int size = 64;
   constexpr int seed = 0;
 
-  queue Q{ext::intel::fpga_emulator_selector{}};
+  queue Q{ext::intel::fpga_emulator_selector_v};
 
   buffer<int> B{range{size}};
 
