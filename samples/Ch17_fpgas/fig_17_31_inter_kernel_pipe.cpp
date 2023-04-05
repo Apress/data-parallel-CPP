@@ -23,9 +23,10 @@ int main() {
   // Acquire queue to emulated FPGA device
   queue Q{ext::intel::fpga_emulator_selector_v};
 
-// BEGIN CODE SNIP
-  // Create alias for pipe type so that consistent across uses
-  using my_pipe = pipe<class some_pipe, int>;
+  // BEGIN CODE SNIP
+  // Create alias for pipe type so that consistent across
+  // uses
+  using my_pipe = ext::intel::pipe<class some_pipe, int>;
 
   // ND-range kernel
   Q.submit([&](handler& h) {
