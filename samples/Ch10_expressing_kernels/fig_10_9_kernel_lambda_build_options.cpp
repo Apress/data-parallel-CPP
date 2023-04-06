@@ -2,9 +2,9 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <sycl/sycl.hpp>
 #include <array>
 #include <iostream>
+#include <sycl/sycl.hpp>
 using namespace sycl;
 
 class Add;
@@ -20,33 +20,35 @@ int main() {
   {
     buffer data_buf{data};
 
-    queue Q{ cpu_selector_v };
+    queue Q{cpu_selector_v};
     std::cout << "Running on device: "
-              << Q.get_device().get_info<info::device::name>() << "\n";
+              << Q.get_device().get_info<info::device::name>()
+              << "\n";
 
-// BEGIN CODE SNIP
-    kernel_id Add_KID = get_kernel_id<class Add>();
-    auto kb = get_kernel_bundle<bundle_state::executable>(Q.get_context(), {Add_KID});
-    kernel k = kb.get_kernel(Add_KID);
+    // BEGIN CODE SNIP
+    auto kid = get_kernel_id<class Add>();
+    auto kb = get_kernel_bundle<bundle_state::executable>(
+        Q.get_context(), {kid});
 
+    std::cout << "All kernel compilation should be done now.\n";
+
+    auto k = kb.get_kernel(kid);
     Q.submit([&](handler& h) {
-      accessor data_acc {data_buf, h};
+      accessor data_acc{data_buf, h};
 
       h.parallel_for<class Add>(
-          // This uses the previously compiled kernel k, the body of which is
-          // defined here as a lambda
-          k,
-          range{size},
-          [=](id<1> i) {
-            data_acc[i] = data_acc[i] + 1;
-          });
+          // This uses the previously compiled kernel k, the body
+          // of which is defined here as a lambda
+          k, range{size},
+          [=](id<1> i) { data_acc[i] = data_acc[i] + 1; });
     });
-// END CODE SNIP
+    // END CODE SNIP
   }
 
   for (int i = 0; i < size; i++) {
     if (data[i] != i + 1) {
-      std::cout << "Results did not validate at index " << i << "!\n";
+      std::cout << "Results did not validate at index " << i
+                << "!\n";
       return -1;
     }
   }

@@ -28,8 +28,8 @@ int main() {
 // BEGIN CODE SNIP
       accessor data_acc {data_buf, h};
 
-      h.parallel_for(size,
-          [=](id<1> i) noexcept [[sycl::reqd_work_group_size(8,1,1)]] -> void {
+      h.parallel_for(nd_range{{size}, {8}},
+          [=](id<1> i) noexcept [[sycl::reqd_work_group_size(8)]] -> void {
             data_acc[i] = data_acc[i] + 1;
           });
     });
