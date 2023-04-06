@@ -29,5 +29,5 @@ add_book_sample(
 
 add_book_sample(
     TEST
-    TARGET fig_10_9_kernel_lambda_build_options
-    SOURCES fig_10_9_kernel_lambda_build_options.cpp)
+    TARGET fig_10_8_kernel_lambda_build_options
+    SOURCES fig_10_8_kernel_lambda_build_options.cpp)
