@@ -20,7 +20,7 @@ int main() {
   {
     buffer data_buf{data};
 
-    queue Q{ default_selector_v };
+    queue Q;
     std::cout << "Running on device: "
               << Q.get_device().get_info<info::device::name>() << "\n";
 

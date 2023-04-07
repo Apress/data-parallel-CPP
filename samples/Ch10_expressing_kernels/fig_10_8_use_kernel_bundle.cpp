@@ -7,8 +7,6 @@
 #include <sycl/sycl.hpp>
 using namespace sycl;
 
-class Add;
-
 int main() {
   constexpr size_t size = 16;
   std::array<int, size> data;
@@ -20,26 +18,24 @@ int main() {
   {
     buffer data_buf{data};
 
-    queue Q{cpu_selector_v};
+    queue Q;
     std::cout << "Running on device: "
               << Q.get_device().get_info<info::device::name>()
               << "\n";
 
     // BEGIN CODE SNIP
-    auto kid = get_kernel_id<class Add>();
     auto kb = get_kernel_bundle<bundle_state::executable>(
-        Q.get_context(), {kid});
+        Q.get_context());
 
     std::cout << "All kernel compilation should be done now.\n";
 
-    auto k = kb.get_kernel(kid);
     Q.submit([&](handler& h) {
-      accessor data_acc{data_buf, h};
+      // Use the pre-compiled kernel from the kernel bundle.
+      h.use_kernel_bundle(kb);
 
-      h.parallel_for<class Add>(
-          // This uses the previously compiled kernel k, the body
-          // of which is defined here as a lambda
-          k, range{size},
+      accessor data_acc{data_buf, h};
+      h.parallel_for(
+          range{size},
           [=](id<1> i) { data_acc[i] = data_acc[i] + 1; });
     });
     // END CODE SNIP

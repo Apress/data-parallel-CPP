@@ -29,5 +29,15 @@ add_book_sample(
 
 add_book_sample(
     TEST
-    TARGET fig_10_8_kernel_lambda_build_options
-    SOURCES fig_10_8_kernel_lambda_build_options.cpp)
+    TARGET fig_10_7_optional_kernel_functor_elements
+    SOURCES fig_10_7_optional_kernel_functor_elements.cpp)
+
+add_book_sample(
+    TEST
+    TARGET fig_10_A_use_kernel_bundle
+    SOURCES fig_10_A_use_kernel_bundle.cpp)
+
+add_book_sample(
+    TEST
+    TARGET fig_10_A_use_specific_kernel_bundle
+    SOURCES fig_10_A_use_specific_kernel_bundle.cpp)
