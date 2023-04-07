@@ -24,27 +24,15 @@ int main() {
               << "\n";
 
     Q.submit([&](handler& h) {
-#ifdef BUG
 // BEGIN CODE SNIP
       accessor data_acc {data_buf, h};
 
       h.parallel_for(nd_range{{size}, {8}},
-         [=](id<1> i) noexcept [[sycl::reqd_work_group_size(8)]] -> void {
+         [=](id<1> i) noexcept [[sycl::reqd_work_group_size(1, 1, 8)]] -> void {
             data_acc[i] = data_acc[i] + 1;
           });
       });
 // END CODE SNIP
-#else
-      accessor data_acc{data_buf, h};
-
-      h.parallel_for(
-          nd_range<3>{{1, 1, size}, {1, 1, 8}},
-          [=](id<3> id) noexcept [[sycl::reqd_work_group_size(1, 1, 8)]] -> void {
-            int i = id[2];
-            data_acc[i] = data_acc[i] + 1;
-          });
-      });
-#endif
   }
 
   for (int i = 0; i < size; i++) {
