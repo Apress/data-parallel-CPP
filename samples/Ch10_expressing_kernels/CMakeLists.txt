@@ -34,10 +34,10 @@ add_book_sample(
 
 add_book_sample(
     TEST
-    TARGET fig_10_A_use_kernel_bundle
-    SOURCES fig_10_A_use_kernel_bundle.cpp)
+    TARGET fig_10_8_use_kernel_bundle
+    SOURCES fig_10_8_use_kernel_bundle.cpp)
 
 add_book_sample(
     TEST
-    TARGET fig_10_A_use_specific_kernel_bundle
-    SOURCES fig_10_A_use_specific_kernel_bundle.cpp)
+    TARGET fig_10_9_use_specific_kernel_bundle
+    SOURCES fig_10_9_use_specific_kernel_bundle.cpp)

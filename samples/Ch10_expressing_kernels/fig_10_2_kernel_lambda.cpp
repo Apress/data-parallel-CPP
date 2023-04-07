@@ -7,8 +7,6 @@
 #include <iostream>
 using namespace sycl;
 
-class Add;
-
 int main() {
   constexpr size_t size = 16;
   std::array<int, size> data;
