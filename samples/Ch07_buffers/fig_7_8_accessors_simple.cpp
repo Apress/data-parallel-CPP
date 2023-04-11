@@ -9,7 +9,7 @@ constexpr int N = 42;
 
 int main() {
   queue Q;
-  // create 3 buffers of 42 ints
+  // Create 3 buffers of 42 ints
   buffer<int> A{range{N}};
   buffer<int> B{range{N}};
   buffer<int> C{range{N}};
