@@ -2,10 +2,13 @@
 
 # SPDX-License-Identifier: MIT
 
+if(NOT WITHCUDA)
+# TEMPORARILY DISABLE: doesn't work with CUDA backend.
 add_book_sample(
     TEST
     TARGET fig_18_1_builtin
     SOURCES fig_18_1_builtin.cpp)
+endif()
 
 add_book_sample(
     TEST

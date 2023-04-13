@@ -95,6 +95,6 @@ See your CMake documentation for more details.
 
 | Variable | Type | Description |
 |:---------|:-----|:------------|
-| NODPL | BOOL | Disables samples that require the oneAPI DPC++ Library (oneDPL).  Default: `FALSE`
-| NODPCT | BOOL | Disables samples that require the DPC++ Compatibility Tool (dpct).  Default: `FALSE`
-| WITHCUDA | BOOL | Enables CUDA device support for the samples.  Default: `FALSE`
+| NODPL | BOOL | Disable samples that require the oneAPI DPC++ Library (oneDPL).  Default: `FALSE`
+| NODPCT | BOOL | Disable samples that require the DPC++ Compatibility Tool (dpct).  Default: `FALSE`
+| WITHCUDA | BOOL | Enable CUDA device support for the samples.  Default: `FALSE`
