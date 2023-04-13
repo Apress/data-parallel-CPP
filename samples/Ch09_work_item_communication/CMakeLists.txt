@@ -25,10 +25,13 @@ add_book_sample(
     SOURCES fig_9_9_local_hier.cpp)
 endif()
 
+if(NOT WITHCUDA)
+# TEMPORARILY DISABLE: doesn't work with CUDA backend.
 add_book_sample(
     TEST
     TARGET fig_9_10_hier_tiled_matmul
     SOURCES matmul_harness.cpp fig_9_10_hier_tiled_matmul.cpp)
+endif()
 
 add_book_sample(
     TEST

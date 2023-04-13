@@ -19,16 +19,22 @@ int main() {
   Q.fill(buffer, 0, count);
 
   // This is OK:
-  //Q.parallel_for(nd_range<1>{{count}, {256}}, [=](nd_item<1> it) {
-  //  int i = it.get_global_linear_id();
+  Q.parallel_for(nd_range<1>{{count}, {256}}, [=](nd_item<1> it) {
+    int i = it.get_global_linear_id();
+     buffer[i] = i;
+  }).wait();
   // This is OK too::
   Q.parallel_for(nd_range<1>{{count}, {256}}, [=](item<1> i) {
-  // This is OK too:
-  //Q.parallel_for(nd_range<1>{{count}, {256}}, [=](id<1> i) {
-  // This is OK too?
-  //Q.parallel_for(nd_range<1>{{count}, {256}}, [=](int i) {
      buffer[i] = i;
-   }).wait();
+  }).wait();
+  // This is OK too:
+  Q.parallel_for(nd_range<1>{{count}, {256}}, [=](id<1> i) {
+     buffer[i] = i;
+  }).wait();
+  // This is OK too?
+  Q.parallel_for(nd_range<1>{{count}, {256}}, [=](int i) {
+     buffer[i] = i;
+  }).wait();
 
   int mismatches = 0;
   for (int i = 0; i < count; i++) {
