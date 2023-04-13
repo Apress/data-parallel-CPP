@@ -26,7 +26,7 @@ add_book_sample(
     TARGET fig_21_9_atomics
     SOURCES fig_21_9_atomics.cpp)
 
-if (NOT NODPCT)
+if(NOT NODPCT)
 add_book_sample(
     TEST
     TARGET fig_21_13-14_reverse_migrated

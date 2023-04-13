@@ -63,9 +63,10 @@ Setup environment variables if using a oneAPI / DPC++ implementation:
     source /path/to/inteloneapi/setvars.sh
     ```
 
-### Building the samples using Makefiles:
+### Building the Samples:
 
-> :warning: Makefiles have only been tested on Linux builds, not Windows.
+> **Note**: 
+> CMake supports different [generators](https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html) to create build files for different build systems.  Some popular generators are `Unix Makefiles` or `Ninja` when building from the command line, and `Visual Studio`-based generators when building from a Windows IDE.  The examples below generate build files for `Unix Makefiles`, but feel free to substitute a different generator, if preferred.
 
 1. Create build files using CMake, specifying the DPC++ toolchain.  For example:
 
@@ -74,37 +75,26 @@ Setup environment variables if using a oneAPI / DPC++ implementation:
     cmake -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=../dpcpp_toolchain.cmake ..
     ```
 
-    NOTE: If you do not have oneDPL installed, you can disable compilation of those tests with the option `NODPL`
+2. Build with the generated build files:
 
     ```sh
-    cmake -G "Unix Makefiles" -DNODPL=1 -DCMAKE_TOOLCHAIN_FILE=../dpcpp_toolchain.cmake ..
+    cmake --build . --target install --parallel
     ```
 
-2. Build with the generated build files:
+    Or, use the generated Makefiles directly:
 
     ```sh
     make install -j8
     ```
 
-### Building the samples using cmake:
+## CMake Variables:
 
-1. Create build files using CMake, specifying the DPC++ toolchain.  For example:
+The following CMake variables are supported.  To specify one of these variables
+via the command line generator, use the CMake syntax `-D<option name>=<value>`.
+See your CMake documentation for more details.
 
-    ```sh
-    mkdir build && cd build
-    cmake -G Ninja -DCMAKE_TOOLCHAIN_FILE=../dpcpp_toolchain.cmake ..
-    ```
-
-    NOTE: If you do not have Ninja installed, you can use another Makefile generator such as 'Unix Makefiles'.
-    
-    NOTE: If you do not have oneDPL installed, you can disable compilation of those tests with the option `NODPL`
-
-    ```sh
-    cmake -G Ninja -DNODPL=1 -DCMAKE_TOOLCHAIN_FILE=../dpcpp_toolchain.cmake ..
-    ```
-
-2. Build with the generated build files:
-
-    ```sh
-    ninja install
-    ```
+| Variable | Type | Description |
+|:---------|:-----|:------------|
+| NODPL | BOOL | Disables samples that require the oneAPI DPC++ Library (oneDPL).  Default: `FALSE`
+| NODPCT | BOOL | Disables samples that require the DPC++ Compatibility Tool (dpct).  Default: `FALSE`
+| WITHCUDA | BOOL | Enables CUDA device support for the samples.  Default: `FALSE`
