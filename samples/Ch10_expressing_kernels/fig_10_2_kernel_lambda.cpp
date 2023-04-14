@@ -7,8 +7,6 @@
 #include <iostream>
 using namespace sycl;
 
-class Add;
-
 int main() {
   constexpr size_t size = 16;
   std::array<int, size> data;
@@ -20,7 +18,7 @@ int main() {
   {
     buffer data_buf{data};
 
-    queue Q{ default_selector_v };
+    queue Q;
     std::cout << "Running on device: "
               << Q.get_device().get_info<info::device::name>() << "\n";
 

@@ -25,16 +25,23 @@ int main() {
               << Q.get_device().get_info<info::device::name>()
               << "\n";
 
-    Q.submit([&](handler& h) {
-      accessor data_acc{data_buf, h};
+    // BEGIN CODE SNIP
+    auto kid = get_kernel_id<class Add>();
+    auto kb = get_kernel_bundle<bundle_state::executable>(
+        Q.get_context(), {Q.get_device()}, {kid});
 
-      // BEGIN CODE SNIP
-      // In this example, "class Add" names the kernel lambda
-      // expression.
+    std::cout << "Kernel compilation should be done now.\n";
+
+    Q.submit([&](handler& h) {
+      // Use the pre-compiled kernel from the kernel bundle.
+      h.use_kernel_bundle(kb);
+
+      accessor data_acc{data_buf, h};
       h.parallel_for<class Add>(
-          size, [=](id<1> i) { data_acc[i] = data_acc[i] + 1; });
-      // END CODE SNIP
+          range{size},
+          [=](id<1> i) { data_acc[i] = data_acc[i] + 1; });
     });
+    // END CODE SNIP
   }
 
   for (int i = 0; i < size; i++) {
