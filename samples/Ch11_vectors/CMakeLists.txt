@@ -17,3 +17,7 @@ add_book_sample(
     TARGET fig_11_8_vector_exec
     SOURCES fig_11_8_vector_exec.cpp)
 
+add_book_sample(
+    TEST
+    TARGET fig_11_14_marray
+    SOURCES fig_11_14_marray.cpp)
