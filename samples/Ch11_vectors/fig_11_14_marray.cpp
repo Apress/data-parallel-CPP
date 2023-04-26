@@ -22,19 +22,16 @@ int main() {
   marray<float, 4> input{1.0004f, 1e-4f, 1.4f, 14.0f};
   marray<float, 4> res[2] = {{-1, -1, -1, -1}, {-2, -2, -2, -2}};
   {
-    buffer<marray<float, 4>, 1> in_buf(&input, 1);
-    buffer<marray<float, 4>, 1> re_buf(&res[0], sycl::range<1>(2));
+    buffer in_buf(&input, range{1});
+    buffer re_buf(res, range{2});
 
     q.submit([&](handler &cgh) {
-      // accessor<marray<float, 4>, 1, access_mode::write, target::device> re_acc(re_buf, cgh);
-      // accessor<marray<float, 4>, 1, access_mode::read,  target::device> in_acc(in_buf, cgh);
-
       accessor re_acc{re_buf, cgh, read_write};
       accessor in_acc{in_buf, cgh, read_only};
 
       cgh.parallel_for(range<1>(2), [=](id<1> idx) {
         int i = idx[0];
-        re_acc[i] = native::cos(in_acc[0]);
+        re_acc[i] = cos(in_acc[0]);
       });
     });
   }
