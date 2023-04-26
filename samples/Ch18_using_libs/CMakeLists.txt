@@ -23,7 +23,7 @@ if(NOT NODPL)
 add_book_sample(
     TEST
     TARGET fig_18_12_std_fill_default_policy
-    SOURCES fig_18_11_std_fill_default_policy.cpp)
+    SOURCES fig_18_12_std_fill_default_policy.cpp)
 endif()
 
 if(NOT NODPL)
