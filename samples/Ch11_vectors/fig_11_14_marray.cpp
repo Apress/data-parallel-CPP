@@ -26,15 +26,15 @@ int main() {
     buffer<marray<float, 4>, 1> re_buf(&res[0], sycl::range<1>(2));
 
     q.submit([&](handler &cgh) {
-      accessor<marray<float, 4>, 1, access_mode::write, target::device> re_acc(re_buf, cgh);
-      accessor<marray<float, 4>, 1, access_mode::read,  target::device> in_acc(in_buf, cgh);
+      // accessor<marray<float, 4>, 1, access_mode::write, target::device> re_acc(re_buf, cgh);
+      // accessor<marray<float, 4>, 1, access_mode::read,  target::device> in_acc(in_buf, cgh);
+
+      accessor re_acc{re_buf, cgh, read_write};
+      accessor in_acc{in_buf, cgh, read_only};
 
       cgh.parallel_for(range<1>(2), [=](id<1> idx) {
         int i = idx[0];
-	if (i == 0) 
-          re_acc[i] = native::cos(in_acc[0]);
-        else
-          re_acc[i] = cos(in_acc[0]);
+        re_acc[i] = native::cos(in_acc[0]);
       });
     });
   }

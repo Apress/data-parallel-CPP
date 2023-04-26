@@ -10,5 +10,11 @@
 int main(){
   std::vector<int> v(100000);
   std::fill(oneapi::dpl::execution::dpcpp_default, v.begin(), v.end(), 42);
+
+  if (v[788] == 42) 
+    std::cout << "passed" << std::endl;
+  else 
+    std::cout << "failed" << std::endl;
+
   return 0;
 }
