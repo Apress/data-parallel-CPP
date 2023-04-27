@@ -17,7 +17,7 @@ int main() {
             << "\n";
 
   int* buffer = malloc_host<int>(count, Q);
-  Q.fill(buffer, 0, count);
+  Q.fill(buffer, 0, count).wait();
 
   Q.parallel_for(count, [=](auto id) {
      buffer[id] = id;
