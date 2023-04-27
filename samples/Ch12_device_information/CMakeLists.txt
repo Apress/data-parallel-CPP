@@ -14,20 +14,25 @@ add_book_sample(
 
 add_book_sample(
     TEST
-    TARGET fig_12_3_device_selector
-    SOURCES fig_12_3_device_selector.cpp)
+    TARGET fig_12_4_device_selector
+    SOURCES fig_12_4_device_selector.cpp)
 
 add_book_sample(
     TEST
-    TARGET fig_12_4_curious
-    SOURCES fig_12_4_curious.cpp)
+    TARGET fig_12_5_curious
+    SOURCES fig_12_5_curious.cpp)
 
 add_book_sample(
     TEST
-    TARGET fig_12_6_very_curious
-    SOURCES fig_12_6_very_curious.cpp)
+    TARGET fig_12_7_very_curious
+    SOURCES fig_12_7_very_curious.cpp)
 
 add_book_sample(
     TEST
-    TARGET fig_12_7_invocation_parameters
-    SOURCES fig_12_7_invocation_parameters.cpp)
+    TARGET fig_12_8_invocation_parameters
+    SOURCES fig_12_8_invocation_parameters.cpp)
+
+add_book_sample(
+    TEST
+    TARGET fig_12_10_specialize
+    SOURCES fig_12_10_specialize.cpp)
