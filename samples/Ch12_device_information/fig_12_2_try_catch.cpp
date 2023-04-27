@@ -18,20 +18,21 @@ int main() {
     std::cout << "Caught this SYCL exception: " << ex.what() << std::endl;
   }
 
-  auto Q = GPU_is_available ? queue(gpu_selector_v) : queue(default_selector_v);
+  auto MyQ = GPU_is_available ? queue(gpu_selector_v) : queue(default_selector_v);
 
   std::cout << "After checking for a GPU, we are running on:\n "
-    << Q.get_device().get_info<info::device::name>() << "\n";
+    << MyQ.get_device().get_info<info::device::name>() << "\n";
 
   // sample output using a system with a GPU:
   // After checking for a GPU, we are running on:
   //  Intel(R) Gen9 HD Graphics NEO.
   // 
   // sample output using a system with an FPGA accelerator, but no GPU:
-  // Caught this SYCL exception: No device of requested type available.
+  // Caught this SYCL exception:
+  // No device of requested type 'info::device_type::gpu' available.
   // ...(PI_ERROR_DEVICE_NOT_FOUND)
   // After checking for a GPU, we are running on:
-  //  SYCL host device.
+  // Intel(R) Core(TM) i7-8665U CPU @ 1.90GHz
   //
 
 // END CODE SNIP

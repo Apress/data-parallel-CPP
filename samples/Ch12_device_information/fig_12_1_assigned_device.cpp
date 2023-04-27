@@ -9,10 +9,10 @@ using namespace sycl;
 int main() {
 
 // BEGIN CODE SNIP
-  queue Q;
+  queue MyQ;
 
   std::cout << "By default, we are running on "
-    << Q.get_device().get_info<info::device::name>() << "\n";
+    << MyQ.get_device().get_info<info::device::name>() << "\n";
 // END CODE SNIP
 
   return 0;
