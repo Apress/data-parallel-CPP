@@ -9,7 +9,7 @@ using namespace sycl;
 constexpr int count = 1024 * 1024;
 
 int main() {
-  queue Q;
+  queue Q{property::queue::in_order()};
   std::cout << "Running on device: "
             << Q.get_device().get_info<info::device::name>()
             << "\n";

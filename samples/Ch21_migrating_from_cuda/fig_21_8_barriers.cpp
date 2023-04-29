@@ -7,7 +7,7 @@
 using namespace sycl;
 
 int main() {
-  queue Q;
+  queue Q{property::queue::in_order()};
   std::cout << "Running on device: "
             << Q.get_device().get_info<info::device::name>()
             << "\n";

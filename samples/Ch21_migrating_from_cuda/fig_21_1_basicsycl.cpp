@@ -10,14 +10,14 @@ constexpr int count = 1024 * 1024;
 
 int main() {
 // BEGIN CODE SNIP
-  // Declare a SYCL queue for the default device
-  queue Q;
+  // Declare an in-order SYCL queue for the default device
+  queue Q{property::queue::in_order()};
   std::cout << "Running on device: "
             << Q.get_device().get_info<info::device::name>()
             << "\n";
 
   int* buffer = malloc_host<int>(count, Q);
-  Q.fill(buffer, 0, count).wait();
+  Q.fill(buffer, 0, count);
 
   Q.parallel_for(count, [=](auto id) {
      buffer[id] = id;
