@@ -16,7 +16,9 @@ endif()
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 project(DPCPPSamples)
-option(NODPL "Don't build samples requiring an installation of oneDPL and its dependencies")
+option(NODPL    "Disable samples that require the oneAPI DPC++ Library (oneDPL).")
+option(NODPCT   "Disable samples that require the DPC++ Compatibility Tool (dpct).")
+option(WITHCUDA "Enable CUDA device support for the samples.")
 
 enable_testing()
 
