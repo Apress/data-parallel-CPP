@@ -7,17 +7,6 @@
 #define M 32
 
 using namespace sycl;
-
-template <typename T, size_t N>
-bool checkEqual(marray<T, N> A, marray<T, N> B) {
-  for (int i = 0; i < N; i++) {
-    if (A[i] != B[i]) {
-      return false;
-    }
-  }
-  return true;
-}
-
 int main() {
   queue q;
   marray<float, 4> input{1.0004f, 1e-4f, 1.4f, 14.0f};
@@ -39,7 +28,7 @@ int main() {
     });
   }
 
-  if (checkEqual(res[0], res[M/2]))
+  if (res[0] == res[M/2])
     std::cout << "passed\n";
   else 
     std::cout << "failed\n";
