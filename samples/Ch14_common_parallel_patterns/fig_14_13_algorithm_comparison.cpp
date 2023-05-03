@@ -2,54 +2,81 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <sycl/sycl.hpp>
 #include <iostream>
 #include <numeric>
+#include <sycl/sycl.hpp>
 
 using namespace sycl;
 
 int main() {
-
   constexpr size_t number_of_reductions = 16;
   constexpr size_t elements_per_reduction = 4;
 
   queue Q;
-  int* input = malloc_shared<int>(number_of_reductions * elements_per_reduction, Q);
-  int* output1 = malloc_shared<int>(number_of_reductions, Q);
-  int* output2 = malloc_shared<int>(number_of_reductions, Q);
-  int* output3 = malloc_shared<int>(number_of_reductions, Q);
-  std::iota(input, input + number_of_reductions * elements_per_reduction, 1);
+  int* input = malloc_shared<int>(
+      number_of_reductions * elements_per_reduction, Q);
+  int* output1 =
+      malloc_shared<int>(number_of_reductions, Q);
+  int* output2 =
+      malloc_shared<int>(number_of_reductions, Q);
+  int* output3 =
+      malloc_shared<int>(number_of_reductions, Q);
+  std::iota(
+      input,
+      input + number_of_reductions * elements_per_reduction,
+      1);
 
-// BEGIN CODE SNIP
+  // BEGIN CODE SNIP
   // std::reduce
   // Each work-item reduces over a given input range
   Q.parallel_for(number_of_reductions, [=](size_t i) {
-    output1[i] = std::reduce(input + i * elements_per_reduction, input + (i + 1) * elements_per_reduction);
-  }).wait();
+     output1[i] = std::reduce(
+         input + i * elements_per_reduction,
+         input + (i + 1) * elements_per_reduction);
+   }).wait();
 
   // sycl::joint_reduce
   // Each work-group reduces over a given input range
-  // The elements are automatically distributed over work-items in the group
-  Q.parallel_for(nd_range<1>{number_of_reductions * elements_per_reduction, elements_per_reduction}, [=](nd_item<1> it) {
-    auto g = it.get_group();
-    int sum = joint_reduce(g, input + g.get_group_id() * elements_per_reduction, input + (g.get_group_id() + 1) * elements_per_reduction, plus<>());
-    if (g.leader()) {
-      output2[g.get_group_id()] = sum;
-    }
-  }).wait();
+  // The elements are automatically distributed over
+  // work-items in the group
+  Q.parallel_for(nd_range<1>{number_of_reductions *
+                                 elements_per_reduction,
+                             elements_per_reduction},
+                 [=](nd_item<1> it) {
+                   auto g = it.get_group();
+                   int sum = joint_reduce(
+                       g,
+                       input + g.get_group_id() *
+                                   elements_per_reduction,
+                       input + (g.get_group_id() + 1) *
+                                   elements_per_reduction,
+                       plus<>());
+                   if (g.leader()) {
+                     output2[g.get_group_id()] = sum;
+                   }
+                 })
+      .wait();
 
   // sycl::reduce_over_group
-  // Each work-group reduces over data held in work-item private memory
-  // Each work-item is responsible for loading and contributing one value
-  Q.parallel_for(nd_range<1>{number_of_reductions * elements_per_reduction, elements_per_reduction}, [=](nd_item<1> it) {
-    auto g = it.get_group();
-    int x = input[g.get_group_id() * elements_per_reduction + g.get_local_id()];
-    int sum = reduce_over_group(g, x, plus<>());
-    if (g.leader()) {
-      output3[g.get_group_id()] = sum;
-    }
-  }).wait();
-// END CODE SNIP
+  // Each work-group reduces over data held in work-item
+  // private memory Each work-item is responsible for
+  // loading and contributing one value
+  Q.parallel_for(
+       nd_range<1>{
+           number_of_reductions * elements_per_reduction,
+           elements_per_reduction},
+       [=](nd_item<1> it) {
+         auto g = it.get_group();
+         int x = input[g.get_group_id() *
+                           elements_per_reduction +
+                       g.get_local_id()];
+         int sum = reduce_over_group(g, x, plus<>());
+         if (g.leader()) {
+           output3[g.get_group_id()] = sum;
+         }
+       })
+      .wait();
+  // END CODE SNIP
 
   std::vector<int> expected(number_of_reductions);
   for (int r = 0; r < number_of_reductions; ++r) {
@@ -64,21 +91,24 @@ int main() {
 
   std::cout << "std::reduce:" << std::endl;
   for (int r = 0; r < number_of_reductions; ++r) {
-    std::cout << "output[" << r << "]: " << output1[r] << std::endl;
+    std::cout << "output[" << r << "]: " << output1[r]
+              << std::endl;
     passed &= (output1[r] == expected[r]);
   }
   std::cout << std::endl;
 
   std::cout << "sycl::joint_reduce:" << std::endl;
   for (int r = 0; r < number_of_reductions; ++r) {
-    std::cout << "output[" << r << "]: " << output2[r] << std::endl;
+    std::cout << "output[" << r << "]: " << output2[r]
+              << std::endl;
     passed &= (output2[r] == expected[r]);
   }
   std::cout << std::endl;
 
   std::cout << "sycl::reduce_over_group:" << std::endl;
   for (int r = 0; r < number_of_reductions; ++r) {
-    std::cout << "output[" << r << "]: " << output3[r] << std::endl;
+    std::cout << "output[" << r << "]: " << output3[r]
+              << std::endl;
     passed &= (output1[r] == expected[r]);
   }
   std::cout << std::endl;

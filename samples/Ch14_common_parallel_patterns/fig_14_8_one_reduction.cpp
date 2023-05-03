@@ -8,14 +8,13 @@
 //   this allows reduction to use the sycl::reduction
 // -------------------------------------------------------
 
-#include <sycl/sycl.hpp>
 #include <iostream>
 #include <numeric>
+#include <sycl/sycl.hpp>
 
 using namespace sycl;
 
 int main() {
-
   constexpr size_t N = 16;
 
   queue Q;
@@ -25,14 +24,11 @@ int main() {
   *sum = 0;
 
   Q.submit([&](handler& h) {
-// BEGIN CODE SNIP
+     // BEGIN CODE SNIP
      h.parallel_for(
-         range<1>{N},
-         reduction(sum, plus<>()),
-         [=](id<1> i, auto& sum) {
-           sum += data[i];
-         });
-// END CODE SNIP
+         range<1>{N}, reduction(sum, plus<>()),
+         [=](id<1> i, auto& sum) { sum += data[i]; });
+     // END CODE SNIP
    }).wait();
 
   std::cout << "sum = " << *sum << "\n";

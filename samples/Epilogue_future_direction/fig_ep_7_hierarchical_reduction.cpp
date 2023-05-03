@@ -2,14 +2,13 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <sycl/sycl.hpp>
 #include <iostream>
 #include <numeric>
+#include <sycl/sycl.hpp>
 
 using namespace sycl;
 
 int main() {
-
   constexpr size_t N = 16;
   constexpr size_t M = 16;
 
@@ -20,13 +19,15 @@ int main() {
   *max = 0;
 
   Q.submit([&](handler& h) {
-     h.parallel_for_work_group(N, reduction(max, maximum<>()),
+     h.parallel_for_work_group(
+         N, reduction(max, maximum<>()),
          [=](group<1> g, auto& max) {
            float sum = 0.0f;
-           g.parallel_for_work_item(M, reduction(sum, plus<>()),
-           [=](h_item<1> it, auto& sum) {
-             sum += data[it.get_global_id()];
-           });
+           g.parallel_for_work_item(
+               M, reduction(sum, plus<>()),
+               [=](h_item<1> it, auto& sum) {
+                 sum += data[it.get_global_id()];
+               });
            max.combine(sum);
          });
    }).wait();

@@ -14,7 +14,8 @@ class AddWithAttribute {
  public:
   AddWithAttribute(accessor<int> acc) : data_acc(acc) {}
 #ifdef TEMPORARY_FIX
-  // TEMPORARY FIX: for a bug with a 1D reqd_work_group_size.
+  // TEMPORARY FIX: for a bug with a 1D
+  // reqd_work_group_size.
   [[sycl::reqd_work_group_size(1, 1, 8)]] void operator()(
       id<3> _i) const {
     auto i = _i[2];
@@ -33,9 +34,11 @@ class MulWithAttribute {
  public:
   MulWithAttribute(accessor<int> acc) : data_acc(acc) {}
 #ifdef TEMPORARY_FIX
-  // TEMPORARY FIX: for a bug with a 1D reqd_work_group_size.
+  // TEMPORARY FIX: for a bug with a 1D
+  // reqd_work_group_size.
   void operator()
-      [[sycl::reqd_work_group_size(1, 1, 8)]] (id<3> _i) const {
+      [[sycl::reqd_work_group_size(1, 1,
+                                   8)]] (id<3> _i) const {
     auto i = _i[2];
 #else
   void operator()
@@ -61,9 +64,10 @@ int main() {
     buffer data_buf{data};
 
     queue Q;
-    std::cout << "Running on device: "
-              << Q.get_device().get_info<info::device::name>()
-              << "\n";
+    std::cout
+        << "Running on device: "
+        << Q.get_device().get_info<info::device::name>()
+        << "\n";
 
     Q.submit([&](handler& h) {
       accessor data_acc{data_buf, h};

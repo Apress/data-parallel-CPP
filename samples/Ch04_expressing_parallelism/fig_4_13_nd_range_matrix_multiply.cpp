@@ -2,10 +2,10 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <sycl/sycl.hpp>
 #include <algorithm>
 #include <iostream>
 #include <random>
+#include <sycl/sycl.hpp>
 using namespace sycl;
 
 int main() {
@@ -18,9 +18,7 @@ int main() {
   std::vector<float> a(N * N), b(N * N), c(N * N);
   std::default_random_engine gen(42);
   std::uniform_real_distribution<float> dist(0.0, 1.0);
-  auto rng = [&]() {
-    return dist(gen);
-  };
+  auto rng = [&]() { return dist(gen); };
   std::generate(a.begin(), a.end(), rng);
   std::generate(b.begin(), b.end(), rng);
   std::fill(c.begin(), c.end(), 0);
@@ -28,7 +26,8 @@ int main() {
   {
     // Create buffers associated with inputs and output
     buffer<float, 2> a_buf(a.data(), range<2>(N, N)),
-        b_buf(b.data(), range<2>(N, N)), c_buf(c.data(), range<2>(N, N));
+        b_buf(b.data(), range<2>(N, N)),
+        c_buf(c.data(), range<2>(N, N));
 
     // Submit the kernel to the queue
     Q.submit([&](handler& h) {
@@ -36,18 +35,19 @@ int main() {
       accessor b{b_buf, h};
       accessor c{c_buf, h};
 
-// START CODE SNIP
+      // START CODE SNIP
       range global{N, N};
       range local{B, B};
-      h.parallel_for(nd_range{global, local}, [=](nd_item<2> it) {
-        int j = it.get_global_id(0);
-        int i = it.get_global_id(1);
+      h.parallel_for(nd_range{global, local},
+                     [=](nd_item<2> it) {
+                       int j = it.get_global_id(0);
+                       int i = it.get_global_id(1);
 
-        for (int k = 0; k < N; ++k) {
-          c[j][i] += a[j][k] * b[k][i];
-        }
-// END CODE SNIP
-      });
+                       for (int k = 0; k < N; ++k) {
+                         c[j][i] += a[j][k] * b[k][i];
+                       }
+                       // END CODE SNIP
+                     });
     });
   }
 
@@ -64,6 +64,7 @@ int main() {
       }
     }
   }
-  std::cout << ((passed) ? "SUCCESS" : "FAILURE") << std::endl;
+  std::cout << ((passed) ? "SUCCESS" : "FAILURE")
+            << std::endl;
   return (passed) ? 0 : 1;
 }

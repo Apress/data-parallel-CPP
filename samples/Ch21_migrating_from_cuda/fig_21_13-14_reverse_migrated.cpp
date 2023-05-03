@@ -11,7 +11,8 @@
 constexpr size_t size = 1024 * 1024;
 
 void Reverse(int *ptr, size_t size,
-             const sycl::nd_item<3> &item_ct1, int *scratch) {
+             const sycl::nd_item<3> &item_ct1,
+             int *scratch) {
   auto gid =
       item_ct1.get_group(2) * item_ct1.get_local_range(2) +
       item_ct1.get_local_id(2);
@@ -31,8 +32,8 @@ int main() try {
   dpct::device_info deviceProp;
   dpct::dev_mgr::instance().get_device(0).get_device_info(
       deviceProp);
-  std::cout << "Running on device: " << deviceProp.get_name()
-            << "\n";
+  std::cout << "Running on device: "
+            << deviceProp.get_name() << "\n";
 
   int *ptr = nullptr;
   ptr = sycl::malloc_device<int>(size, q_ct1);
@@ -53,13 +54,13 @@ int main() try {
         });
   });
   /*
-  DPCT1003:2: Migrated API does not return error code. (*, 0) is
-  inserted. You may need to rewrite this code.
+  DPCT1003:2: Migrated API does not return error code. (*,
+  0) is inserted. You may need to rewrite this code.
   */
   dpct::err0 result = (dev_ct1.queues_wait_and_throw(), 0);
   /*
-  DPCT1000:1: Error handling if-stmt was detected but could not
-  be rewritten.
+  DPCT1000:1: Error handling if-stmt was detected but could
+  not be rewritten.
   */
   if (result != 0) {
     /*
@@ -75,8 +76,9 @@ int main() try {
       auto got = data[s + i];
       auto want = s + 256 - i - 1;
       if (got != want) {
-        std::cout << "Mismatch at index " << s + i << ", got "
-                  << got << ", wanted " << want << "\n";
+        std::cout << "Mismatch at index " << s + i
+                  << ", got " << got << ", wanted " << want
+                  << "\n";
         return -1;
       }
     }

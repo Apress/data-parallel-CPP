@@ -2,14 +2,13 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <sycl/sycl.hpp>
 #include <experimental/mdspan>
+#include <sycl/sycl.hpp>
 
 using namespace sycl;
 namespace stdex = std::experimental;
 
 int main() {
-
   queue Q;
   constexpr int N = 4;
   constexpr int M = 2;
@@ -17,10 +16,10 @@ int main() {
 
   stdex::mdspan<int, N, M> view{data};
   Q.parallel_for(range<2>{N, M}, [=](id<2> idx) {
-    int i = idx[0];
-    int j = idx[1];
-    view(i, j) = i * M + j;
-  }).wait();
+     int i = idx[0];
+     int j = idx[1];
+     view(i, j) = i * M + j;
+   }).wait();
 
   bool passed = true;
   for (int i = 0; i < N; ++i) {

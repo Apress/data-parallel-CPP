@@ -14,23 +14,21 @@ int main() {
   constexpr int size = 64;
   queue Q{ext::intel::fpga_emulator_selector_v};
 
-  buffer <int> B{ range{size} };
+  buffer<int> B{range{size}};
 
-  Q.submit([&](handler &h){
-      accessor output(B,h);
+  Q.submit([&](handler& h) {
+    accessor output(B, h);
 
-      h.single_task([=]() {
-
-// BEGIN CODE SNIP
-        int state = 0;
-        for (int i=0; i < size; i++) {
-          state = generate_random_number(state);
-          output[i] = state;
-        }
-// END CODE SNIP
-        });
-      });
+    h.single_task([=]() {
+      // BEGIN CODE SNIP
+      int state = 0;
+      for (int i = 0; i < size; i++) {
+        state = generate_random_number(state);
+        output[i] = state;
+      }
+      // END CODE SNIP
+    });
+  });
 
   return 0;
 }
-

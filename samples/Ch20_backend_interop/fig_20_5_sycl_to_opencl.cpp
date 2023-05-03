@@ -32,43 +32,54 @@ int main(int argc, char* argv[]) {
     deviceIndex = std::stoi(argv[2]);
   }
   if (argc <= 1) {
-    std::cout << "Run as ./<progname> <OpenCL platform index> <OpenCL device index>\n";
-    std::cout << "Defaulting to the first OpenCL platform and device.\n";
+    std::cout << "Run as ./<progname> <OpenCL platform "
+                 "index> <OpenCL device index>\n";
+    std::cout << "Defaulting to the first OpenCL platform "
+                 "and device.\n";
   }
 
-  std::vector<platform> openclPlatforms = getOpenCLPlatforms();
+  std::vector<platform> openclPlatforms =
+      getOpenCLPlatforms();
   if (openclPlatforms.size() == 0) {
-    std::cout << "Could not find any SYCL platforms associated with an OpenCL backend!\n";
+    std::cout << "Could not find any SYCL platforms "
+                 "associated with an OpenCL backend!\n";
     return 0;
   }
   if (platformIndex >= openclPlatforms.size()) {
     std::cout << "Platform index " << platformIndex
-              << " exceeds the number of platforms associated with an OpenCL backend!\n";
+              << " exceeds the number of platforms "
+                 "associated with an OpenCL backend!\n";
     return -1;
   }
 
   platform p = openclPlatforms[platformIndex];
   if (deviceIndex >= p.get_devices().size()) {
     std::cout << "Device index " << deviceIndex
-              << " exceeds the number of devices in the platform!\n";
+              << " exceeds the number of devices in the "
+                 "platform!\n";
   }
 
   device d = p.get_devices()[deviceIndex];
   context c = context{d};
 
   // BEGIN CODE SNIP
-  cl_device_id openclDevice = get_native<backend::opencl>(d);
+  cl_device_id openclDevice =
+      get_native<backend::opencl>(d);
   cl_context openclContext = get_native<backend::opencl>(c);
 
   // Query the device name from OpenCL:
   size_t sz = 0;
-  clGetDeviceInfo(openclDevice, CL_DEVICE_NAME, 0, nullptr, &sz);
+  clGetDeviceInfo(openclDevice, CL_DEVICE_NAME, 0, nullptr,
+                  &sz);
   std::string openclDeviceName(sz, ' ');
-  clGetDeviceInfo(openclDevice, CL_DEVICE_NAME, sz, &openclDeviceName[0], nullptr);
-  std::cout << "Device name from OpenCL is: " << openclDeviceName << "\n";
+  clGetDeviceInfo(openclDevice, CL_DEVICE_NAME, sz,
+                  &openclDeviceName[0], nullptr);
+  std::cout << "Device name from OpenCL is: "
+            << openclDeviceName << "\n";
 
   // Allocate some memory from OpenCL:
-  cl_mem openclBuffer = clCreateBuffer(openclContext, 0, sizeof(int), nullptr, nullptr);
+  cl_mem openclBuffer = clCreateBuffer(
+      openclContext, 0, sizeof(int), nullptr, nullptr);
 
   // Clean up OpenCL objects when done:
   clReleaseDevice(openclDevice);

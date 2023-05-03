@@ -11,27 +11,26 @@ int generate_incremental_random_number(const int& state) {
 };
 
 int main() {
-  constexpr int size = 64; 
-  constexpr int seed = 0; 
+  constexpr int size = 64;
+  constexpr int seed = 0;
 
   queue Q{ext::intel::fpga_emulator_selector_v};
 
-  buffer <int> B{ range{size} };
+  buffer<int> B{range{size}};
 
-  Q.submit([&](handler &h){
-      accessor output(B,h);
+  Q.submit([&](handler& h) {
+    accessor output(B, h);
 
-// BEGIN CODE SNIP
-      h.single_task([=]() {
-        int state = seed;
-        for (int i=0; i < size; i++) {
-          state = generate_incremental_random_number(state);
-          output[i] = state;
-        }
-        });
-// END CODE SNIP
-      });
+    // BEGIN CODE SNIP
+    h.single_task([=]() {
+      int state = seed;
+      for (int i = 0; i < size; i++) {
+        state = generate_incremental_random_number(state);
+        output[i] = state;
+      }
+    });
+    // END CODE SNIP
+  });
 
   return 0;
 }
-

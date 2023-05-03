@@ -18,23 +18,27 @@ int main() {
   Q.fill(buffer, 0, count);
 
   // BEGIN CODE SNIP
-  Q.parallel_for(nd_range<2>{{2, 16}, {2, 16}}, [=](auto item) {
-     auto index = item.get_global_linear_id();
-     auto fastest = item.get_local_id(1);
-     auto sg = item.get_sub_group();
-     auto neighbor = permute_group_by_xor(sg, fastest, 1);
-     buffer[index] = neighbor;
-   }).wait();
+  Q.parallel_for(nd_range<2>{{2, 16}, {2, 16}},
+                 [=](auto item) {
+                   auto index = item.get_global_linear_id();
+                   auto fastest = item.get_local_id(1);
+                   auto sg = item.get_sub_group();
+                   auto neighbor =
+                       permute_group_by_xor(sg, fastest, 1);
+                   buffer[index] = neighbor;
+                 })
+      .wait();
   // END CODE SNIP
 
   int unexpected = 0;
-  for (int i = 0; i < count; i+=2) {
-    if (buffer[i] == buffer[i+1]) {
+  for (int i = 0; i < count; i += 2) {
+    if (buffer[i] == buffer[i + 1]) {
       unexpected++;
     }
   }
   if (unexpected) {
-    std::cout << "Error, found " << unexpected << " matching pairs.\n";
+    std::cout << "Error, found " << unexpected
+              << " matching pairs.\n";
   } else {
     std::cout << "Success.\n";
   }

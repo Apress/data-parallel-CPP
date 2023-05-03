@@ -2,10 +2,10 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <sycl/sycl.hpp>
 #include <array>
 #include <cmath>
 #include <iostream>
+#include <sycl/sycl.hpp>
 using namespace sycl;
 
 int main() {
@@ -15,7 +15,10 @@ int main() {
 
   bool pass = true;
 
-  for (int i = 0; i < size; ++i) { A[i] = i; B[i] = i; }
+  for (int i = 0; i < size; ++i) {
+    A[i] = i;
+    B[i] = i;
+  }
 
   queue Q;
 
@@ -23,17 +26,17 @@ int main() {
 
   buffer<float> bufA(A);
   buffer<float> bufB(B);
-  buffer<bool>   bufP(&pass, 1);
+  buffer<bool> bufP(&pass, 1);
 
   Q.submit([&](handler &h) {
-    accessor accA{ bufA, h};
-    accessor accB{ bufB, h};
-    accessor accP{ bufP, h};
+    accessor accA{bufA, h};
+    accessor accB{bufB, h};
+    accessor accP{bufP, h};
 
     h.parallel_for(size, [=](id<1> idx) {
       accA[idx] = std::log(accA[idx]);
       accB[idx] = sycl::log(accB[idx]);
-      if (!sycl::isequal( accA[idx], accB[idx]) ) {
+      if (!sycl::isequal(accA[idx], accB[idx])) {
         accP[0] = false;
       }
     });

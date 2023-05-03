@@ -2,18 +2,17 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <sycl/sycl.hpp>
 #include <chrono>
+#include <sycl/sycl.hpp>
 using namespace sycl;
 
 extern const int matrixSize = 128;
 static const int iterations = 16;
 
 template <typename T>
-double run_sycl(
-    const std::vector<T>& vecA,
-    const std::vector<T>& vecB,
-    std::vector<T>& vecC) {
+double run_sycl(const std::vector<T>& vecA,
+                const std::vector<T>& vecB,
+                std::vector<T>& vecC) {
   using ns = std::chrono::nanoseconds;
   ns::rep best_time = std::numeric_limits<ns::rep>::max();
 
@@ -29,7 +28,8 @@ double run_sycl(
 
   queue Q;  // Choose any available device
   std::cout << "Running on device: "
-            << Q.get_device().get_info<info::device::name>() << "\n";
+            << Q.get_device().get_info<info::device::name>()
+            << "\n";
 
   for (int i = 0; i < iterations; ++i) {
     auto start = std::chrono::steady_clock::now();
@@ -39,12 +39,12 @@ double run_sycl(
       accessor matrixB{bufB, h};
       accessor matrixC{bufC, h};
 
-      // Note: This example assumes that the sub-group size is greater than or
-      // equal to the tile size!
+      // Note: This example assumes that the sub-group size
+      // is greater than or equal to the tile size!
       static const int tileSize = 4;
       h.parallel_for(
-          nd_range<2>{{M, N}, {1, tileSize}}, [=](nd_item<2> item) {
-
+          nd_range<2>{{M, N}, {1, tileSize}},
+          [=](nd_item<2> item) {
             // Indices in the global index space:
             int m = item.get_global_id()[0];
             int n = item.get_global_id()[1];
@@ -53,25 +53,31 @@ double run_sycl(
             int i = item.get_local_id()[1];
 
             T sum = 0;
-            for (int_fast64_t kk = 0; kk < K; kk += tileSize) {
-              #ifdef SYCL_EXT_INTEL_SUB_GROUPS
+            for (int_fast64_t kk = 0; kk < K;
+                 kk += tileSize) {
+#ifdef SYCL_EXT_INTEL_SUB_GROUPS
               // Load the matrix tile from matrix A.
               T tileA = matrixA[m][kk + i];
 
-              // Perform computation by broadcasting from the matrix
-              // tile and loading from matrix B in global memory.  The loop
-              // variable k describes which work-item in the sub-group to
-              // broadcast data from.
+              // Perform computation by broadcasting from
+              // the matrix tile and loading from matrix B
+              // in global memory.  The loop variable k
+              // describes which work-item in the sub-group
+              // to broadcast data from.
               for (int k = 0; k < tileSize; k++) {
-                sycl::ext::intel::sub_group sg = item.get_sub_group();
-                sum += intel::broadcast(sg, tileA, k) * matrixB[kk + k][n];
+                sycl::ext::intel::sub_group sg =
+                    item.get_sub_group();
+                sum += intel::broadcast(sg, tileA, k) *
+                       matrixB[kk + k][n];
               }
-              #else
-              // If no sub-group support, read from memory instead
+#else
+              // If no sub-group support, read from memory
+              // instead
               for (int k = 0; k < tileSize; k++) {
-                sum += matrixA[m][kk + k] * matrixB[kk + k][n];
+                sum +=
+                    matrixA[m][kk + k] * matrixB[kk + k][n];
               }
-              #endif
+#endif
             }
 
             // Write the final result to global memory.
@@ -80,8 +86,10 @@ double run_sycl(
     });
     Q.wait();
 
-    auto duration = std::chrono::steady_clock::now() - start;
-    auto time = std::chrono::duration_cast<ns>(duration).count();
+    auto duration =
+        std::chrono::steady_clock::now() - start;
+    auto time =
+        std::chrono::duration_cast<ns>(duration).count();
 
     best_time = std::min(time, best_time);
   }

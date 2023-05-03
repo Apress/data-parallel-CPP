@@ -19,19 +19,22 @@ int main() {
   for (int i = 0; i < BLOCK_SIZE; i++)
     read_only_data[i] = i;
 
-  // Mark this data as "read only" so the runtime can copy it
-  // to the device instead of migrating it from the host.
+  // Mark this data as "read only" so the runtime can copy
+  // it to the device instead of migrating it from the host.
   // Real values will be documented by your DPC++ backend.
   int HW_SPECIFIC_ADVICE_RO = 0;
-  Q.mem_advise(read_only_data, BLOCK_SIZE, HW_SPECIFIC_ADVICE_RO);
+  Q.mem_advise(read_only_data, BLOCK_SIZE,
+               HW_SPECIFIC_ADVICE_RO);
   event e = Q.prefetch(data, BLOCK_SIZE);
 
   for (int b = 0; b < NUM_BLOCKS; b++) {
-    Q.parallel_for(range{BLOCK_SIZE}, e,
-                   [=](id<1> i) { data[b * BLOCK_SIZE + i] += read_only_data[i]; });
+    Q.parallel_for(range{BLOCK_SIZE}, e, [=](id<1> i) {
+      data[b * BLOCK_SIZE + i] += read_only_data[i];
+    });
     if ((b + 1) < NUM_BLOCKS) {
       // Prefetch next block
-      e = Q.prefetch(data + (b + 1) * BLOCK_SIZE, BLOCK_SIZE);
+      e = Q.prefetch(data + (b + 1) * BLOCK_SIZE,
+                     BLOCK_SIZE);
     }
   }
   Q.wait();

@@ -2,9 +2,9 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <sycl/sycl.hpp>
 #include <algorithm>
 #include <iostream>
+#include <sycl/sycl.hpp>
 
 using namespace sycl;
 
@@ -27,7 +27,7 @@ int main() {
   }
 
   bool passed = true;
-  int* gold = (int*) malloc(N * sizeof(int));
+  int* gold = (int*)malloc(N * sizeof(int));
   std::fill(gold, gold + N, 0);
   for (int i = 0; i < N; ++i) {
     int j = i % M;

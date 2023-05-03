@@ -21,18 +21,20 @@ int main() {
     buffer data_buf{data};
 
     queue Q;
-    std::cout << "Running on device: "
-              << Q.get_device().get_info<info::device::name>()
-              << "\n";
+    std::cout
+        << "Running on device: "
+        << Q.get_device().get_info<info::device::name>()
+        << "\n";
 
     Q.submit([&](handler& h) {
       accessor data_acc{data_buf, h};
 
       // BEGIN CODE SNIP
-      // In this example, "class Add" names the kernel lambda
-      // expression.
-      h.parallel_for<class Add>(
-          size, [=](id<1> i) { data_acc[i] = data_acc[i] + 1; });
+      // In this example, "class Add" names the kernel
+      // lambda expression.
+      h.parallel_for<class Add>(size, [=](id<1> i) {
+        data_acc[i] = data_acc[i] + 1;
+      });
       // END CODE SNIP
     });
   }

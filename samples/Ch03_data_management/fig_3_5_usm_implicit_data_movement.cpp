@@ -18,11 +18,11 @@ int main() {
 
   // We will learn how to simplify this example later
   Q.submit([&](handler &h) {
-      h.parallel_for(N, [=](id<1> i) {
-          // access sharedArray and hostArray on device
-          shared_array[i] = host_array[i] + 1;
-        });
+    h.parallel_for(N, [=](id<1> i) {
+      // access sharedArray and hostArray on device
+      shared_array[i] = host_array[i] + 1;
     });
+  });
   Q.wait();
 
   for (int i = 0; i < N; i++) {
