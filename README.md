@@ -3,7 +3,7 @@
 This repository accompanies [*Data Parallel C++: Mastering DPC++ for Programming of Heterogeneous Systems using C++ and SYCL*](https://www.apress.com/9781484255735) by James Reinders, Ben Ashbaugh, James Brodman, Michael Kinsner, John Pennycook, Xinmin Tian (Apress, 2020).
 
 [comment]: #cover
-![Cover image](9781484255735.jpg)
+![Cover image](images/9781484255735.jpg)
 
 ## Purpose of this branch (main)
 
@@ -51,17 +51,17 @@ https://github.com/oneapi-src/oneDPL
 
 Setup environment variables if using a oneAPI / DPC++ implementation:
 
-    On Windows:
+On Windows:
 
-    ```sh
-    \path\to\inteloneapi\setvars.bat
-    ```
+```sh
+\path\to\inteloneapi\setvars.bat
+```
 
-    On Linux:
+On Linux:
 
-    ```sh
-    source /path/to/inteloneapi/setvars.sh
-    ```
+```sh
+source /path/to/inteloneapi/setvars.sh
+```
 
 ### Building the Samples:
 
@@ -96,5 +96,6 @@ See your CMake documentation for more details.
 | Variable | Type | Description |
 |:---------|:-----|:------------|
 | NODPL | BOOL | Disable samples that require the oneAPI DPC++ Library (oneDPL).  Default: `FALSE`
-| NODPCT | BOOL | Disable samples that require the DPC++ Compatibility Tool (dpct).  Default: `FALSE`
+| NODPCT | BOOL | Disable samples that require the oneAPI DPC++ Compatibility Tool (dpct).  Default: `FALSE`
+| NOL0 | BOOL | Disable samples that require the oneAPI Level Zero Headers and Loader.  Default: `TRUE`
 | WITHCUDA | BOOL | Enable CUDA device support for the samples.  Default: `FALSE`
