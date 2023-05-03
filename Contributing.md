@@ -8,7 +8,9 @@ Copyright for Apress source code belongs to the author(s). However, under fair u
 2. Fork the repository for the relevant book.
 3. Create a new branch on which to make your change, e.g. 
 `git checkout -b my_code_contribution`
-4. Commit your change. Include a commit message describing the correction. Please note that if your commit message is not clear, the correction will not be accepted.
-5. Submit a pull request.
+4. Keep formating: clang-format -i --style="{BasedOnStyle: Google, ColumnLimit: 60}" <file>.cpp
+   [we used find . -name "*cpp" -exec clang-format -i --style="{BasedOnStyle: Google, ColumnLimit: 60}" {} \; originally]
+5. Commit your change. Include a commit message describing the correction. Please note that if your commit message is not clear, the correction will not be accepted.
+6. Submit a pull request.
 
 Thank you for your contribution!

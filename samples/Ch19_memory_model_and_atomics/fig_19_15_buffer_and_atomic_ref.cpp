@@ -2,9 +2,9 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <sycl/sycl.hpp>
 #include <algorithm>
 #include <iostream>
+#include <sycl/sycl.hpp>
 
 using namespace sycl;
 
@@ -23,8 +23,10 @@ int main() {
       accessor acc{buf, h};
       h.parallel_for(N, [=](id<1> i) {
         int j = i % M;
-        atomic_ref<int, memory_order::relaxed, memory_scope::system,
-                   access::address_space::global_space> atomic_acc(acc[j]);
+        atomic_ref<int, memory_order::relaxed,
+                   memory_scope::system,
+                   access::address_space::global_space>
+            atomic_acc(acc[j]);
         atomic_acc += 1;
       });
     });
@@ -35,7 +37,7 @@ int main() {
   }
 
   bool passed = true;
-  int* gold = (int*) malloc(N * sizeof(int));
+  int* gold = (int*)malloc(N * sizeof(int));
   std::fill(gold, gold + N, 0);
   for (int i = 0; i < N; ++i) {
     int j = i % M;

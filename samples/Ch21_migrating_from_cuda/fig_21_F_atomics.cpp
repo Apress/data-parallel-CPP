@@ -19,7 +19,8 @@ int main() {
   auto orders = d.get_info<
       info::device::atomic_memory_order_capabilities>();
   if (std::find(std::begin(orders), std::end(orders),
-                memory_order::seq_cst) == std::end(orders)) {
+                memory_order::seq_cst) ==
+      std::end(orders)) {
     std::cout << "This device does not support "
                  "memory_order::seq_cst.\n";
     return 0;
@@ -38,20 +39,22 @@ int main() {
   buffer[0] = 0;
 
   Q.parallel_for(count, [=](auto id) {
-     // The scope is optional for a CUDA atomic_ref and defaults
-     // to the entire system if unspecified.  Additionally, the
-     // default CUDA atomic order is sequentially consistent.
-     // So, this is the SYCL equivalent of:
+     // The scope is optional for a CUDA atomic_ref and
+     // defaults to the entire system if unspecified.
+     // Additionally, the default CUDA atomic order is
+     // sequentially consistent. So, this is the SYCL
+     // equivalent of:
      //   cuda::atomic_ref<int> aref(*buffer)
-     atomic_ref<int, memory_order::seq_cst, memory_scope::system>
+     atomic_ref<int, memory_order::seq_cst,
+                memory_scope::system>
          aref(*buffer);
 
      // When no memory order is specified, the default CUDA
      // atomic_ref atomic order is sequentially consistent.
      aref.fetch_add(1);
 
-     // The CUDA atomic_ref can also provide a specific atomic
-     // order but cannot change the scope:
+     // The CUDA atomic_ref can also provide a specific
+     // atomic order but cannot change the scope:
      aref.fetch_add(1, memory_order::relaxed);
    }).wait();
 

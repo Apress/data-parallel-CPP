@@ -22,8 +22,8 @@ int main() {
   queue q;
   marray<float, 4> input{1.0004f, 1e-4f, 1.4f, 14.0f};
   marray<float, 4> res[M];
-  for (int i=0; i < M; i++)
-    res[i] = {-(i+1), -(i+1), -(i+1), -(i+1)};
+  for (int i = 0; i < M; i++)
+    res[i] = {-(i + 1), -(i + 1), -(i + 1), -(i + 1)};
   {
     buffer in_buf(&input, range{1});
     buffer re_buf(res, range{M});
@@ -39,9 +39,9 @@ int main() {
     });
   }
 
-  if (checkEqual(res[0], res[M/2]))
+  if (checkEqual(res[0], res[M / 2]))
     std::cout << "passed\n";
-  else 
+  else
     std::cout << "failed\n";
   return 0;
 }

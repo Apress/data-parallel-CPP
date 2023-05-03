@@ -32,30 +32,35 @@ int main(int argc, char* argv[]) {
     deviceIndex = std::stoi(argv[2]);
   }
   if (argc <= 1) {
-    std::cout << "Run as ./<progname> <OpenCL platform index> "
-                 "<OpenCL device index>\n";
-    std::cout << "Defaulting to the first OpenCL platform and "
-                 "device.\n";
+    std::cout
+        << "Run as ./<progname> <OpenCL platform index> "
+           "<OpenCL device index>\n";
+    std::cout
+        << "Defaulting to the first OpenCL platform and "
+           "device.\n";
   }
 
-  std::vector<platform> openclPlatforms = getOpenCLPlatforms();
+  std::vector<platform> openclPlatforms =
+      getOpenCLPlatforms();
   if (openclPlatforms.size() == 0) {
-    std::cout << "Could not find any SYCL platforms associated "
-                 "with an OpenCL backend!\n";
+    std::cout
+        << "Could not find any SYCL platforms associated "
+           "with an OpenCL backend!\n";
     return 0;
   }
   if (platformIndex >= openclPlatforms.size()) {
-    std::cout << "Platform index " << platformIndex
-              << " exceeds the number of platforms associated "
-                 "with an OpenCL backend!\n";
+    std::cout
+        << "Platform index " << platformIndex
+        << " exceeds the number of platforms associated "
+           "with an OpenCL backend!\n";
     return -1;
   }
 
   platform p = openclPlatforms[platformIndex];
   if (deviceIndex >= p.get_devices().size()) {
-    std::cout
-        << "Device index " << deviceIndex
-        << " exceeds the number of devices in the platform!\n";
+    std::cout << "Device index " << deviceIndex
+              << " exceeds the number of devices in the "
+                 "platform!\n";
   }
 
   constexpr size_t size = 16;
@@ -88,7 +93,8 @@ int main(int argc, char* argv[]) {
     // Create an OpenCL kernel using this context:
     cl_program p = clCreateProgramWithSource(
         openclContext, 1, &kernelSource, nullptr, nullptr);
-    clBuildProgram(p, 0, nullptr, nullptr, nullptr, nullptr);
+    clBuildProgram(p, 0, nullptr, nullptr, nullptr,
+                   nullptr);
     cl_kernel k = clCreateKernel(p, "add", nullptr);
 
     // Create a SYCL kernel from the OpenCL kernel:

@@ -7,9 +7,9 @@
 // The figure is reproduced in the book for readability,
 // and duplicated here to avoid confusion.
 
-#include <sycl/sycl.hpp>
 #include <algorithm>
 #include <iostream>
+#include <sycl/sycl.hpp>
 
 using namespace sycl;
 
@@ -24,8 +24,10 @@ int main() {
 
   Q.parallel_for(N, [=](id<1> i) {
      int j = i % M;
-     atomic_ref<int, memory_order::relaxed, memory_scope::system,
-                access::address_space::global_space> atomic_data(data[j]);
+     atomic_ref<int, memory_order::relaxed,
+                memory_scope::system,
+                access::address_space::global_space>
+         atomic_data(data[j]);
      atomic_data += 1;
    }).wait();
 
@@ -33,7 +35,7 @@ int main() {
     std::cout << "data [" << i << "] = " << data[i] << "\n";
   }
   bool passed = true;
-  int* gold = (int*) malloc(N * sizeof(int));
+  int* gold = (int*)malloc(N * sizeof(int));
   std::fill(gold, gold + N, 0);
   for (int i = 0; i < N; ++i) {
     int j = i % M;

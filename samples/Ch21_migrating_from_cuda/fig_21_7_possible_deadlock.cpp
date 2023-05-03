@@ -22,7 +22,7 @@ int main() {
   Q.parallel_for(nd_range<1>{64, 64}, [=](auto item) {
      int id = item.get_global_id(0);
      if (id >= count) {
-        return; // early exit
+       return;  // early exit
      }
      group_barrier(item.get_group());
      buffer[id] = id;
@@ -36,8 +36,9 @@ int main() {
     }
   }
   if (mismatches) {
-    std::cout << "Found " << mismatches << " mismatches out of "
-              << count << " elements.\n";
+    std::cout << "Found " << mismatches
+              << " mismatches out of " << count
+              << " elements.\n";
   } else {
     std::cout << "Success.\n";
   }

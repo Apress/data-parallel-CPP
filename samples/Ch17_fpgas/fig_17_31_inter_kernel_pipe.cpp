@@ -8,17 +8,19 @@
 using namespace sycl;
 
 int main() {
-  constexpr int count = 1024; 
+  constexpr int count = 1024;
   std::array<int, count> in_array;
 
   // Initialize input array
-  for (int i=0; i < count; i++) { in_array[i] = i;}
+  for (int i = 0; i < count; i++) {
+    in_array[i] = i;
+  }
 
   // Buffer initialized from in_array (std::array)
-  buffer <int> B_in{ in_array };
+  buffer<int> B_in{in_array};
 
   // Uninitialized buffer with count elements
-  buffer <int> B_out{ range{count} };
+  buffer<int> B_out{range{count}};
 
   // Acquire queue to emulated FPGA device
   queue Q{ext::intel::fpga_emulator_selector_v};
@@ -30,28 +32,27 @@ int main() {
 
   // ND-range kernel
   Q.submit([&](handler& h) {
-      auto A = accessor(B_in, h);
+    auto A = accessor(B_in, h);
 
-      h.parallel_for(count, [=](auto idx) {
-          my_pipe::write( A[idx] );
-          });
-      });
+    h.parallel_for(
+        count, [=](auto idx) { my_pipe::write(A[idx]); });
+  });
 
   // Single_task kernel
   Q.submit([&](handler& h) {
-      auto A = accessor(B_out, h);
+    auto A = accessor(B_out, h);
 
-      h.single_task([=]() {
-        for (int i=0; i < count; i++) {
-          A[i] = my_pipe::read();
-        }
-      });
+    h.single_task([=]() {
+      for (int i = 0; i < count; i++) {
+        A[i] = my_pipe::read();
+      }
     });
+  });
 
-// END CODE SNIP
+  // END CODE SNIP
 
   auto A = host_accessor(B_out);
-  for (int i=0; i < count; i++) {
+  for (int i = 0; i < count; i++) {
     if (A[i] != i) {
       std::cout << "Failure on element " << i << "\n";
       return 1;
@@ -60,4 +61,3 @@ int main() {
   std::cout << "Passed!\n";
   return 0;
 }
-

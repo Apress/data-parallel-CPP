@@ -9,7 +9,7 @@ using namespace sycl;
 constexpr int count = 1024 * 1024;
 
 int main() {
-// BEGIN CODE SNIP
+  // BEGIN CODE SNIP
   // Declare an in-order SYCL queue for the default device
   queue Q{property::queue::in_order()};
   std::cout << "Running on device: "
@@ -22,7 +22,7 @@ int main() {
   Q.parallel_for(count, [=](auto id) {
      buffer[id] = id;
    }).wait();
-// END CODE SNIP
+  // END CODE SNIP
 
   int mismatches = 0;
   for (int i = 0; i < count; i++) {
@@ -31,8 +31,9 @@ int main() {
     }
   }
   if (mismatches) {
-    std::cout << "Found " << mismatches << " mismatches out of "
-              << count << " elements.\n";
+    std::cout << "Found " << mismatches
+              << " mismatches out of " << count
+              << " elements.\n";
   } else {
     std::cout << "Success.\n";
   }

@@ -19,18 +19,20 @@ int main() {
 
   // BEGIN CODE SNIP
   Q.parallel_for(count, [=](auto id) {
-     // The SYCL atomic_ref must specify the default order and
-     // default scope as part of the atomic_ref type.  To match
-     // the behavior of the CUDA atomicAdd we want a relaxed
-     // atomic with device scope:
-     atomic_ref<int, memory_order::relaxed, memory_scope::device>
+     // The SYCL atomic_ref must specify the default order
+     // and default scope as part of the atomic_ref type. To
+     // match the behavior of the CUDA atomicAdd we want a
+     // relaxed atomic with device scope:
+     atomic_ref<int, memory_order::relaxed,
+                memory_scope::device>
          aref(*buffer);
 
-     // When no memory order is specified, the defaults are used:
+     // When no memory order is specified, the defaults are
+     // used:
      aref.fetch_add(1);
 
-     // We can also specify the memory order and scope as part
-     // of the atomic operation:
+     // We can also specify the memory order and scope as
+     // part of the atomic operation:
      aref.fetch_add(1, memory_order::relaxed,
                     memory_scope::device);
    }).wait();

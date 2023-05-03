@@ -40,21 +40,26 @@ int main(int argc, char* argv[]) {
     deviceIndex = std::stoi(argv[2]);
   }
   if (argc <= 1) {
-    std::cout << "Run as ./<progname> <Level Zero platform index> "
+    std::cout << "Run as ./<progname> <Level Zero platform "
+                 "index> "
                  "<Level Zero device index>\n";
-    std::cout << "Defaulting to the first Level Zero platform and "
+    std::cout << "Defaulting to the first Level Zero "
+                 "platform and "
                  "device.\n";
   }
 
-  std::vector<platform> l0Platforms = getLevelZeroPlatforms();
+  std::vector<platform> l0Platforms =
+      getLevelZeroPlatforms();
   if (l0Platforms.size() == 0) {
-    std::cout << "Could not find any SYCL platforms associated with "
+    std::cout << "Could not find any SYCL platforms "
+                 "associated with "
                  "a Level Zero backend!\n";
     return 0;
   }
   if (platformIndex >= l0Platforms.size()) {
     std::cout << "Platform index " << platformIndex
-              << " exceeds the number of platforms associated with a "
+              << " exceeds the number of platforms "
+                 "associated with a "
                  "Level Zero backend!\n";
     return -1;
   }
@@ -62,7 +67,8 @@ int main(int argc, char* argv[]) {
   platform p = l0Platforms[platformIndex];
   if (deviceIndex >= p.get_devices().size()) {
     std::cout << "Device index " << deviceIndex
-              << " exceeds the number of devices in the platform!\n";
+              << " exceeds the number of devices in the "
+                 "platform!\n";
   }
 
   constexpr size_t size = 16;
@@ -97,11 +103,14 @@ int main(int argc, char* argv[]) {
             }
         )CLC";
     online_compiler<source_language::opencl_c> compiler(d);
-    std::vector<byte> spirv = compiler.compile(kernelSource);
+    std::vector<byte> spirv =
+        compiler.compile(kernelSource);
 
     // Get the native Level Zero context and device:
-    auto l0Context = get_native<backend::ext_oneapi_level_zero>(c);
-    auto l0Device = get_native<backend::ext_oneapi_level_zero>(d);
+    auto l0Context =
+        get_native<backend::ext_oneapi_level_zero>(c);
+    auto l0Device =
+        get_native<backend::ext_oneapi_level_zero>(d);
 
     // Create a Level Zero kernel using this context:
     ze_module_handle_t l0Module = nullptr;
@@ -110,19 +119,22 @@ int main(int argc, char* argv[]) {
     moduleDesc.format = ZE_MODULE_FORMAT_IL_SPIRV;
     moduleDesc.inputSize = spirv.size();
     moduleDesc.pInputModule = spirv.data();
-    CHECK_CALL(zeModuleCreate(l0Context, l0Device, &moduleDesc,
-                              &l0Module, nullptr));
+    CHECK_CALL(zeModuleCreate(l0Context, l0Device,
+                              &moduleDesc, &l0Module,
+                              nullptr));
 
     ze_kernel_handle_t l0Kernel = nullptr;
     ze_kernel_desc_t kernelDesc = {};
     kernelDesc.stype = ZE_STRUCTURE_TYPE_KERNEL_DESC;
     kernelDesc.pKernelName = "add";
-    CHECK_CALL(zeKernelCreate(l0Module, &kernelDesc, &l0Kernel));
+    CHECK_CALL(
+        zeKernelCreate(l0Module, &kernelDesc, &l0Kernel));
 
     // Create a SYCL kernel from the Level Zero kernel:
     auto skb =
         make_kernel_bundle<backend::ext_oneapi_level_zero,
-                           bundle_state::executable>({l0Module}, c);
+                           bundle_state::executable>(
+            {l0Module}, c);
     auto sk = make_kernel<backend::ext_oneapi_level_zero>(
         {skb, l0Kernel}, c);
 
@@ -135,13 +147,14 @@ int main(int argc, char* argv[]) {
     });
     // END CODE SNIP
 
-    // Note: We transferred ownership so no additional cleanup is
-    // needed.
+    // Note: We transferred ownership so no additional
+    // cleanup is needed.
   }
 
   for (int i = 0; i < size; i++) {
     if (data[i] != i + 1) {
-      std::cout << "Results did not validate at index " << i << "!\n";
+      std::cout << "Results did not validate at index " << i
+                << "!\n";
       return -1;
     }
   }

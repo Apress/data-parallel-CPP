@@ -2,13 +2,13 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <sycl/sycl.hpp>
 #include <algorithm>
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
 #include <numeric>
 #include <random>
+#include <sycl/sycl.hpp>
 
 using namespace sycl;
 
@@ -24,7 +24,8 @@ int main() {
   std::iota(input, input + N, 1);
   std::fill(output, output + N, 0);
 
-  // Create a temporary allocation that will only be used by the device
+  // Create a temporary allocation that will only be used by
+  // the device
   int32_t* tmp = malloc_device<int32_t>(G, q);
 
   // Phase 1: Compute local scans over input blocks
@@ -41,14 +42,16 @@ int main() {
        // Perform inclusive scan in local memory
        for (int32_t d = 0; d <= log2((float)L) - 1; ++d) {
          uint32_t stride = (1 << d);
-         int32_t update = (li >= stride) ? local[li - stride] : 0;
+         int32_t update =
+             (li >= stride) ? local[li - stride] : 0;
          group_barrier(it.get_group());
          local[li] += update;
          group_barrier(it.get_group());
        }
 
-       // Write the result for each item to the output buffer
-       // Write the last result from this block to the temporary buffer
+       // Write the result for each item to the output
+       // buffer Write the last result from this block to
+       // the temporary buffer
        output[i] = local[li];
        if (li == it.get_local_range()[0] - 1) {
          tmp[it.get_group(0)] = local[li];
@@ -70,13 +73,15 @@ int main() {
        // Perform inclusive scan in local memory
        for (int32_t d = 0; d <= log2((float)G) - 1; ++d) {
          uint32_t stride = (1 << d);
-         int32_t update = (li >= stride) ? local[li - stride] : 0;
+         int32_t update =
+             (li >= stride) ? local[li - stride] : 0;
          group_barrier(it.get_group());
          local[li] += update;
          group_barrier(it.get_group());
        }
 
-       // Overwrite result from each work-item in the temporary buffer
+       // Overwrite result from each work-item in the
+       // temporary buffer
        tmp[i] = local[li];
      });
    }).wait();

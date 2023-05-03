@@ -16,25 +16,26 @@ int main() {
   accessor pC{C};
 
   Q.submit([&](handler &h) {
-      accessor aA{A, h};
-      accessor aB{B, h};
-      accessor aC{C, h};
-      h.parallel_for(N, [=](id<1> i) {
-          aA[i] = 1;
-          aB[i] = 40;
-          aC[i] = 0;
-        });
+    accessor aA{A, h};
+    accessor aB{B, h};
+    accessor aC{C, h};
+    h.parallel_for(N, [=](id<1> i) {
+      aA[i] = 1;
+      aB[i] = 40;
+      aC[i] = 0;
     });
+  });
   Q.submit([&](handler &h) {
-      accessor aA{A, h};
-      accessor aB{B, h};
-      accessor aC{C, h};
-      h.parallel_for(N, [=](id<1> i) { aC[i] += aA[i] + aB[i]; });
-    });
+    accessor aA{A, h};
+    accessor aB{B, h};
+    accessor aC{C, h};
+    h.parallel_for(
+        N, [=](id<1> i) { aC[i] += aA[i] + aB[i]; });
+  });
   Q.submit([&](handler &h) {
-      h.require(pC);
-      h.parallel_for(N, [=](id<1> i) { pC[i]++; });
-    });
+    h.require(pC);
+    h.parallel_for(N, [=](id<1> i) { pC[i]++; });
+  });
 
   host_accessor result{C};
   for (int i = 0; i < N; i++) {

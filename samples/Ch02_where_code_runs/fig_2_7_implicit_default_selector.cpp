@@ -2,18 +2,19 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <sycl/sycl.hpp>
 #include <iostream>
+#include <sycl/sycl.hpp>
 using namespace sycl;
 
 int main() {
-  // Create queue on whatever default device that the implementation
-  // chooses. Implicit use of default_selector_v
+  // Create queue on whatever default device that the
+  // implementation chooses. Implicit use of
+  // default_selector_v
   queue Q;
 
-  std::cout << "Selected device: " <<
-  Q.get_device().get_info<info::device::name>() << "\n";
+  std::cout << "Selected device: "
+            << Q.get_device().get_info<info::device::name>()
+            << "\n";
 
   return 0;
 }
-

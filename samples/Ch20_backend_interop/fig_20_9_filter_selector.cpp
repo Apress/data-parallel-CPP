@@ -7,16 +7,17 @@
 using namespace sycl;
 
 int main() {
-  auto find_device = [](backend b, info::device_type t =
-                                       info::device_type::all) {
+  auto find_device = [](backend b,
+                        info::device_type t =
+                            info::device_type::all) {
     for (auto d : device::get_devices(t)) {
       if (d.get_backend() == b) {
         return d;
       }
     }
-    throw sycl::exception(
-        errc::runtime,
-        "Could not find a device with the requested backend!");
+    throw sycl::exception(errc::runtime,
+                          "Could not find a device with "
+                          "the requested backend!");
   };
 
   try {

@@ -22,8 +22,10 @@ int main(int argc, char* argv[]) {
     openclDeviceIndex = std::stoi(argv[2]);
   }
   if (argc <= 1) {
-    std::cout << "Run as ./<progname> <OpenCL platform index> <OpenCL device index>\n";
-    std::cout << "Defaulting to the first OpenCL platform and device.\n";
+    std::cout << "Run as ./<progname> <OpenCL platform "
+                 "index> <OpenCL device index>\n";
+    std::cout << "Defaulting to the first OpenCL platform "
+                 "and device.\n";
   }
 
   constexpr size_t size = 16;
@@ -33,7 +35,8 @@ int main(int argc, char* argv[]) {
     data[i] = i;
   }
 
-  // Create an OpenCL context and some OpenCL memory objects:
+  // Create an OpenCL context and some OpenCL memory
+  // objects:
 
   cl_uint openclNumPlatforms = 0;
   clGetPlatformIDs(0, nullptr, &openclNumPlatforms);
@@ -43,56 +46,64 @@ int main(int argc, char* argv[]) {
     return 0;
   }
   if (openclPlatformIndex >= openclNumPlatforms) {
-    std::cout << "Could not find OpenCL platform " << openclPlatformIndex
-              << "!\n";
+    std::cout << "Could not find OpenCL platform "
+              << openclPlatformIndex << "!\n";
     return -1;
   }
 
-  std::vector<cl_platform_id> openclPlatforms(openclNumPlatforms);
-  clGetPlatformIDs(openclNumPlatforms, openclPlatforms.data(), nullptr);
+  std::vector<cl_platform_id> openclPlatforms(
+      openclNumPlatforms);
+  clGetPlatformIDs(openclNumPlatforms,
+                   openclPlatforms.data(), nullptr);
 
-  cl_platform_id openclPlatform = openclPlatforms[openclPlatformIndex];
+  cl_platform_id openclPlatform =
+      openclPlatforms[openclPlatformIndex];
   cl_uint openclNumDevices = 0;
-  clGetDeviceIDs(openclPlatform, CL_DEVICE_TYPE_ALL, 0, nullptr, &openclNumDevices);
+  clGetDeviceIDs(openclPlatform, CL_DEVICE_TYPE_ALL, 0,
+                 nullptr, &openclNumDevices);
 
   if (openclDeviceIndex >= openclNumDevices) {
-    std::cout << "Could not find OpenCL device " << openclDeviceIndex << "!\n";
+    std::cout << "Could not find OpenCL device "
+              << openclDeviceIndex << "!\n";
     return -1;
   }
 
   std::vector<cl_device_id> openclDevices(openclNumDevices);
-  clGetDeviceIDs(
-      openclPlatform,
-      CL_DEVICE_TYPE_ALL,
-      openclNumDevices,
-      openclDevices.data(),
-      nullptr);
+  clGetDeviceIDs(openclPlatform, CL_DEVICE_TYPE_ALL,
+                 openclNumDevices, openclDevices.data(),
+                 nullptr);
 
-  cl_device_id openclDevice = openclDevices[openclDeviceIndex];
-  cl_context openclContext = clCreateContext(nullptr, 1, &openclDevice, nullptr, nullptr, nullptr);
-  cl_command_queue openclQueue = clCreateCommandQueue(openclContext, openclDevice, 0, nullptr);
+  cl_device_id openclDevice =
+      openclDevices[openclDeviceIndex];
+  cl_context openclContext = clCreateContext(
+      nullptr, 1, &openclDevice, nullptr, nullptr, nullptr);
+  cl_command_queue openclQueue = clCreateCommandQueue(
+      openclContext, openclDevice, 0, nullptr);
   cl_mem openclBuffer = clCreateBuffer(
-      openclContext,
-      CL_MEM_USE_HOST_PTR,
-      size * sizeof(int),
-      data.data(),
-      nullptr);
+      openclContext, CL_MEM_USE_HOST_PTR,
+      size * sizeof(int), data.data(), nullptr);
 
   {
     // BEGIN CODE SNIP
     // Create SYCL objects from the native backend objects.
-    context c = make_context<backend::opencl>(openclContext);
+    context c =
+        make_context<backend::opencl>(openclContext);
     device d = make_device<backend::opencl>(openclDevice);
-    buffer data_buf = make_buffer<backend::opencl, int>(openclBuffer, c);
+    buffer data_buf =
+        make_buffer<backend::opencl, int>(openclBuffer, c);
 
     // Problem #1:
-    // Queue cannot be constructed with the given context and device since the device is not a member of the
-    // context (descendants of devices from the context are not supported on OpenCL yet).
-    // -33 (PI_ERROR_INVALID_DEVICE)
+    // Queue cannot be constructed with the given context
+    // and device since the device is not a member of the
+    // context (descendants of devices from the context are
+    // not supported on OpenCL yet). -33
+    // (PI_ERROR_INVALID_DEVICE)
 
-    // Now use the SYCL objects to create a queue and submit a kernel.
+    // Now use the SYCL objects to create a queue and submit
+    // a kernel.
     queue Q{c, d};
-    // queue Q = make_queue<backend::opencl>(openclQueue, c);
+    // queue Q = make_queue<backend::opencl>(openclQueue,
+    // c);
 
     Q.submit([&](handler& h) {
        accessor data_acc{data_buf, h};
@@ -109,7 +120,8 @@ int main(int argc, char* argv[]) {
 
   for (int i = 0; i < size; i++) {
     if (data[i] != i + 1) {
-      std::cout << "Results did not validate at index " << i << "!\n";
+      std::cout << "Results did not validate at index " << i
+                << "!\n";
       return -1;
     }
   }

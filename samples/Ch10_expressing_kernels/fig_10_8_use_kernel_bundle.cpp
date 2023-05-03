@@ -19,24 +19,26 @@ int main() {
     buffer data_buf{data};
 
     queue Q;
-    std::cout << "Running on device: "
-              << Q.get_device().get_info<info::device::name>()
-              << "\n";
+    std::cout
+        << "Running on device: "
+        << Q.get_device().get_info<info::device::name>()
+        << "\n";
 
     // BEGIN CODE SNIP
     auto kb = get_kernel_bundle<bundle_state::executable>(
         Q.get_context());
 
-    std::cout << "All kernel compilation should be done now.\n";
+    std::cout
+        << "All kernel compilation should be done now.\n";
 
     Q.submit([&](handler& h) {
       // Use the pre-compiled kernel from the kernel bundle.
       h.use_kernel_bundle(kb);
 
       accessor data_acc{data_buf, h};
-      h.parallel_for(
-          range{size},
-          [=](id<1> i) { data_acc[i] = data_acc[i] + 1; });
+      h.parallel_for(range{size}, [=](id<1> i) {
+        data_acc[i] = data_acc[i] + 1;
+      });
     });
     // END CODE SNIP
   }

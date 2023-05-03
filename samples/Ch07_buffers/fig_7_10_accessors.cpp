@@ -2,8 +2,8 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <sycl/sycl.hpp>
 #include <cassert>
+#include <sycl/sycl.hpp>
 using namespace sycl;
 constexpr int N = 42;
 
@@ -18,25 +18,26 @@ int main() {
   accessor pC{C};
 
   Q.submit([&](handler &h) {
-      accessor aA{A, h, write_only, no_init};
-      accessor aB{B, h, write_only, no_init};
-      accessor aC{C, h, write_only, no_init};
-      h.parallel_for(N, [=](id<1> i) {
-          aA[i] = 1;
-          aB[i] = 40;
-          aC[i] = 0;
-        });
+    accessor aA{A, h, write_only, no_init};
+    accessor aB{B, h, write_only, no_init};
+    accessor aC{C, h, write_only, no_init};
+    h.parallel_for(N, [=](id<1> i) {
+      aA[i] = 1;
+      aB[i] = 40;
+      aC[i] = 0;
     });
+  });
   Q.submit([&](handler &h) {
-      accessor aA{A, h, read_only};
-      accessor aB{B, h, read_only};
-      accessor aC{C, h, read_write};
-      h.parallel_for(N, [=](id<1> i) { aC[i] += aA[i] + aB[i]; });
-    });
+    accessor aA{A, h, read_only};
+    accessor aB{B, h, read_only};
+    accessor aC{C, h, read_write};
+    h.parallel_for(
+        N, [=](id<1> i) { aC[i] += aA[i] + aB[i]; });
+  });
   Q.submit([&](handler &h) {
-      h.require(pC);
-      h.parallel_for(N, [=](id<1> i) { pC[i]++; });
-    });
+    h.require(pC);
+    h.parallel_for(N, [=](id<1> i) { pC[i]++; });
+  });
 
   host_accessor result{C, read_only};
 

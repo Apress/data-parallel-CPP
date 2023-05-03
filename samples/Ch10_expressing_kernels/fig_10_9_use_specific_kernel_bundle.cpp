@@ -21,9 +21,10 @@ int main() {
     buffer data_buf{data};
 
     queue Q;
-    std::cout << "Running on device: "
-              << Q.get_device().get_info<info::device::name>()
-              << "\n";
+    std::cout
+        << "Running on device: "
+        << Q.get_device().get_info<info::device::name>()
+        << "\n";
 
     // BEGIN CODE SNIP
     auto kid = get_kernel_id<class Add>();
@@ -37,9 +38,9 @@ int main() {
       h.use_kernel_bundle(kb);
 
       accessor data_acc{data_buf, h};
-      h.parallel_for<class Add>(
-          range{size},
-          [=](id<1> i) { data_acc[i] = data_acc[i] + 1; });
+      h.parallel_for<class Add>(range{size}, [=](id<1> i) {
+        data_acc[i] = data_acc[i] + 1;
+      });
     });
     // END CODE SNIP
   }
