@@ -17,6 +17,11 @@ function(add_book_sample)
 
     add_executable(${BOOK_SAMPLE_TARGET} ${BOOK_SAMPLE_SOURCES})
 
+    if(WITHCUDA)
+        set(BOOK_SAMPLE_ADDITIONAL_COMPILE_OPTIONS ${BOOK_SAMPLE_ADDITIONAL_COMPILE_OPTIONS} -fsycl-targets=spir64,nvptx64-nvidia-cuda)
+        set(BOOK_SAMPLE_LIBS ${BOOK_SAMPLE_LIBS} -fsycl-targets=spir64,nvptx64-nvidia-cuda)
+    endif()
+
     target_compile_options(${BOOK_SAMPLE_TARGET} PRIVATE -fsycl -fsycl-unnamed-lambda -ferror-limit=1 -Wall -Wpedantic ${BOOK_SAMPLE_ADDITIONAL_COMPILE_OPTIONS})
 
     target_link_libraries(${BOOK_SAMPLE_TARGET} PRIVATE ${BOOK_SAMPLE_LIBS} -fsycl)
@@ -54,3 +59,4 @@ add_subdirectory( Ch17_fpgas )
 add_subdirectory( Ch18_using_libs )
 add_subdirectory( Ch19_memory_model_and_atomics )
 add_subdirectory( Ch20_backend_interop )
+add_subdirectory( Ch21_migrating_from_cuda )

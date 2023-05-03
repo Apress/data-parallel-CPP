@@ -16,7 +16,7 @@ int main() {
   // second contains aspects that must NOT be exhibited.
   queue Q2{ aspect_selector(
 		  std::vector{aspect::fp64, aspect::fp16},
-		  std::vector{aspect::gpu, aspect::fpga} };
+		  std::vector{aspect::gpu, aspect::accelerator}) };
 
   std::cout << "First selected device is: " <<
     Q1.get_device().get_info<info::device::name>() << "\n";

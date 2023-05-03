@@ -26,9 +26,9 @@ int my_selector(const device &dev) {
 
 int main() {
   try {
-    auto Q = queue{ my_selector };
+    auto MyQ = queue{ my_selector };
     std::cout << "After checking for a GPU, we are running on:\n "
-              << Q.get_device().get_info<info::device::name>() << "\n";
+              << MyQ.get_device().get_info<info::device::name>() << "\n";
   } catch (exception const& ex) {
     std::cout << "Custom device selector did not select a device.\n";
     std::cout << "Caught this SYCL exception: " << ex.what() << std::endl;

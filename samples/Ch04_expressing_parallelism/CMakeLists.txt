@@ -22,12 +22,18 @@ add_book_sample(
     TARGET fig_4_13_nd_range_matrix_multiply
     SOURCES fig_4_13_nd_range_matrix_multiply.cpp)
 
+if(NOT WITHCUDA)
+# TEMPORARILY DISABLE: doesn't work with CUDA backend.
 add_book_sample(
     TEST
     TARGET fig_4_20_hierarchical_matrix_multiply
     SOURCES fig_4_20_hierarchical_matrix_multiply.cpp)
+endif()
 
+if(NOT WITHCUDA)
+# TEMPORARILY DISABLE: doesn't work with CUDA backend.
 add_book_sample(
     TEST
     TARGET fig_4_22_hierarchical_logical_matrix_multiply
     SOURCES fig_4_22_hierarchical_logical_matrix_multiply.cpp)
+endif()

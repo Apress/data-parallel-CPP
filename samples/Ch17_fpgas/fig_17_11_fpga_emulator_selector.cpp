@@ -2,8 +2,8 @@
 
 // SPDX-License-Identifier: MIT
 
+#include <sycl/ext/intel/fpga_extensions.hpp>  // For fpga_selector_v
 #include <sycl/sycl.hpp>
-#include <sycl/ext/intel/fpga_extensions.hpp> // For fpga_selector
 using namespace sycl;
 
 void say_device(const queue& Q) {
@@ -12,7 +12,7 @@ void say_device(const queue& Q) {
 }
 
 int main() {
-  queue Q{ ext::intel::fpga_emulator_selector{} };
+  queue Q{ext::intel::fpga_emulator_selector_v};
   say_device(Q);
 
   Q.submit([&](handler &h){
