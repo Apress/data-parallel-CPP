@@ -17,7 +17,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 project(DPCPPSamples)
 option(NODPL    "Disable samples that require the oneAPI DPC++ Library (oneDPL).")
-option(NODPCT   "Disable samples that require the oneAPI DPC++ Compatibility Tool (dpct).")
+option(NODPCT   "Disable samples that require the DPC++ Compatibility Tool (dpct).")
 option(NOL0     "Disable samples that require the oneAPI Level Zero Headers and Loader." ON)
 option(WITHCUDA "Enable CUDA device support for the samples.")
 
