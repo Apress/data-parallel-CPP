@@ -10,8 +10,10 @@
 //   oneapi::dpl::execution::dpcpp_default
 // -------------------------------------------------------
 
-#include <iostream>
+// clang-format off
 #include <oneapi/dpl/algorithm>
+// clang-format on
+#include <iostream>
 #include <oneapi/dpl/execution>
 #include <oneapi/dpl/iterator>
 #include <sycl/sycl.hpp>
