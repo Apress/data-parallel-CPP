@@ -14,7 +14,7 @@ int main() {
             << dev.get_info<info::device::name>() << "\n";
 
   // Query results like the following can be used to
-  // calculate how large your kernel invocations should be.
+  // calculate how large your kernel invocations can be.
   auto maxWG =
       dev.get_info<info::device::max_work_group_size>();
   auto maxGmem =
@@ -23,8 +23,8 @@ int main() {
       dev.get_info<info::device::local_mem_size>();
 
   std::cout << "Max WG size is " << maxWG
-            << "\nMax Global memory size is " << maxGmem
-            << "\nMax Local memory size is " << maxLmem
+            << "\nGlobal memory size is " << maxGmem
+            << "\nLocal memory size is " << maxLmem
             << "\n";
 
   return 0;
