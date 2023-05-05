@@ -21,7 +21,7 @@ int main() {
 
   // Mark this data as "read only" so the runtime can copy
   // it to the device instead of migrating it from the host.
-  // Real values will be documented by your DPC++ backend.
+  // Real values will be documented by your backend.
   int HW_SPECIFIC_ADVICE_RO = 0;
   Q.mem_advise(read_only_data, BLOCK_SIZE,
                HW_SPECIFIC_ADVICE_RO);
