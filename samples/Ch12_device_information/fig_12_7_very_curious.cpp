@@ -180,4 +180,89 @@ Found Platform:
     info::device::partition_max_sub_devices is '8'
     Many more queries are available than shown here!
 
+=====
+      
+Found Platform:
+    info::platform::name is 'Intel(R) OpenCL'
+    info::platform::vendor is 'Intel(R) Corporation'
+    info::platform::version is 'OpenCL 3.0 LINUX'
+    info::platform::profile is 'FULL_PROFILE'
+  Device: Intel(R) Xeon(R) E-2176G CPU @ 3.70GHz
+    is_cpu(): Yes
+    is_gpu(): No
+    is_accelerator(): No
+    has(fp16): No
+    has(fp64): Yes
+    has(atomic64): Yes
+    has(queue_profiling): Yes
+    has(usm_device_allocations): Yes
+    has(usm_host_allocations): Yes
+    has(usm_atomic_host_allocations): Yes
+    has(usm_shared_allocations): Yes
+    has(usm_atomic_shared_allocations): Yes
+    has(usm_system_allocations): Yes
+    info::device::vendor is 'Intel(R) Corporation'
+    info::device::driver_version is '2023.15.3.0.20_160000'
+    info::device::max_work_item_dimensions is '3'
+    info::device::max_work_group_size is '8192'
+    info::device::mem_base_addr_align is '1024'
+    info::device::partition_max_sub_devices is '12'
+    Many more queries are available than shown here!
+
+Found Platform:
+    info::platform::name is 'Intel(R) OpenCL HD Graphics'
+    info::platform::vendor is 'Intel(R) Corporation'
+    info::platform::version is 'OpenCL 3.0 '
+    info::platform::profile is 'FULL_PROFILE'
+  Device: Intel(R) UHD Graphics P630 [0x3e96]
+    is_cpu(): No
+    is_gpu(): Yes
+    is_accelerator(): No
+    has(fp16): Yes
+    has(fp64): Yes
+    has(atomic64): Yes
+    has(queue_profiling): Yes
+    has(usm_device_allocations): Yes
+    has(usm_host_allocations): Yes
+    has(usm_atomic_host_allocations): No
+    has(usm_shared_allocations): Yes
+    has(usm_atomic_shared_allocations): No
+    has(usm_system_allocations): No
+    info::device::vendor is 'Intel(R) Corporation'
+    info::device::driver_version is '22.35.24055'
+    info::device::max_work_item_dimensions is '3'
+    info::device::max_work_group_size is '256'
+    info::device::mem_base_addr_align is '1024'
+    info::device::partition_max_sub_devices is '0'
+    Many more queries are available than shown here!
+
+Found Platform:
+    info::platform::name is 'Intel(R) Level-Zero'
+    info::platform::vendor is 'Intel(R) Corporation'
+    info::platform::version is '1.3'
+    info::platform::profile is 'FULL_PROFILE'
+  Device: Intel(R) UHD Graphics P630 [0x3e96]
+    is_cpu(): No
+    is_gpu(): Yes
+    is_accelerator(): No
+    has(fp16): Yes
+    has(fp64): Yes
+    has(atomic64): Yes
+    has(queue_profiling): Yes
+    has(usm_device_allocations): Yes
+    has(usm_host_allocations): Yes
+    has(usm_atomic_host_allocations): No
+    has(usm_shared_allocations): Yes
+    has(usm_atomic_shared_allocations): No
+    has(usm_system_allocations): No
+    info::device::vendor is 'Intel(R) Corporation'
+    info::device::driver_version is '1.3.24055'
+    info::device::max_work_item_dimensions is '3'
+    info::device::max_work_group_size is '256'
+    info::device::mem_base_addr_align is '8'
+    info::device::partition_max_sub_devices is '0'
+    Many more queries are available than shown here!
+
+
+      
 #endif
