@@ -33,13 +33,44 @@ int main() {
       std::cout << "  Device: "
                 << dev.get_info<info::device::name>()
                 << "\n";
+      // is_cpu() == has(aspect::cpu)
       std::cout << "    is_cpu(): "
                 << (dev.is_cpu() ? "Yes" : "No") << "\n";
+      // is_cpu() == has(aspect::gpu)
       std::cout << "    is_gpu(): "
                 << (dev.is_gpu() ? "Yes" : "No") << "\n";
+      // is_cpu() == has(aspect::accelerator)
       std::cout << "    is_accelerator(): "
                 << (dev.is_accelerator() ? "Yes" : "No")
                 << "\n";
+
+      std::cout << "    has(emulated): "
+                << (dev.has(aspect::emulated)) ? "Yes" : "No") << "\n";
+      std::cout << "    has(fp16): "
+                << (dev.has(aspect::fp16)) ? "Yes" : "No") << "\n";
+      std::cout << "    has(fp64): "
+                << (dev.has(aspect::fp64)) ? "Yes" : "No") << "\n";
+      std::cout << "    has(host_debuggable): "
+                << (dev.has(aspect::host_debuggable)) ? "Yes" : "No") << "\n";
+      std::cout << "    has(atomic64): "
+                << (dev.has(aspect::atomic64)) ? "Yes" : "No") << "\n";
+      // see Chapter 13
+      std::cout << "    has(queue_profiling): "
+                << (dev.has(aspect::queue_profiling)) ? "Yes" : "No") << "\n";
+      std::cout << "    has(emulated): "
+                << (dev.has(aspect::emulated)) ? "Yes" : "No") << "\n";
+      std::cout << "    has(usm_device_allocations): "
+                << (dev.has(aspect::usm_device_allocations)) ? "Yes" : "No") << "\n";
+      std::cout << "    has(usm_host_allocations): "
+                << (dev.has(aspect::usm_host_allocations)) ? "Yes" : "No") << "\n";
+      std::cout << "    has(usm_atomic_host_allocations): "
+                << (dev.has(aspect::usm_atomic_host_allocations)) ? "Yes" : "No") << "\n";
+      std::cout << "    has(usm_shared_allocations): "
+                << (dev.has(aspect::usm_shared_allocations)) ? "Yes" : "No") << "\n";
+      std::cout << "    has(usm_atomic_shared_allocations): "
+                << (dev.has(aspect::usm_atomic_shared_allocations)) ? "Yes" : "No") << "\n";
+      std::cout << "    has(usm_system_allocations): "
+                << (dev.has(aspect::usm_system_allocations)) ? "Yes" : "No") << "\n";
 
       do_query<info::device::vendor>(
           dev, "info::device::vendor");
