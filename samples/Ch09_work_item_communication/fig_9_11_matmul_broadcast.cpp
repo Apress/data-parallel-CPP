@@ -58,14 +58,15 @@ double run_sycl(const std::vector<T>& vecA,
 
             T sum = 0;
             for (int kk = 0; kk < K; kk += tile_size) {
-              // Load the matrix tile from matrix A and synchronize
-              // to ensure all work-items have a consistent view
-              // of the matrix tile in local memory.
+              // Load the matrix tile from matrix A, and
+              // synchronize to ensure all work-items have a
+              // consistent view of the matrix tile in local
+              // memory.
               tileA[i] = matrixA[m][kk + i];
               group_barrier(item.get_group());
 
-              // Perform computation using the local memory tile and
-              // matrix B in global memory.
+              // Perform computation using the local memory
+              // tile, and matrix B in global memory.
               for (int k = 0; k < tile_size; k++) {
                 // Because the value of k is the same for
                 // all work-items in the group, these reads
@@ -73,8 +74,9 @@ double run_sycl(const std::vector<T>& vecA,
                 sum += tileA[k] * matrixB[kk + k][n];
               }
 
-              // After computation, synchronize again to ensure all
-              // reads from the local memory tile are complete.
+              // After computation, synchronize again, to
+              // ensure all reads from the local memory tile
+              // are complete.
               group_barrier(item.get_group());
             }
 
