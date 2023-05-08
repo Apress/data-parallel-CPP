@@ -17,32 +17,16 @@ add_book_sample(
     TARGET fig_9_8_ndrange_tiled_matmul
     SOURCES matmul_harness.cpp fig_9_8_ndrange_tiled_matmul.cpp)
 
-if(NOT WITHCUDA)
-# TEMPORARILY DISABLE: doesn't work with CUDA backend.
 add_book_sample(
     TEST
-    TARGET fig_9_9_local_hier
-    SOURCES fig_9_9_local_hier.cpp)
-endif()
-
-if(NOT WITHCUDA)
-# TEMPORARILY DISABLE: doesn't work with CUDA backend.
-add_book_sample(
-    TEST
-    TARGET fig_9_10_hier_tiled_matmul
-    SOURCES matmul_harness.cpp fig_9_10_hier_tiled_matmul.cpp)
-endif()
+    TARGET fig_9_9_sub_group_barrier
+    SOURCES fig_9_9_sub_group_barrier.cpp)
 
 add_book_sample(
     TEST
-    TARGET fig_9_11_sub_group_barrier
-    SOURCES fig_9_11_sub_group_barrier.cpp)
+    TARGET fig_9_11_matmul_broadcast
+    SOURCES matmul_harness.cpp fig_9_11_matmul_broadcast.cpp)
 
 add_book_sample(
-    TEST
-    TARGET fig_9_13_matmul_broadcast
-    SOURCES matmul_harness.cpp fig_9_13_matmul_broadcast.cpp)
-
-add_book_sample(
-    TARGET fig_9_14_ndrange_sub_group_matmul
-    SOURCES matmul_harness.cpp fig_9_14_ndrange_sub_group_matmul.cpp)
+    TARGET fig_9_12_ndrange_sub_group_matmul
+    SOURCES matmul_harness.cpp fig_9_12_ndrange_sub_group_matmul.cpp)

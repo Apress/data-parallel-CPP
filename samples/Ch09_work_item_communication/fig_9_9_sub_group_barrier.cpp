@@ -29,8 +29,9 @@ int main() {
       h.parallel_for(
           nd_range{{size}, {16}}, [=](nd_item<1> item) {
             auto sg = item.get_sub_group();
-            auto index = item.get_global_id();
             group_barrier(sg);
+            // ...
+            auto index = item.get_global_id();
             data_acc[index] = data_acc[index] + 1;
           });
       // END CODE SNIP

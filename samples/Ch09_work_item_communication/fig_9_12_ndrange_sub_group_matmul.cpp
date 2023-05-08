@@ -26,7 +26,7 @@ double run_sycl(const std::vector<T>& vecA,
   buffer<T, 2> bufB{vecB.data(), range<2>{K, N}};
   buffer<T, 2> bufC{vecC.data(), range<2>{M, N}};
 
-  queue Q;  // Choose any available device
+  queue Q;
   std::cout << "Running on device: "
             << Q.get_device().get_info<info::device::name>()
             << "\n";
@@ -42,9 +42,9 @@ double run_sycl(const std::vector<T>& vecA,
       // BEGIN CODE SNIP
       // Note: This example assumes that the sub-group size
       // is greater than or equal to the tile size!
-      static const int tileSize = 4;
+      constexpr int tile_size = 4;
       h.parallel_for(
-          nd_range<2>{{M, N}, {1, tileSize}},
+          nd_range<2>{{M, N}, {1, tile_size}},
           [=](nd_item<2> item) {
             auto sg = item.get_sub_group();
 
@@ -56,8 +56,7 @@ double run_sycl(const std::vector<T>& vecA,
             int i = item.get_local_id()[1];
 
             T sum = 0;
-            for (int_fast64_t kk = 0; kk < K;
-                 kk += tileSize) {
+            for (int kk = 0; kk < K; kk += tile_size) {
               // Load the matrix tile from matrix A.
               T tileA = matrixA[m][kk + i];
 
@@ -66,7 +65,7 @@ double run_sycl(const std::vector<T>& vecA,
               // in global memory.  The loop variable k
               // describes which work-item in the sub-group
               // to broadcast data from.
-              for (int k = 0; k < tileSize; k++) {
+              for (int k = 0; k < tile_size; k++) {
                 sum += group_broadcast(sg, tileA, k) *
                        matrixB[kk + k][n];
               }
