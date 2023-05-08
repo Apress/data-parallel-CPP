@@ -41,3 +41,8 @@ add_book_sample(
     TEST
     TARGET fig_10_9_use_specific_kernel_bundle
     SOURCES fig_10_9_use_specific_kernel_bundle.cpp)
+
+add_book_sample(
+    TEST
+    TARGET fig_10_10_kernel_query
+    SOURCES fig_10_10_kernel_query.cpp)
