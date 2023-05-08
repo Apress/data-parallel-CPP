@@ -25,15 +25,16 @@ int main() {
     Q.submit([&](handler& h) {
       accessor data_acc{data_buf, h};
 
-// BEGIN CODE SNIP
-      h.parallel_for(nd_range{{size}, {16}}, [=](nd_item<1> item) {
-        auto sg = item.get_sub_group();
-        group_barrier(sg);
-        // ...
-        auto index = item.get_global_id();
-        data_acc[index] = data_acc[index] + 1;
-      });
-// END CODE SNIP
+      // BEGIN CODE SNIP
+      h.parallel_for(
+          nd_range{{size}, {16}}, [=](nd_item<1> item) {
+            auto sg = item.get_sub_group();
+            group_barrier(sg);
+            // ...
+            auto index = item.get_global_id();
+            data_acc[index] = data_acc[index] + 1;
+          });
+      // END CODE SNIP
     });
   }
 

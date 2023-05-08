@@ -39,12 +39,13 @@ double run_sycl(const std::vector<T>& vecA,
       accessor matrixB{bufB, h};
       accessor matrixC{bufC, h};
 
-// BEGIN CODE SNIP
-      // Note: This example assumes that the sub-group size is greater than or
-      // equal to the tile size!
+      // BEGIN CODE SNIP
+      // Note: This example assumes that the sub-group size
+      // is greater than or equal to the tile size!
       constexpr int tile_size = 4;
       h.parallel_for(
-          nd_range<2>{{M, N}, {1, tile_size}}, [=](nd_item<2> item) {
+          nd_range<2>{{M, N}, {1, tile_size}},
+          [=](nd_item<2> item) {
             auto sg = item.get_sub_group();
 
             // Indices in the global index space:
@@ -59,12 +60,14 @@ double run_sycl(const std::vector<T>& vecA,
               // Load the matrix tile from matrix A.
               T tileA = matrixA[m][kk + i];
 
-              // Perform computation by broadcasting from the matrix
-              // tile and loading from matrix B in global memory.  The loop
-              // variable k describes which work-item in the sub-group to
-              // broadcast data from.
+              // Perform computation by broadcasting from
+              // the matrix tile and loading from matrix B
+              // in global memory.  The loop variable k
+              // describes which work-item in the sub-group
+              // to broadcast data from.
               for (int k = 0; k < tile_size; k++) {
-                sum += group_broadcast(sg, tileA, k) * matrixB[kk + k][n];
+                sum += group_broadcast(sg, tileA, k) *
+                       matrixB[kk + k][n];
               }
             }
 
