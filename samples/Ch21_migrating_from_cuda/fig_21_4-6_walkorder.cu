@@ -1,3 +1,7 @@
+// Copyright (C) 2023 Intel Corporation
+
+// SPDX-License-Identifier: MIT
+
 #include <cuda_runtime.h>
 #include <cooperative_groups.h>
 
