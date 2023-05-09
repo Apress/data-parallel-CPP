@@ -23,20 +23,15 @@ add_book_sample(
 
 add_book_sample(
     TEST
-    TARGET fig_19_16_atomic_accessor
-    SOURCES fig_19_16_atomic_accessor.cpp)
+    TARGET fig_19_16_usm_and_atomic_ref
+    SOURCES fig_19_16_usm_and_atomic_ref.cpp)
 
 add_book_sample(
     TEST
-    TARGET fig_19_17_usm_and_atomic_ref
-    SOURCES fig_19_17_usm_and_atomic_ref.cpp)
+    TARGET fig_19_17_histogram
+    SOURCES fig_19_17_histogram.cpp)
 
 add_book_sample(
     TEST
-    TARGET fig_19_18_histogram
-    SOURCES fig_19_18_histogram.cpp)
-
-add_book_sample(
-    TEST
-    TARGET fig_19_19-20_device_latch
-    SOURCES fig_19_19-20_device_latch.cpp)
+    TARGET fig_19_18-19_device_latch
+    SOURCES fig_19_18-19_device_latch.cpp)
