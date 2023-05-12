@@ -4,6 +4,20 @@
 
 cmake_minimum_required(VERSION 3.10 FATAL_ERROR)
 
+# Try to detect the right SYCL compiler if one is not explicitly specified:
+if (NOT CMAKE_CXX_COMPILER)
+    if (WIN32)
+        set(CMAKE_CXX_COMPILER icx)
+    else()
+        find_program(HAS_ICPX "icpx" NO_CACHE)
+        if (HAS_ICPX)
+            set(CMAKE_CXX_COMPILER icpx)
+        else()
+            set(CMAKE_CXX_COMPILER clang++)
+        endif()
+    endif()
+endif()
+
 set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
