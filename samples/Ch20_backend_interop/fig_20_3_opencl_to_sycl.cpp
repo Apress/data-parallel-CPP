@@ -77,8 +77,6 @@ int main(int argc, char* argv[]) {
       openclDevices[openclDeviceIndex];
   cl_context openclContext = clCreateContext(
       nullptr, 1, &openclDevice, nullptr, nullptr, nullptr);
-  cl_command_queue openclQueue = clCreateCommandQueue(
-      openclContext, openclDevice, 0, nullptr);
   cl_mem openclBuffer = clCreateBuffer(
       openclContext, CL_MEM_USE_HOST_PTR,
       size * sizeof(int), data.data(), nullptr);
@@ -106,7 +104,6 @@ int main(int argc, char* argv[]) {
   }
 
   clReleaseContext(openclContext);
-  clReleaseCommandQueue(openclQueue);
   clReleaseMemObject(openclBuffer);
 
   for (int i = 0; i < size; i++) {

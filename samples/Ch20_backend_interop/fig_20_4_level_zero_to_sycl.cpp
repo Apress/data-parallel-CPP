@@ -93,12 +93,6 @@ int main(int argc, char* argv[]) {
   CHECK_CALL(zeMemAllocHost(l0Context, &l0HostAllocDesc,
                             size * sizeof(int), 0, &l0Ptr));
 
-  ze_command_queue_handle_t l0Queue = nullptr;
-  ze_command_queue_desc_t l0QueueDesc = {};
-  l0QueueDesc.stype = ZE_STRUCTURE_TYPE_COMMAND_QUEUE_DESC;
-  CHECK_CALL(zeCommandQueueCreate(l0Context, l0Device,
-                                  &l0QueueDesc, &l0Queue));
-
   std::memcpy(l0Ptr, data.data(), size * sizeof(int));
 
   {
@@ -132,7 +126,6 @@ int main(int argc, char* argv[]) {
 
   std::memcpy(data.data(), l0Ptr, size * sizeof(int));
 
-  CHECK_CALL(zeCommandQueueDestroy(l0Queue));
   CHECK_CALL(zeMemFree(l0Context, l0Ptr));
   CHECK_CALL(zeContextDestroy(l0Context));
 
