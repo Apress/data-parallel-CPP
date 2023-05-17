@@ -92,18 +92,9 @@ int main(int argc, char* argv[]) {
     buffer data_buf =
         make_buffer<backend::opencl, int>(openclBuffer, c);
 
-    // Problem #1:
-    // Queue cannot be constructed with the given context
-    // and device since the device is not a member of the
-    // context (descendants of devices from the context are
-    // not supported on OpenCL yet). -33
-    // (PI_ERROR_INVALID_DEVICE)
-
     // Now use the SYCL objects to create a queue and submit
     // a kernel.
     queue Q{c, d};
-    // queue Q = make_queue<backend::opencl>(openclQueue,
-    // c);
 
     Q.submit([&](handler& h) {
        accessor data_acc{data_buf, h};

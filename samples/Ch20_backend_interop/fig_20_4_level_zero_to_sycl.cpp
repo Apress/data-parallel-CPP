@@ -102,12 +102,6 @@ int main(int argc, char* argv[]) {
   std::memcpy(l0Ptr, data.data(), size * sizeof(int));
 
   {
-    // Problem #1:
-    // Native API failed. Native API returns: -30
-    // (PI_ERROR_INVALID_VALUE) -30 (PI_ERROR_INVALID_VALUE)
-    // This problem can be worked around by enumerating
-    // platforms: platform::get_platforms();
-
     // BEGIN CODE SNIP
     // Create SYCL objects from the native backend objects.
     device d = make_device<backend::ext_oneapi_level_zero>(
@@ -123,18 +117,9 @@ int main(int argc, char* argv[]) {
              ext::oneapi::level_zero::ownership::keep},
             c);
 
-    // Problem #2:
-    // Queue cannot be constructed with the given context
-    // and device since the device is neither a member of
-    // the context nor a descendant of its member. -33
-    // (PI_ERROR_INVALID_DEVICE):
-
     // Now use the SYCL objects to create a queue and submit
     // a kernel.
     queue Q{c, d};
-    // queue Q =
-    // make_queue<backend::ext_oneapi_level_zero>({l0Queue,
-    // d, ext::oneapi::level_zero::ownership::keep}, c);
 
     Q.submit([&](handler& h) {
        accessor data_acc{data_buf, h};
