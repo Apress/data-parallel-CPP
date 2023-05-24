@@ -23,7 +23,7 @@ int main() {
        nd_range<2>{G, L},
        [=](nd_item<2> it) [[sycl::reqd_sub_group_size(w)]] {
          // distribute uniform "i" over the sub-group with
-         // 8-way redundant computation
+         // 16-way redundant computation
          const int i = it.get_global_id(0);
          sub_group sg = it.get_sub_group();
 
