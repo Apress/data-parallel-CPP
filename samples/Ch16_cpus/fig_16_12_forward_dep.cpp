@@ -8,7 +8,7 @@
 using namespace sycl;
 
 int main() {
-  const int n = 16, w = 8;
+  const int n = 16, w = 16;
 
   queue Q;
   range<2> G = {n, w};
@@ -28,7 +28,7 @@ int main() {
          sub_group sg = it.get_sub_group();
 
          for (int j = sg.get_local_id()[0]; j < n; j += w) {
-           // load a[i*n+j+1:8] before updating a[i*n+j:8]
+           // load a[i*n+j+1:16] before updating a[i*n+j:16]
            // to preserve loop-carried forward dependency
            auto va = a[i * n + j + 1];
            group_barrier(sg);
