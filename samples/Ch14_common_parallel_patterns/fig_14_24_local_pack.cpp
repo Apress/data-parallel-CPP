@@ -40,12 +40,11 @@ int main() {
   range<2> local(1, 8);
   Q.parallel_for(
        nd_range<2>(global, local),
-       [=](nd_item<2> it)
-           [[intel::reqd_sub_group_size(8)]] {
+       [=](nd_item<2> it) {
              int i = it.get_global_id(0);
              sub_group sg = it.get_sub_group();
              int sglid = sg.get_local_id()[0];
-             int sgrange = sg.get_max_local_range()[0];
+             int sgrange = sg.get_local_range()[0];
 
              uint32_t k = 0;
              for (int j = sglid; j < N; j += sgrange) {
