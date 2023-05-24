@@ -23,12 +23,12 @@ int main() {
        nd_range<2>{G, L},
        [=](nd_item<2> it) [[sycl::reqd_sub_group_size(w)]] {
          // distribute uniform "i" over the sub-group with
-         // 8-way redundant computation
+         // 16-way redundant computation
          const int i = it.get_global_id(0);
          sub_group sg = it.get_sub_group();
 
          for (int j = sg.get_local_id()[0]; j < n; j += w) {
-           // load a[i*n+j+1:8] before updating a[i*n+j:8]
+           // load a[i*n+j+1:16] before updating a[i*n+j:16]
            // to preserve loop-carried forward dependency
            auto va = a[i * n + j + 1];
            group_barrier(sg);
