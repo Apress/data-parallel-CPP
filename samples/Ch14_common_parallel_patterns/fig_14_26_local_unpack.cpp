@@ -90,7 +90,7 @@ int main() {
   Q.parallel_for(
        nd_range<2>(global, local),
        [=
-  ](nd_item<2> it) [[intel::reqd_sub_group_size(8)]] {
+  ](nd_item<2> it) {
          const uint32_t j = it.get_global_id(0);
          sub_group sg = it.get_sub_group();
 
@@ -101,7 +101,7 @@ int main() {
          // Initially each work-item in the sub-group works
          // on contiguous values
          uint32_t i = iq + sg.get_local_id()[0];
-         iq += sg.get_max_local_range()[0];
+         iq += sg.get_local_range()[0];
 
          // Initialize the iterator variables
          uint32_t count;

@@ -32,7 +32,7 @@ compilation errors due to evolution of the features and extensions.
 ### Prerequisites
 
 1. An installed SYCL toolchain.  See below for details on the tested DPC++ toolchain
-1. CMake 3.10 or newer
+1. CMake 3.10 or newer (Linux) or CMake 3.25 or newer (Windows)
 1. Ninja or Make - to use the build steps described below
 
 To build and use these examples, you will need an installed DPC++ toolchain.  For one such toolchain, please visit:
@@ -43,11 +43,9 @@ Alternatively, much of the toolchain can be built directly from:
 
 https://github.com/intel/llvm
 
-Some of the Chapter 18 examples require an installation of oneDPL, which is available from:
+Some of the samples require other dependencies.  To disable samples requiring these dependencies use the CMake variables described below.
 
-https://github.com/oneapi-src/oneDPL
-
-### Setting up an environment in which to build the samples
+### Setting Up an Environment to Build the Samples
 
 Setup environment variables if using a oneAPI / DPC++ implementation:
 
@@ -68,11 +66,11 @@ source /path/to/inteloneapi/setvars.sh
 > **Note**: 
 > CMake supports different [generators](https://cmake.org/cmake/help/latest/manual/cmake-generators.7.html) to create build files for different build systems.  Some popular generators are `Unix Makefiles` or `Ninja` when building from the command line, and `Visual Studio`-based generators when building from a Windows IDE.  The examples below generate build files for `Unix Makefiles`, but feel free to substitute a different generator, if preferred.
 
-1. Create build files using CMake, specifying the DPC++ toolchain.  For example:
+1. Create build files using CMake.  For example:
 
     ```sh
     mkdir build && cd build
-    cmake -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=../dpcpp_toolchain.cmake ..
+    cmake -G "Unix Makefiles" ..
     ```
 
 2. Build with the generated build files:
@@ -86,6 +84,12 @@ source /path/to/inteloneapi/setvars.sh
     ```sh
     make install -j8
     ```
+
+If your SYCL compiler is not detected automatically, or to explicitly specify a different SYCL compiler, use the `CMAKE_CXX_COMPILER` variable.  For example:
+
+```sh
+cmake -G "Unix Makefiles" -DCMAKE_CXX_COMPILER=/path/to/your/sycl/compiler ..
+```
 
 ## CMake Variables:
 

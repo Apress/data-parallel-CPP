@@ -14,8 +14,8 @@ int main() {
             << Q.get_device().get_info<info::device::name>()
             << "\n";
 
-  int* buffer = malloc_host<int>(1, Q);
-  buffer[0] = 0;
+  int* buffer = malloc_device<int>(1, Q);
+  Q.fill(buffer, 0, 1);
 
   // BEGIN CODE SNIP
   Q.parallel_for(count, [=](auto id) {
@@ -35,11 +35,14 @@ int main() {
      // part of the atomic operation:
      aref.fetch_add(1, memory_order::relaxed,
                     memory_scope::device);
-   }).wait();
+   });
   // END CODE SNIP
 
-  if (buffer[0] != 2 * count) {
-    std::cout << "Found " << buffer[0] << ", wanted "
+  int test = -1;
+  Q.copy(buffer, &test, 1).wait();
+
+  if (test != 2 * count) {
+    std::cout << "Found " << test << ", wanted "
               << 2 * count << ".\n";
   } else {
     std::cout << "Success.\n";
