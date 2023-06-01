@@ -23,7 +23,7 @@ int main() {
   // Will wait for device kernel to execute to generate data
   host_accessor a{b};
   for (int i = 0; i < size; i++)
-    std::cout << "data[" << i << "] = " << A[i] << "\n";
+    std::cout << "data[" << i << "] = " << a[i] << "\n";
 
   return 0;
 }
