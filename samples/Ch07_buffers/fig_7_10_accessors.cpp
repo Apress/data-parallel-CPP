@@ -8,38 +8,38 @@ using namespace sycl;
 constexpr int N = 42;
 
 int main() {
-  queue Q;
+  queue q;
 
   // Create 3 buffers of 42 ints
-  buffer<int> A{range{N}};
-  buffer<int> B{range{N}};
-  buffer<int> C{range{N}};
+  buffer<int> buf_a{range{N}};
+  buffer<int> buf_b{range{N}};
+  buffer<int> buf_c{range{N}};
 
-  accessor pC{C};
+  accessor pc{buf_c};
 
-  Q.submit([&](handler &h) {
-    accessor aA{A, h, write_only, no_init};
-    accessor aB{B, h, write_only, no_init};
-    accessor aC{C, h, write_only, no_init};
+  q.submit([&](handler &h) {
+    accessor a{buf_a, h, write_only, no_init};
+    accessor b{buf_b, h, write_only, no_init};
+    accessor c{buf_c, h, write_only, no_init};
     h.parallel_for(N, [=](id<1> i) {
-      aA[i] = 1;
-      aB[i] = 40;
-      aC[i] = 0;
+      a[i] = 1;
+      b[i] = 40;
+      c[i] = 0;
     });
   });
-  Q.submit([&](handler &h) {
-    accessor aA{A, h, read_only};
-    accessor aB{B, h, read_only};
-    accessor aC{C, h, read_write};
+  q.submit([&](handler &h) {
+    accessor a{buf_a, h, read_only};
+    accessor b{buf_b, h, read_only};
+    accessor c{buf_c, h, read_write};
     h.parallel_for(
-        N, [=](id<1> i) { aC[i] += aA[i] + aB[i]; });
+        N, [=](id<1> i) { c[i] += a[i] + b[i]; });
   });
-  Q.submit([&](handler &h) {
-    h.require(pC);
-    h.parallel_for(N, [=](id<1> i) { pC[i]++; });
+  q.submit([&](handler &h) {
+    h.require(pc);
+    h.parallel_for(N, [=](id<1> i) { pc[i]++; });
   });
 
-  host_accessor result{C, read_only};
+  host_accessor result{buf_c, read_only};
 
   for (int i = 0; i < N; i++) {
     assert(result[i] == N);

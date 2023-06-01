@@ -12,12 +12,12 @@ int generate_random_number(const int& state) {
 
 int main() {
   constexpr int size = 64;
-  queue Q{ext::intel::fpga_emulator_selector_v};
+  queue q{ext::intel::fpga_emulator_selector_v};
 
-  buffer<int> B{range{size}};
+  buffer<int> b{range{size}};
 
-  Q.submit([&](handler& h) {
-    accessor output(B, h);
+  q.submit([&](handler& h) {
+    accessor output(b, h);
 
     h.single_task([=]() {
       // BEGIN CODE SNIP

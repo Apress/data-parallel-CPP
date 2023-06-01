@@ -7,8 +7,8 @@
 using namespace sycl;
 
 int main() {
-  queue MyQ;
-  device dev = MyQ.get_device();
+  queue q;
+  device dev = q.get_device();
 
   std::cout << "We are running on:\n"
             << dev.get_info<info::device::name>() << "\n";

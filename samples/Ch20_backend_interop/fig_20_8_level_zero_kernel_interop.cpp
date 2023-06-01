@@ -80,7 +80,7 @@ int main(int argc, char* argv[]) {
 
   device d = p.get_devices()[deviceIndex];
   context c = context{d};
-  queue Q{c, d};
+  queue q{c, d};
 
   std::cout << "Running on device: "
             << d.get_info<info::device::name>() << "\n";
@@ -139,7 +139,7 @@ int main(int argc, char* argv[]) {
         {skb, l0Kernel}, c);
 
     // Use the Level Zero kernel with a SYCL queue:
-    Q.submit([&](handler& h) {
+    q.submit([&](handler& h) {
       accessor data_acc{data_buf, h};
 
       h.set_args(data_acc);

@@ -13,7 +13,7 @@
 using namespace sycl;
 
 int main() {
-  queue Q;
+  queue q;
 
   // Set parameters to control neighborhood size
   const float CUTOFF = 3.0f;
@@ -22,10 +22,10 @@ int main() {
   // Initialize input and output on the host
   const uint32_t Nx = 8, Ny = 8, Nz = 8;
   const uint32_t N = Nx * Ny * Nz;
-  float3* position = malloc_shared<float3>(N, Q);
-  uint32_t* num_neighbors = malloc_shared<uint32_t>(N, Q);
+  float3* position = malloc_shared<float3>(N, q);
+  uint32_t* num_neighbors = malloc_shared<uint32_t>(N, q);
   uint32_t* neighbors =
-      malloc_shared<uint32_t>(N * MAX_K, Q);
+      malloc_shared<uint32_t>(N * MAX_K, q);
   for (uint32_t x = 0; x < Nx; ++x) {
     for (uint32_t y = 0; y < Ny; ++y) {
       for (uint32_t z = 0; z < Nz; ++z) {
@@ -38,7 +38,7 @@ int main() {
 
   range<2> global(N, 8);
   range<2> local(1, 8);
-  Q.parallel_for(
+  q.parallel_for(
        nd_range<2>(global, local),
        [=](nd_item<2> it) {
              int i = it.get_global_id(0);
@@ -87,8 +87,8 @@ int main() {
     }
   }
   std::cout << ((passed) ? "SUCCESS" : "FAILURE") << "\n";
-  free(neighbors, Q);
-  free(num_neighbors, Q);
-  free(position, Q);
+  free(neighbors, q);
+  free(num_neighbors, q);
+  free(position, q);
   return (passed) ? 0 : 1;
 }

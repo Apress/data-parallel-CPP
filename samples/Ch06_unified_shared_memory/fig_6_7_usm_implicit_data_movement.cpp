@@ -7,21 +7,21 @@ using namespace sycl;
 constexpr int N = 42;
 
 int main() {
-  queue Q;
+  queue q;
 
-  int* host_array = malloc_host<int>(N, Q);
-  int* shared_array = malloc_shared<int>(N, Q);
+  int* host_array = malloc_host<int>(N, q);
+  int* shared_array = malloc_shared<int>(N, q);
   for (int i = 0; i < N; i++) host_array[i] = i;
 
-  Q.submit([&](handler& h) {
+  q.submit([&](handler& h) {
     h.parallel_for(N, [=](id<1> i) {
-      // access sharedArray and hostArray on device
+      // access shared_array and host_array on device
       shared_array[i] = host_array[i] + 1;
     });
   });
-  Q.wait();
+  q.wait();
 
-  free(shared_array, Q);
-  free(host_array, Q);
+  free(shared_array, q);
+  free(host_array, q);
   return 0;
 }

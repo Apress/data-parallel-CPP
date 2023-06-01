@@ -9,13 +9,13 @@ using namespace sycl;
 namespace stdex = std::experimental;
 
 int main() {
-  queue Q;
+  queue q;
   constexpr int N = 4;
   constexpr int M = 2;
-  int* data = malloc_shared<int>(N * M, Q);
+  int* data = malloc_shared<int>(N * M, q);
 
   stdex::mdspan<int, N, M> view{data};
-  Q.parallel_for(range<2>{N, M}, [=](id<2> idx) {
+  q.parallel_for(range<2>{N, M}, [=](id<2> idx) {
      int i = idx[0];
      int j = idx[1];
      view(i, j) = i * M + j;
@@ -31,6 +31,6 @@ int main() {
   }
   std::cout << ((passed) ? "SUCCESS" : "FAILURE") << "\n";
 
-  free(data, Q);
+  free(data, q);
   return (passed) ? 0 : 1;
 }

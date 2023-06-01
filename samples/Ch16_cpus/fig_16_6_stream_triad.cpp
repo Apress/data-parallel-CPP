@@ -22,9 +22,9 @@ double triad(const std::vector<float>& vecA,
   const size_t array_size = vecA.size();
   double min_time_ns = DBL_MAX;
 
-  queue Q{property::queue::enable_profiling{}};
+  queue q{property::queue::enable_profiling{}};
   std::cout << "Running on device: "
-            << Q.get_device().get_info<info::device::name>()
+            << q.get_device().get_info<info::device::name>()
             << "\n";
 
   buffer<float> bufA(vecA);
@@ -32,7 +32,7 @@ double triad(const std::vector<float>& vecA,
   buffer<float> bufC(vecC);
 
   for (int i = 0; i < num_runs; i++) {
-    auto Q_event = Q.submit([&](handler& h) {
+    auto Q_event = q.submit([&](handler& h) {
       accessor A{bufA, h};
       accessor B{bufB, h};
       accessor C{bufC, h};

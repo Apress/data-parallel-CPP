@@ -21,12 +21,12 @@ int main() {
   }  // End scope of host_A so that upcoming kernel can
      // operate on buf
 
-  queue Q;
-  Q.submit([&](handler &h) {
-    accessor A{buf, h};
+  queue q;
+  q.submit([&](handler &h) {
+    accessor a{buf, h};
     h.single_task([=]() {
       // Call std::swap!
-      std::swap(A[0], A[1]);
+      std::swap(a[0], a[1]);
     });
   });
 

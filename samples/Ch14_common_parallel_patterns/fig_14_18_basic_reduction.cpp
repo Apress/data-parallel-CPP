@@ -11,13 +11,13 @@ using namespace sycl;
 int main() {
   constexpr size_t N = 16;
 
-  queue Q;
-  int* data = malloc_shared<int>(N, Q);
-  int* sum = malloc_shared<int>(1, Q);
+  queue q;
+  int* data = malloc_shared<int>(N, q);
+  int* sum = malloc_shared<int>(1, q);
   std::iota(data, data + N, 1);
   *sum = 0;
 
-  Q.parallel_for(N, [=](id<1> i) {
+  q.parallel_for(N, [=](id<1> i) {
      atomic_ref<int, memory_order::relaxed,
                 memory_scope::system,
                 access::address_space::global_space>(
@@ -28,7 +28,7 @@ int main() {
   bool passed = (*sum == ((N * (N + 1)) / 2));
   std::cout << ((passed) ? "SUCCESS" : "FAILURE") << "\n";
 
-  free(sum, Q);
-  free(data, Q);
+  free(sum, q);
+  free(data, q);
   return (passed) ? 0 : 1;
 }

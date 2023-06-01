@@ -12,12 +12,12 @@ int main() {
   std::array<int, size> data;
 
   // Create queue on implementation-chosen default device
-  queue Q;
+  queue q;
 
   // Create buffer using host allocated "data" array
   buffer B{data};
 
-  Q.submit([&](handler& h) {
+  q.submit([&](handler& h) {
     accessor A{B, h};
     h.parallel_for(size, [=](auto& idx) { A[idx] = idx; });
   });

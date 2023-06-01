@@ -3,7 +3,7 @@
 using namespace sycl;
 
 int main() {
-  queue MyQ;
+  queue q;
 
   constexpr int size = 16;
   std::array<double, size> data;
@@ -12,9 +12,9 @@ int main() {
   // affect the device we select. Therefore, our host code
   // should check the device's aspects before submitting a
   // kernel which does require that attribute.
-  if (MyQ.get_device().has(aspect::fp64)) {
+  if (q.get_device().has(aspect::fp64)) {
     buffer B{data};
-    MyQ.submit([&](handler& h) {
+    q.submit([&](handler& h) {
       accessor A{B, h};
       // the attributes here say that the kernel is allowed
       // to require fp64 support any attribute(s) from
@@ -35,7 +35,7 @@ int main() {
     std::array<float, size> fdata;
     {
       buffer B{fdata};
-      MyQ.submit([&](handler& h) {
+      q.submit([&](handler& h) {
         accessor A{B, h};
         h.parallel_for(
             size, [=](auto& idx) { A[idx] = idx * 2.0f; });

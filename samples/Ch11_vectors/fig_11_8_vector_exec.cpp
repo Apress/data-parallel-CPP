@@ -20,8 +20,8 @@ int main() {
   buffer fpBuf(fpData);
   buffer fp4Buf(fp4Data);
 
-  queue Q;
-  Q.submit([&](handler& h) {
+  queue q;
+  q.submit([&](handler& h) {
     accessor a{fpBuf, h};
     accessor b{fp4Buf, h};
 
@@ -34,10 +34,10 @@ int main() {
     // END CODE SNIP
   });
 
-  host_accessor A(fpBuf);
+  host_accessor a(fpBuf);
   for (int i = 0; i < size; i++) {
     float b = 4 * i;
-    if (1 < A[i] - (i + std::sqrt(std::pow(b, 2) +
+    if (1 < a[i] - (i + std::sqrt(std::pow(b, 2) +
                                   std::pow(b + 1, 2) +
                                   std::pow(b + 2, 2) +
                                   std::pow(b + 3, 2)))) {

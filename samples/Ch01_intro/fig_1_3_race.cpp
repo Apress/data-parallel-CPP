@@ -13,20 +13,20 @@ const std::string secret{
 const auto sz = secret.size();
 
 int main() {
-  queue Q;
+  queue q;
 
-  char* result = malloc_shared<char>(sz, Q);
+  char* result = malloc_shared<char>(sz, q);
 
   // Introduce potential data race!  We don't define a
   // dependence to ensure correct ordering with later
   // operations.
-  Q.memcpy(result, secret.data(), sz);
+  q.memcpy(result, secret.data(), sz);
 
-  Q.parallel_for(sz, [=](auto& i) {
+  q.parallel_for(sz, [=](auto& i) {
      result[i] -= 1;
    }).wait();
 
   std::cout << result << "\n";
-  free(result, Q);
+  free(result, q);
   return 0;
 }

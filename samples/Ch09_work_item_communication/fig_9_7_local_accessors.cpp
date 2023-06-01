@@ -16,13 +16,13 @@ int main() {
   {
     buffer dataBuf{data};
 
-    queue Q{default_selector_v};
+    queue q{default_selector_v};
     std::cout
         << "Running on device: "
-        << Q.get_device().get_info<info::device::name>()
+        << q.get_device().get_info<info::device::name>()
         << "\n";
 
-    Q.submit([&](handler& h) {
+    q.submit([&](handler& h) {
       // BEGIN CODE SNIP
       // This is a typical global accessor.
       accessor dataAcc{dataBuf, h};

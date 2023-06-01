@@ -9,12 +9,12 @@
 using namespace sycl;
 
 int main() {
-  queue Q;
+  queue q;
 
   const uint32_t N = 32;
   const uint32_t M = 4;
 
-  int* data = malloc_shared<int>(N, Q);
+  int* data = malloc_shared<int>(N, q);
   std::fill(data, data + N, 0);
 
   // Launch exactly one work-group
@@ -22,7 +22,7 @@ int main() {
   range<1> global{N};
   range<1> local{N};
 
-  Q.parallel_for(nd_range<1>{global, local},
+  q.parallel_for(nd_range<1>{global, local},
                  [=](nd_item<1> it) {
                    int i = it.get_global_id(0);
                    int j = i % M;
@@ -55,6 +55,6 @@ int main() {
   }
   std::cout << ((passed) ? "SUCCESS\n" : "FAILURE\n");
   free(gold);
-  free(data, Q);
+  free(data, q);
   return (passed) ? 0 : 1;
 }

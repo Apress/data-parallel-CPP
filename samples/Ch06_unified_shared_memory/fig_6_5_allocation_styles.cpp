@@ -7,24 +7,24 @@ using namespace sycl;
 constexpr int N = 42;
 
 int main() {
-  queue Q;
+  queue q;
 
   // Allocate N floats
 
   // C-style
   float *f1 = static_cast<float *>(
-      malloc_shared(N * sizeof(float), Q));
+      malloc_shared(N * sizeof(float), q));
 
   // C++-style
-  float *f2 = malloc_shared<float>(N, Q);
+  float *f2 = malloc_shared<float>(N, q);
 
   // C++-allocator-style
-  usm_allocator<float, usm::alloc::shared> alloc(Q);
+  usm_allocator<float, usm::alloc::shared> alloc(q);
   float *f3 = alloc.allocate(N);
 
   // Free our allocations
-  free(f1, Q.get_context());
-  free(f2, Q);
+  free(f1, q.get_context());
+  free(f2, q);
   alloc.deallocate(f3, N);
 
   return 0;

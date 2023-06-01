@@ -26,15 +26,15 @@ double run_sycl(const std::vector<T>& vecA,
   buffer<T, 2> bufB{vecB.data(), range<2>{K, N}};
   buffer<T, 2> bufC{vecC.data(), range<2>{M, N}};
 
-  queue Q;
+  queue q;
   std::cout << "Running on device: "
-            << Q.get_device().get_info<info::device::name>()
+            << q.get_device().get_info<info::device::name>()
             << "\n";
 
   for (int i = 0; i < iterations; ++i) {
     auto start = std::chrono::steady_clock::now();
 
-    Q.submit([&](handler& h) {
+    q.submit([&](handler& h) {
       accessor matrixA{bufA, h};
       accessor matrixB{bufB, h};
       accessor matrixC{bufC, h};
@@ -76,7 +76,7 @@ double run_sycl(const std::vector<T>& vecA,
           });
       // END CODE SNIP
     });
-    Q.wait();
+    q.wait();
 
     auto duration =
         std::chrono::steady_clock::now() - start;

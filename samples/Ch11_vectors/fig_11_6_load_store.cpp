@@ -18,8 +18,8 @@ int main() {
 
   buffer fpBuf(fpData);
 
-  queue Q;
-  Q.submit([&](handler& h) {
+  queue q;
+  q.submit([&](handler& h) {
     accessor buf{fpBuf, h};
 
     h.parallel_for(workers, [=](id<1> idx) {

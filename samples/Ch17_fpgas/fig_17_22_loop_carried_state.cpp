@@ -14,12 +14,12 @@ int main() {
   constexpr int size = 64;
   constexpr int seed = 0;
 
-  queue Q{ext::intel::fpga_emulator_selector_v};
+  queue q{ext::intel::fpga_emulator_selector_v};
 
-  buffer<int> B{range{size}};
+  buffer<int> b{range{size}};
 
-  Q.submit([&](handler& h) {
-    accessor output(B, h);
+  q.submit([&](handler& h) {
+    accessor output(b, h);
 
     // BEGIN CODE SNIP
     h.single_task([=]() {

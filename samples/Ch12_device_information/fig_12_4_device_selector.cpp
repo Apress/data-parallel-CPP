@@ -28,10 +28,10 @@ int my_selector(const device& dev) {
 
 int main() {
   try {
-    auto MyQ = queue{my_selector};
+    auto q = queue{my_selector};
     std::cout
         << "After checking for a GPU, we are running on:\n "
-        << MyQ.get_device().get_info<info::device::name>()
+        << q.get_device().get_info<info::device::name>()
         << "\n";
   } catch (exception const& ex) {
     std::cout << "Custom device selector did not select a "

@@ -7,8 +7,8 @@
 using namespace sycl;
 
 int main() {
-  queue Q;
-  Q.submit([&](handler &h) {
+  queue q;
+  q.submit([&](handler &h) {
     stream out(1024, 256, h);
     h.parallel_for(range{8}, [=](id<1> idx) {
       out << "Testing my sycl stream (this is work-item ID:"
@@ -20,7 +20,7 @@ int main() {
   // complete before the device code stream out is executed.
   // This ensures that the example actually displays the
   // output text.
-  Q.wait();
+  q.wait();
 
   return 0;
 }

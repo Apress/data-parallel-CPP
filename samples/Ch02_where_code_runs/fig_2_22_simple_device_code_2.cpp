@@ -12,13 +12,13 @@ int main() {
   std::array<int, size> data;
   buffer B{data};
 
-  queue Q{};  // Select any device for this queue
+  queue q{};  // Select any device for this queue
 
   std::cout << "Selected device is: "
-            << Q.get_device().get_info<info::device::name>()
+            << q.get_device().get_info<info::device::name>()
             << "\n";
 
-  Q.submit([&](handler& h) {
+  q.submit([&](handler& h) {
     accessor acc{B, h};
     h.parallel_for(size,
                    [=](auto& idx) { acc[idx] = idx; });

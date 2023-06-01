@@ -25,10 +25,10 @@ void say_device(const queue &Q) {
 class something_went_wrong {};  // Example exception type
 
 int main() {
-  queue Q{cpu_selector_v, handle_async_error};
-  say_device(Q);
+  queue q{cpu_selector_v, handle_async_error};
+  say_device(q);
 
-  Q.submit([&](handler &h) {
+  q.submit([&](handler &h) {
      h.host_task([]() { throw(something_went_wrong{}); });
    }).wait();
 

@@ -7,23 +7,23 @@
 #include <sycl/sycl.hpp>
 
 int main() {
-  sycl::queue Q;
+  sycl::queue q;
   const int n = 10;
-  int* h_head = sycl::malloc_host<int>(n, Q);
-  int* d_head = sycl::malloc_device<int>(n, Q);
-  std::fill(oneapi::dpl::execution::make_device_policy(Q),
+  int* h_head = sycl::malloc_host<int>(n, q);
+  int* d_head = sycl::malloc_device<int>(n, q);
+  std::fill(oneapi::dpl::execution::make_device_policy(q),
             d_head, d_head + n, 78);
-  Q.wait();
+  q.wait();
 
-  Q.memcpy(h_head, d_head, n * sizeof(int));
-  Q.wait();
+  q.memcpy(h_head, d_head, n * sizeof(int));
+  q.wait();
 
   if (h_head[8] == 78)
     std::cout << "passed" << std::endl;
   else
     std::cout << "failed" << std::endl;
 
-  sycl::free(h_head, Q);
-  sycl::free(d_head, Q);
+  sycl::free(h_head, q);
+  sycl::free(d_head, q);
   return 0;
 }

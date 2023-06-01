@@ -16,11 +16,11 @@ int main() {
     input[i] = float4(8.0f, 6.0f, 2.0f, i);
   }
 
-  buffer B(input);
+  buffer b(input);
 
-  queue Q;
-  Q.submit([&](handler& h) {
-    accessor A{B, h};
+  queue q;
+  q.submit([&](handler& h) {
+    accessor a{b, h};
 
     //  We can access the individual elements of a vector by
     //  using the functions x(), y(), z(), w() and so on.
@@ -31,18 +31,17 @@ int main() {
     //  The swizzle need not be the same size as the
     //  original vector
     h.parallel_for(size, [=](id<1> idx) {
-      auto b = A[idx];
-      float w = b.w();
-      float4 sw = b.xyzw();
-      sw = b.xyzw() * sw.wzyx();
-      ;
+      auto e = a[idx];
+      float w = e.w();
+      float4 sw = e.xyzw();
+      sw = e.xyzw() * sw.wzyx();
       sw = sw + w;
-      A[idx] = sw.xyzw();
+      a[idx] = sw.xyzw();
     });
   });
   // END CODE SNIP
 
-  host_accessor hostAcc(B);
+  host_accessor hostAcc(b);
 
   for (int i = 0; i < size; i++) {
     if (hostAcc[i].y() != 12.0f + i) {

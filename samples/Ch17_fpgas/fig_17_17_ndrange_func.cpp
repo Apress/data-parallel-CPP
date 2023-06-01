@@ -11,11 +11,11 @@ int generate_random_number_from_ID(const id<3>& I) {
 };
 
 int main() {
-  queue Q{ext::intel::fpga_emulator_selector_v};
+  queue q{ext::intel::fpga_emulator_selector_v};
 
   buffer<int, 3> B{range{16, 16, 16}};
 
-  Q.submit([&](handler& h) {
+  q.submit([&](handler& h) {
     accessor output(B, h);
     // BEGIN CODE SNIP
     h.parallel_for({16, 16, 16}, [=](auto I) {

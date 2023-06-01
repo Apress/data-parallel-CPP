@@ -18,20 +18,20 @@ int main() {
   {
     buffer data_buf{data};
 
-    queue Q;
+    queue q;
     std::cout
         << "Running on device: "
-        << Q.get_device().get_info<info::device::name>()
+        << q.get_device().get_info<info::device::name>()
         << "\n";
 
     // BEGIN CODE SNIP
     auto kb = get_kernel_bundle<bundle_state::executable>(
-        Q.get_context());
+        q.get_context());
 
     std::cout
         << "All kernel compilation should be done now.\n";
 
-    Q.submit([&](handler& h) {
+    q.submit([&](handler& h) {
       // Use the pre-compiled kernel from the kernel bundle.
       h.use_kernel_bundle(kb);
 

@@ -13,14 +13,14 @@
 #include <sycl/sycl.hpp>
 
 int main() {
-  sycl::queue Q;
+  sycl::queue q;
   sycl::buffer<int> buf{1000};
 
   auto buf_begin = oneapi::dpl::begin(buf);
   auto buf_end = oneapi::dpl::end(buf);
 
   auto policy = oneapi::dpl::execution::make_device_policy<
-      class fill>(Q);
+      class fill>(q);
   std::fill(policy, buf_begin, buf_end, 42);
 
   return 0;

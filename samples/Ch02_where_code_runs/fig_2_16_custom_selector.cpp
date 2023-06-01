@@ -21,10 +21,10 @@ int my_selector(const device &dev) {
 // END CODE SNIP
 
 int main() {
-  queue Q(my_selector);
+  queue q(my_selector);
 
   std::cout << "Selected device is: "
-            << Q.get_device().get_info<info::device::name>()
+            << q.get_device().get_info<info::device::name>()
             << "\n";
 
   return 0;

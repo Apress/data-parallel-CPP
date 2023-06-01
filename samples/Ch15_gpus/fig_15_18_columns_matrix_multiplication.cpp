@@ -26,15 +26,15 @@ double run_sycl(const std::vector<T>& vecA,
   buffer<T> bufB{vecB};  // K * N elements
   buffer<T> bufC{vecC};  // M * N elements
 
-  queue Q;  // Choose any available device
+  queue q;  // Choose any available device
   std::cout << "Running on device: "
-            << Q.get_device().get_info<info::device::name>()
+            << q.get_device().get_info<info::device::name>()
             << "\n";
 
   for (int i = 0; i < iterations; ++i) {
     auto start = std::chrono::steady_clock::now();
 
-    Q.submit([&](handler& h) {
+    q.submit([&](handler& h) {
       accessor matrixA{bufA, h};
       accessor matrixB{bufB, h};
       accessor matrixC{bufC, h};
@@ -54,7 +54,7 @@ double run_sycl(const std::vector<T>& vecA,
       });
     });
 
-    Q.wait();  // So that we know the kernel has finished
+    q.wait();  // So that we know the kernel has finished
                // before checking time
     auto duration =
         std::chrono::steady_clock::now() - start;

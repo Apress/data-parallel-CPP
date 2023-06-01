@@ -12,13 +12,13 @@ int main() {
   constexpr size_t N = 16;
   constexpr size_t B = 4;
 
-  queue Q;
-  int* data = malloc_shared<int>(N, Q);
-  int* histogram = malloc_shared<int>(B, Q);
+  queue q;
+  int* data = malloc_shared<int>(N, q);
+  int* histogram = malloc_shared<int>(B, q);
   std::iota(data, data + N, 1);
   std::fill(histogram, histogram + B, 0);
 
-  Q.submit([&](handler& h) {
+  q.submit([&](handler& h) {
      // BEGIN CODE SNIP
      h.parallel_for(
          range{N},
@@ -38,7 +38,7 @@ int main() {
   }
   std::cout << ((passed) ? "SUCCESS" : "FAILURE") << "\n";
 
-  free(histogram, Q);
-  free(data, Q);
+  free(histogram, q);
+  free(data, q);
   return (passed) ? 0 : 1;
 }

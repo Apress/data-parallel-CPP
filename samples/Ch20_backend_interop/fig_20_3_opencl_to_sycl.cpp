@@ -92,9 +92,9 @@ int main(int argc, char* argv[]) {
 
     // Now use the SYCL objects to create a queue and submit
     // a kernel.
-    queue Q{c, d};
+    queue q{c, d};
 
-    Q.submit([&](handler& h) {
+    q.submit([&](handler& h) {
        accessor data_acc{data_buf, h};
        h.parallel_for(size, [=](id<1> i) {
          data_acc[i] = data_acc[i] + 1;
