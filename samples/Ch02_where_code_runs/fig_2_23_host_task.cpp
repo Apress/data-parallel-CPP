@@ -16,7 +16,7 @@ int main() {
             << Q.get_device().get_info<info::device::name>()
             << "\n";
 
-  // Initialize values in the buffer
+  // Initialize values in the shared allocation
   auto eA = Q.submit([&](handler& h) {
     h.parallel_for(N, [=](auto& idx) { A[idx] = idx; });
   });
