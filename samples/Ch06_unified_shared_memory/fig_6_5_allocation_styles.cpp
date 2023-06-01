@@ -13,7 +13,7 @@ int main() {
 
   // C-style
   float *f1 = static_cast<float *>(
-      malloc_shared(N * sizeof(float), q));
+      malloc_shared(N * sizeof(float), q.get_device(), q.get_context()));
 
   // C++-style
   float *f2 = malloc_shared<float>(N, q);
