@@ -27,7 +27,7 @@ int main() {
   // task is defined as a lambda expression.
   Q.submit([&](handler& h) {
     h.depends_on(eA);
-    h.host_task([&]() {
+    h.host_task([=]() {
       for (int i = 0; i < N; i++)
         std::cout << "host_task @ " << i << " = " << A[i]
                   << "\n";
