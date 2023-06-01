@@ -29,7 +29,7 @@ int main() {
     // BEGIN CODE SNIP
     auto kid = get_kernel_id<class Add>();
     auto kb = get_kernel_bundle<bundle_state::executable>(
-        q.get_context(), {Q.get_device()}, {kid});
+        q.get_context(), {q.get_device()}, {kid});
 
     std::cout << "Kernel compilation should be done now.\n";
 
