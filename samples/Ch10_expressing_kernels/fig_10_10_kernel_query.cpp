@@ -20,16 +20,16 @@ int main() {
   {
     buffer data_buf{data};
 
-    queue Q;
+    queue q;
     std::cout
         << "Running on device: "
-        << Q.get_device().get_info<info::device::name>()
+        << q.get_device().get_info<info::device::name>()
         << "\n";
 
     // BEGIN CODE SNIP
     auto kid = get_kernel_id<class Add>();
     auto kb = get_kernel_bundle<bundle_state::executable>(
-        Q.get_context(), {Q.get_device()}, {kid});
+        q.get_context(), {q.get_device()}, {kid});
     auto kernel = kb.get_kernel(kid);
 
     std::cout
@@ -37,7 +37,7 @@ int main() {
            "this device is: "
         << kernel.get_info<info::kernel_device_specific::
                                work_group_size>(
-               Q.get_device())
+               q.get_device())
         << "\n";
 
     std::cout
@@ -46,11 +46,11 @@ int main() {
         << kernel.get_info<
                info::kernel_device_specific::
                    preferred_work_group_size_multiple>(
-               Q.get_device())
+               q.get_device())
         << "\n";
     // END CODE SNIP
 
-    Q.submit([&](handler& h) {
+    q.submit([&](handler& h) {
       accessor data_acc{data_buf, h};
       h.parallel_for<class Add>(range{size}, [=](id<1> i) {
         data_acc[i] = data_acc[i] + 1;

@@ -20,20 +20,20 @@ int main() {
   {
     buffer data_buf{data};
 
-    queue Q;
+    queue q;
     std::cout
         << "Running on device: "
-        << Q.get_device().get_info<info::device::name>()
+        << q.get_device().get_info<info::device::name>()
         << "\n";
 
     // BEGIN CODE SNIP
     auto kid = get_kernel_id<class Add>();
     auto kb = get_kernel_bundle<bundle_state::executable>(
-        Q.get_context(), {Q.get_device()}, {kid});
+        q.get_context(), {q.get_device()}, {kid});
 
     std::cout << "Kernel compilation should be done now.\n";
 
-    Q.submit([&](handler& h) {
+    q.submit([&](handler& h) {
       // Use the pre-compiled kernel from the kernel bundle.
       h.use_kernel_bundle(kb);
 

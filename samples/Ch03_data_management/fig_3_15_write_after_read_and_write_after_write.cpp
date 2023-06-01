@@ -13,35 +13,35 @@ int main() {
     a[i] = b[i] = 0;
   }
 
-  queue Q;
-  buffer A{a};
-  buffer B{b};
+  queue q;
+  buffer a_buf{a};
+  buffer b_buf{b};
 
-  Q.submit([&](handler &h) {
-    accessor accA(A, h, read_only);
-    accessor accB(B, h, write_only);
+  q.submit([&](handler &h) {
+    accessor a(a_buf, h, read_only);
+    accessor b(b_buf, h, write_only);
     h.parallel_for(  // computeB
-        N, [=](id<1> i) { accB[i] = accA[i] + 1; });
+        N, [=](id<1> i) { b[i] = a[i] + 1; });
   });
 
-  Q.submit([&](handler &h) {
+  q.submit([&](handler &h) {
     // WAR of buffer A
-    accessor accA(A, h, write_only);
+    accessor a(a_buf, h, write_only);
     h.parallel_for(  // rewriteA
-        N, [=](id<1> i) { accA[i] = 21 + 21; });
+        N, [=](id<1> i) { a[i] = 21 + 21; });
   });
 
-  Q.submit([&](handler &h) {
+  q.submit([&](handler &h) {
     // WAW of buffer B
-    accessor accB(B, h, write_only);
+    accessor b(b_buf, h, write_only);
     h.parallel_for(  // rewriteB
-        N, [=](id<1> i) { accB[i] = 30 + 12; });
+        N, [=](id<1> i) { b[i] = 30 + 12; });
   });
 
-  host_accessor host_accA(A, read_only);
-  host_accessor host_accB(B, read_only);
+  host_accessor host_acc_a(a_buf, read_only);
+  host_accessor host_acc_b(b_buf, read_only);
   for (int i = 0; i < N; i++) {
-    std::cout << host_accA[i] << " " << host_accB[i] << " ";
+    std::cout << host_acc_a[i] << " " << host_acc_b[i] << " ";
   }
   std::cout << "\n";
   return 0;

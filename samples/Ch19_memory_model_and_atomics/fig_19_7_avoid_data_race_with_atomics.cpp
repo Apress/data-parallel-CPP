@@ -9,15 +9,15 @@
 using namespace sycl;
 
 int main() {
-  queue Q;
+  queue q;
 
   const size_t N = 32;
   const size_t M = 4;
 
-  int* data = malloc_shared<int>(N, Q);
+  int* data = malloc_shared<int>(N, q);
   std::fill(data, data + N, 0);
 
-  Q.parallel_for(N, [=](id<1> i) {
+  q.parallel_for(N, [=](id<1> i) {
      int j = i % M;
      atomic_ref<int, memory_order::relaxed,
                 memory_scope::system,
@@ -43,6 +43,6 @@ int main() {
   }
   std::cout << ((passed) ? "SUCCESS\n" : "FAILURE\n");
   free(gold);
-  free(data, Q);
+  free(data, q);
   return (passed) ? 0 : 1;
 }

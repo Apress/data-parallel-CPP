@@ -10,25 +10,25 @@ using namespace sycl;
 
 int main() {
   constexpr int size = 9;
-  std::array<float, size> A;
-  std::array<float, size> B;
+  std::array<float, size> a;
+  std::array<float, size> b;
 
   bool pass = true;
 
   for (int i = 0; i < size; ++i) {
-    A[i] = i;
-    B[i] = i;
+    a[i] = i;
+    b[i] = i;
   }
 
-  queue Q;
+  queue q;
 
   range sz{size};
 
-  buffer<float> bufA(A);
-  buffer<float> bufB(B);
+  buffer<float> bufA(a);
+  buffer<float> bufB(b);
   buffer<bool> bufP(&pass, 1);
 
-  Q.submit([&](handler &h) {
+  q.submit([&](handler &h) {
     accessor accA{bufA, h};
     accessor accB{bufB, h};
     accessor accP{bufP, h};

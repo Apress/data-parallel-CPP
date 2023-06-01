@@ -7,7 +7,7 @@
 using namespace sycl;
 
 int main() {
-  queue Q;
+  queue q;
   int my_ints[42];
 
   // Create a buffer of 42 ints
@@ -37,7 +37,7 @@ int main() {
   buffer b3{
       my_ints,
       range(42),
-      {property::buffer::context_bound{Q.get_context()}}};
+      {property::buffer::context_bound{q.get_context()}}};
 
   return 0;
 }

@@ -21,25 +21,25 @@ auto handle_async_error = [](exception_list elist) {
 
 // END CODE SNIP
 
-void say_device(const queue& Q) {
+void say_device(const queue& q) {
   std::cout << "Device : "
-            << Q.get_device().get_info<info::device::name>()
+            << q.get_device().get_info<info::device::name>()
             << "\n";
 }
 
 int main() {
-  queue Q1{gpu_selector_v, handle_async_error};
-  queue Q2{cpu_selector_v, handle_async_error};
-  say_device(Q1);
-  say_device(Q2);
+  queue q1{gpu_selector_v, handle_async_error};
+  queue q2{cpu_selector_v, handle_async_error};
+  say_device(q1);
+  say_device(q2);
 
   try {
-    Q1.submit(
+    q1.submit(
         [&](handler& h) {
           // Empty command group is illegal and generates an
           // error
         },
-        Q2);  // Secondary/backup queue!
+        q2);  // Secondary/backup queue!
   } catch (...) {
   }  // Discard regular C++ exceptions for this example
   return 0;

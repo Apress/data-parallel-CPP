@@ -9,16 +9,16 @@ using namespace sycl;
 constexpr int count = 1024 * 1024;
 
 int main() {
-  queue Q{property::queue::in_order()};
+  queue q{property::queue::in_order()};
   std::cout << "Running on device: "
-            << Q.get_device().get_info<info::device::name>()
+            << q.get_device().get_info<info::device::name>()
             << "\n";
 
-  int* buffer = malloc_device<int>(1, Q);
-  Q.fill(buffer, 0, 1);
+  int* buffer = malloc_device<int>(1, q);
+  q.fill(buffer, 0, 1);
 
   // BEGIN CODE SNIP
-  Q.parallel_for(count, [=](auto id) {
+  q.parallel_for(count, [=](auto id) {
      // The SYCL atomic_ref must specify the default order
      // and default scope as part of the atomic_ref type. To
      // match the behavior of the CUDA atomicAdd we want a
@@ -39,7 +39,7 @@ int main() {
   // END CODE SNIP
 
   int test = -1;
-  Q.copy(buffer, &test, 1).wait();
+  q.copy(buffer, &test, 1).wait();
 
   if (test != 2 * count) {
     std::cout << "Found " << test << ", wanted "
@@ -48,6 +48,6 @@ int main() {
     std::cout << "Success.\n";
   }
 
-  free(buffer, Q);
+  free(buffer, q);
   return 0;
 }

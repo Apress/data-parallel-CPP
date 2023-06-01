@@ -13,7 +13,7 @@
 using namespace sycl;
 
 int main() {
-  queue Q;
+  queue q;
 
   const size_t N = 16;
   const size_t M = 16;
@@ -28,7 +28,7 @@ int main() {
     buffer<float, 2> input_buf(input.data(), alloc_range);
     buffer<float, 2> output_buf(output.data(), alloc_range);
 
-    Q.submit([&](handler& h) {
+    q.submit([&](handler& h) {
       accessor input{input_buf, h};
       accessor output{output_buf, h};
 

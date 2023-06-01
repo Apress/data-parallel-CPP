@@ -20,10 +20,10 @@ using minloc = minimum<std::pair<T, I>>;
 int main() {
   constexpr size_t N = 16;
 
-  queue Q;
-  float* data = malloc_shared<float>(N, Q);
+  queue q;
+  float* data = malloc_shared<float>(N, q);
   std::pair<float, int>* res =
-      malloc_shared<std::pair<float, int>>(1, Q);
+      malloc_shared<std::pair<float, int>>(1, q);
   std::generate(data, data + N, std::mt19937{});
 
   std::pair<float, int> identity = {
@@ -34,7 +34,7 @@ int main() {
   auto red =
       sycl::reduction(res, identity, minloc<float, int>());
 
-  Q.submit([&](handler& h) {
+  q.submit([&](handler& h) {
      h.parallel_for(
          range<1>{N}, red, [=](id<1> i, auto& res) {
            std::pair<float, int> partial = {data[i], i};
@@ -57,7 +57,7 @@ int main() {
                 (res->second == gold.second);
   std::cout << ((passed) ? "SUCCESS" : "FAILURE") << "\n";
 
-  free(res, Q);
-  free(data, Q);
+  free(res, q);
+  free(data, q);
   return (passed) ? 0 : 1;
 }

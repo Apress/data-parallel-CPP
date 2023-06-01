@@ -64,7 +64,7 @@ bool next_iteration(Parameters params, uint32_t i,
 }
 
 int main() {
-  queue Q;
+  queue q;
 
   // Set up parameters to control divergence, image size,
   // etc
@@ -82,12 +82,12 @@ int main() {
 
   // Initialize output on the host
   uint32_t* mandelbrot =
-      malloc_shared<uint32_t>(Ny * Nx, Q);
+      malloc_shared<uint32_t>(Ny * Nx, q);
   std::fill(mandelbrot, mandelbrot + Ny * Nx, 0);
 
   range<2> global(Ny, 8);
   range<2> local(1, 8);
-  Q.parallel_for(
+  q.parallel_for(
        nd_range<2>(global, local),
        [=
   ](nd_item<2> it) {
@@ -160,6 +160,6 @@ int main() {
   ppm.write((char*)colors.data(), 2 * colors.size());
   ppm.close();
 
-  free(mandelbrot, Q);
+  free(mandelbrot, q);
   return 0;
 }

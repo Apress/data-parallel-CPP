@@ -6,17 +6,17 @@
 #include <sycl/sycl.hpp>
 using namespace sycl;
 
-void say_device(const queue& Q) {
+void say_device(const queue& q) {
   std::cout << "Device : "
-            << Q.get_device().get_info<info::device::name>()
+            << q.get_device().get_info<info::device::name>()
             << "\n";
 }
 
 int main() {
-  queue Q{ext::intel::fpga_emulator_selector_v};
-  say_device(Q);
+  queue q{ext::intel::fpga_emulator_selector_v};
+  say_device(q);
 
-  Q.submit([&](handler& h) {
+  q.submit([&](handler& h) {
     h.parallel_for(1024, [=](auto idx) {
       // ...
     });

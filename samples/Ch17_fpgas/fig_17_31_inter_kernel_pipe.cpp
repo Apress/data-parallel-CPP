@@ -17,13 +17,13 @@ int main() {
   }
 
   // Buffer initialized from in_array (std::array)
-  buffer<int> B_in{in_array};
+  buffer<int> b_in{in_array};
 
   // Uninitialized buffer with count elements
-  buffer<int> B_out{range{count}};
+  buffer<int> b_out{range{count}};
 
   // Acquire queue to emulated FPGA device
-  queue Q{ext::intel::fpga_emulator_selector_v};
+  queue q{ext::intel::fpga_emulator_selector_v};
 
   // BEGIN CODE SNIP
   // Create alias for pipe type so that consistent across
@@ -31,29 +31,29 @@ int main() {
   using my_pipe = ext::intel::pipe<class some_pipe, int>;
 
   // ND-range kernel
-  Q.submit([&](handler& h) {
-    auto A = accessor(B_in, h);
+  q.submit([&](handler& h) {
+    auto a = accessor(b_in, h);
 
     h.parallel_for(
-        count, [=](auto idx) { my_pipe::write(A[idx]); });
+        count, [=](auto idx) { my_pipe::write(a[idx]); });
   });
 
   // Single_task kernel
-  Q.submit([&](handler& h) {
-    auto A = accessor(B_out, h);
+  q.submit([&](handler& h) {
+    auto a = accessor(b_out, h);
 
     h.single_task([=]() {
       for (int i = 0; i < count; i++) {
-        A[i] = my_pipe::read();
+        a[i] = my_pipe::read();
       }
     });
   });
 
   // END CODE SNIP
 
-  auto A = host_accessor(B_out);
+  auto a = host_accessor(b_out);
   for (int i = 0; i < count; i++) {
-    if (A[i] != i) {
+    if (a[i] != i) {
       std::cout << "Failure on element " << i << "\n";
       return 1;
     }

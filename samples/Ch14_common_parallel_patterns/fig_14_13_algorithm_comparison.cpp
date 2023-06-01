@@ -12,15 +12,15 @@ int main() {
   constexpr size_t number_of_reductions = 16;
   constexpr size_t elements_per_reduction = 4;
 
-  queue Q;
+  queue q;
   int* input = malloc_shared<int>(
-      number_of_reductions * elements_per_reduction, Q);
+      number_of_reductions * elements_per_reduction, q);
   int* output1 =
-      malloc_shared<int>(number_of_reductions, Q);
+      malloc_shared<int>(number_of_reductions, q);
   int* output2 =
-      malloc_shared<int>(number_of_reductions, Q);
+      malloc_shared<int>(number_of_reductions, q);
   int* output3 =
-      malloc_shared<int>(number_of_reductions, Q);
+      malloc_shared<int>(number_of_reductions, q);
   std::iota(
       input,
       input + number_of_reductions * elements_per_reduction,
@@ -29,7 +29,7 @@ int main() {
   // BEGIN CODE SNIP
   // std::reduce
   // Each work-item reduces over a given input range
-  Q.parallel_for(number_of_reductions, [=](size_t i) {
+  q.parallel_for(number_of_reductions, [=](size_t i) {
      output1[i] = std::reduce(
          input + i * elements_per_reduction,
          input + (i + 1) * elements_per_reduction);
@@ -39,7 +39,7 @@ int main() {
   // Each work-group reduces over a given input range
   // The elements are automatically distributed over
   // work-items in the group
-  Q.parallel_for(nd_range<1>{number_of_reductions *
+  q.parallel_for(nd_range<1>{number_of_reductions *
                                  elements_per_reduction,
                              elements_per_reduction},
                  [=](nd_item<1> it) {
@@ -61,7 +61,7 @@ int main() {
   // Each work-group reduces over data held in work-item
   // private memory Each work-item is responsible for
   // loading and contributing one value
-  Q.parallel_for(
+  q.parallel_for(
        nd_range<1>{
            number_of_reductions * elements_per_reduction,
            elements_per_reduction},
@@ -115,9 +115,9 @@ int main() {
 
   std::cout << ((passed) ? "SUCCESS" : "FAILURE") << "\n";
 
-  free(output3, Q);
-  free(output2, Q);
-  free(output1, Q);
-  free(input, Q);
+  free(output3, q);
+  free(output2, q);
+  free(output1, q);
+  free(input, q);
   return (passed) ? 0 : 1;
 }

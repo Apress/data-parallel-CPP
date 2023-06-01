@@ -40,19 +40,19 @@ using global_atomic_ref =
 }  // namespace
 
 int main() {
-  queue Q;
+  queue q;
 
   uint32_t num_groups = 72;
   uint32_t num_items = 16;
 
   size_t N = 1024;
   size_t B = 64;
-  uint32_t* input = malloc_shared<uint32_t>(N, Q);
-  uint32_t* histogram = malloc_shared<uint32_t>(B, Q);
+  uint32_t* input = malloc_shared<uint32_t>(N, q);
+  uint32_t* histogram = malloc_shared<uint32_t>(B, q);
   std::generate(input, input + N, std::mt19937{});
   std::fill(histogram, histogram + B, 0);
 
-  Q.submit([&](handler& h) {
+  q.submit([&](handler& h) {
      auto local = local_accessor<uint32_t, 1>{B, h};
      h.parallel_for(
          nd_range<1>{num_groups * num_items, num_items},
@@ -108,7 +108,7 @@ int main() {
   std::cout << ((passed) ? "SUCCESS\n" : "FAILURE\n");
 
   free(gold);
-  free(histogram, Q);
-  free(input, Q);
+  free(histogram, q);
+  free(input, q);
   return (passed) ? 0 : 1;
 }

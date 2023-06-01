@@ -13,9 +13,9 @@ void foo(T data, id<1> i) {
 }
 
 int main() {
-  queue Q;
-  auto dev = Q.get_device();
-  auto ctxt = Q.get_context();
+  queue q;
+  auto dev = q.get_device();
+  auto ctxt = q.get_context();
   bool usm_shared =
     dev.has(aspect::usm_shared_allocations);
   bool usm_device =
@@ -25,9 +25,9 @@ int main() {
   if (use_USM) {
     int *data;
     if (usm_shared) {
-      data = malloc_shared<int>(N, Q);
+      data = malloc_shared<int>(N, q);
     } else /* use device allocations */ {
-      data = malloc_device<int>(N, Q);
+      data = malloc_device<int>(N, q);
     }
     std::cout << "Using USM with "
               << ((get_pointer_type(data, ctxt) ==
@@ -38,16 +38,16 @@ int main() {
               << get_pointer_device(data, ctxt)
                      .get_info<dinfo::name>()
               << "\n";
-    Q.parallel_for(N, [=](id<1> i) { foo(data, i); });
-    Q.wait();
-    free(data, Q);
+    q.parallel_for(N, [=](id<1> i) { foo(data, i); });
+    q.wait();
+    free(data, q);
   } else /* use buffers */ {
     buffer<int, 1> data{range{N}};
-    Q.submit([&](handler &h) {
+    q.submit([&](handler &h) {
       accessor a(data, h);
       h.parallel_for(N, [=](id<1> i) { foo(a, i); });
     });
-    Q.wait();
+    q.wait();
   }
   return 0;
 }

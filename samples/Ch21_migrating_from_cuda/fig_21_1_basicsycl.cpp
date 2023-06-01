@@ -11,15 +11,15 @@ constexpr int count = 1024 * 1024;
 int main() {
   // BEGIN CODE SNIP
   // Declare an in-order SYCL queue for the default device
-  queue Q{property::queue::in_order()};
+  queue q{property::queue::in_order()};
   std::cout << "Running on device: "
-            << Q.get_device().get_info<info::device::name>()
+            << q.get_device().get_info<info::device::name>()
             << "\n";
 
-  int* buffer = malloc_host<int>(count, Q);
-  Q.fill(buffer, 0, count);
+  int* buffer = malloc_host<int>(count, q);
+  q.fill(buffer, 0, count);
 
-  Q.parallel_for(count, [=](auto id) {
+  q.parallel_for(count, [=](auto id) {
      buffer[id] = id;
    }).wait();
   // END CODE SNIP
@@ -38,6 +38,6 @@ int main() {
     std::cout << "Success.\n";
   }
 
-  free(buffer, Q);
+  free(buffer, q);
   return 0;
 }

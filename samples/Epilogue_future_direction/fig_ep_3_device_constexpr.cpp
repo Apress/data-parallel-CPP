@@ -7,9 +7,9 @@
 using namespace sycl;
 
 int main() {
-  queue Q;
+  queue q;
 
-  Q.submit([&](handler& h) {
+  q.submit([&](handler& h) {
      stream out(9, 9, h);
      h.parallel_for(range{1}, [=](id<1> idx) {
        if devconstexpr (this_device().has<aspect::cpu>()) {

@@ -9,7 +9,7 @@ using namespace sycl;
 
 int main() {
   // Set up queue on any available device
-  queue Q;
+  queue q;
 
   // Initialize input and output memory on the host
   constexpr size_t N = 256;
@@ -26,7 +26,7 @@ int main() {
         c_buf(c.data(), range<2>(N, M));
 
     // Submit the kernel to the queue
-    Q.submit([&](handler& h) {
+    q.submit([&](handler& h) {
       accessor a{a_buf, h};
       accessor b{b_buf, h};
       accessor c{c_buf, h};

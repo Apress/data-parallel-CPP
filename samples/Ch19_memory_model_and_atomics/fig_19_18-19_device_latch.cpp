@@ -44,7 +44,7 @@ struct device_latch {
 };
 
 int main() {
-  queue Q;
+  queue q;
 
   // The number of groups here must be chosen carefully to
   // guarantee forward progress!
@@ -57,14 +57,14 @@ int main() {
   // The first will be used for communication
   // The second will be used for validation
   size_t* data = sycl::malloc_shared<size_t>(
-      num_groups * items_per_group, Q);
+      num_groups * items_per_group, q);
   size_t* sums = sycl::malloc_shared<size_t>(
-      num_groups * items_per_group, Q);
+      num_groups * items_per_group, q);
 
   // Allocate a one-time-use device_latch in USM
-  void* ptr = sycl::malloc_shared(sizeof(device_latch), Q);
+  void* ptr = sycl::malloc_shared(sizeof(device_latch), q);
   device_latch* latch = new (ptr) device_latch(num_groups);
-  Q.submit([&](handler& h) {
+  q.submit([&](handler& h) {
      h.parallel_for(R, [=](nd_item<1> it) {
        // Every work-item writes a 1 to its location
        data[it.get_global_linear_id()] = 1;
@@ -81,7 +81,7 @@ int main() {
        sums[it.get_global_linear_id()] = sum;
      });
    }).wait();
-  free(ptr, Q);
+  free(ptr, q);
 
   // Check that all work-items saw all writes
   bool passed = true;
@@ -92,7 +92,7 @@ int main() {
   }
   std::cout << ((passed) ? "SUCCESS\n" : "FAILURE\n");
 
-  free(sums, Q);
-  free(data, Q);
+  free(sums, q);
+  free(data, q);
   return (passed) ? 0 : 1;
 }

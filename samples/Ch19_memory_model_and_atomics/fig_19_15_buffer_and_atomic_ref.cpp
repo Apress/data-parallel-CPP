@@ -9,7 +9,7 @@
 using namespace sycl;
 
 int main() {
-  queue Q;
+  queue q;
 
   const size_t N = 32;
   const size_t M = 4;
@@ -19,7 +19,7 @@ int main() {
   {
     buffer buf(data);
 
-    Q.submit([&](handler& h) {
+    q.submit([&](handler& h) {
       accessor acc{buf, h};
       h.parallel_for(N, [=](id<1> i) {
         int j = i % M;

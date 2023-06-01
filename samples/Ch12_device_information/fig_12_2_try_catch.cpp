@@ -18,12 +18,12 @@ int main() {
               << std::endl;
   }
 
-  auto MyQ = GPU_is_available ? queue(gpu_selector_v)
+  auto q = GPU_is_available ? queue(gpu_selector_v)
                               : queue(default_selector_v);
 
   std::cout
       << "After checking for a GPU, we are running on:\n "
-      << MyQ.get_device().get_info<info::device::name>()
+      << q.get_device().get_info<info::device::name>()
       << "\n";
 
   // sample output using a system with a GPU:

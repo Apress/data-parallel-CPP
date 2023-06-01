@@ -17,13 +17,13 @@ using namespace sycl;
 int main() {
   constexpr size_t N = 16;
 
-  queue Q;
-  int* data = malloc_shared<int>(N, Q);
-  int* sum = malloc_shared<int>(1, Q);
+  queue q;
+  int* data = malloc_shared<int>(N, q);
+  int* sum = malloc_shared<int>(1, q);
   std::iota(data, data + N, 1);
   *sum = 0;
 
-  Q.submit([&](handler& h) {
+  q.submit([&](handler& h) {
      // BEGIN CODE SNIP
      h.parallel_for(
          range<1>{N}, reduction(sum, plus<>()),
@@ -35,7 +35,7 @@ int main() {
   bool passed = (*sum == ((N * (N + 1)) / 2));
   std::cout << ((passed) ? "SUCCESS" : "FAILURE") << "\n";
 
-  free(sum, Q);
-  free(data, Q);
+  free(sum, q);
+  free(data, q);
   return (passed) ? 0 : 1;
 }

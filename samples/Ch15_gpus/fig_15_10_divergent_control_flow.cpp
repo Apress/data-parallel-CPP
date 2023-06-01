@@ -17,8 +17,8 @@ int main() {
 
   buffer dataBuf{data};
 
-  queue Q{default_selector_v};
-  Q.submit([&](handler& h) {
+  queue q{default_selector_v};
+  q.submit([&](handler& h) {
     accessor dataAcc{dataBuf, h};
 
     h.parallel_for(array_size, [=](id<1> i) {

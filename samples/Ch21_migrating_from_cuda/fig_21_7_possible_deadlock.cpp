@@ -9,17 +9,17 @@ using namespace sycl;
 constexpr int count = 10;
 
 int main() {
-  queue Q{property::queue::in_order()};
+  queue q{property::queue::in_order()};
   std::cout << "Running on device: "
-            << Q.get_device().get_info<info::device::name>()
+            << q.get_device().get_info<info::device::name>()
             << "\n";
 
-  int* buffer = malloc_host<int>(count, Q);
-  Q.fill(buffer, 0, count);
+  int* buffer = malloc_host<int>(count, q);
+  q.fill(buffer, 0, count);
 
   // BEGIN CODE SNIP
   std::cout << "WARNING: May deadlock on some devices!\n";
-  Q.parallel_for(nd_range<1>{64, 64}, [=](auto item) {
+  q.parallel_for(nd_range<1>{64, 64}, [=](auto item) {
      int id = item.get_global_id(0);
      if (id >= count) {
        return;  // early exit
@@ -43,6 +43,6 @@ int main() {
     std::cout << "Success.\n";
   }
 
-  free(buffer, Q);
+  free(buffer, q);
   return 0;
 }

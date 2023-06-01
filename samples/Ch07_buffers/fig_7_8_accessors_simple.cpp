@@ -8,36 +8,36 @@ using namespace sycl;
 constexpr int N = 42;
 
 int main() {
-  queue Q;
+  queue q;
   // Create 3 buffers of 42 ints
-  buffer<int> A{range{N}};
-  buffer<int> B{range{N}};
-  buffer<int> C{range{N}};
-  accessor pC{C};
+  buffer<int> a_buf{range{N}};
+  buffer<int> b_buf{range{N}};
+  buffer<int> c_buf{range{N}};
+  accessor pc{c_buf};
 
-  Q.submit([&](handler &h) {
-    accessor aA{A, h};
-    accessor aB{B, h};
-    accessor aC{C, h};
+  q.submit([&](handler &h) {
+    accessor a{a_buf, h};
+    accessor b{b_buf, h};
+    accessor c{c_buf, h};
     h.parallel_for(N, [=](id<1> i) {
-      aA[i] = 1;
-      aB[i] = 40;
-      aC[i] = 0;
+      a[i] = 1;
+      b[i] = 40;
+      c[i] = 0;
     });
   });
-  Q.submit([&](handler &h) {
-    accessor aA{A, h};
-    accessor aB{B, h};
-    accessor aC{C, h};
+  q.submit([&](handler &h) {
+    accessor a{a_buf, h};
+    accessor b{b_buf, h};
+    accessor c{c_buf, h};
     h.parallel_for(
-        N, [=](id<1> i) { aC[i] += aA[i] + aB[i]; });
+        N, [=](id<1> i) { c[i] += a[i] + b[i]; });
   });
-  Q.submit([&](handler &h) {
-    h.require(pC);
-    h.parallel_for(N, [=](id<1> i) { pC[i]++; });
+  q.submit([&](handler &h) {
+    h.require(pc);
+    h.parallel_for(N, [=](id<1> i) { pc[i]++; });
   });
 
-  host_accessor result{C};
+  host_accessor result{c_buf};
   for (int i = 0; i < N; i++) {
     assert(result[i] == N);
   }

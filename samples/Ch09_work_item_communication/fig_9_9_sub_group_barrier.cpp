@@ -16,13 +16,13 @@ int main() {
   {
     buffer data_buf{data};
 
-    queue Q;
+    queue q;
     std::cout
         << "Running on device: "
-        << Q.get_device().get_info<info::device::name>()
+        << q.get_device().get_info<info::device::name>()
         << "\n";
 
-    Q.submit([&](handler& h) {
+    q.submit([&](handler& h) {
       accessor data_acc{data_buf, h};
 
       // BEGIN CODE SNIP

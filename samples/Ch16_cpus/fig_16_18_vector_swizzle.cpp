@@ -9,12 +9,12 @@
 using namespace sycl;
 
 int main() {
-  queue Q;
+  queue q;
 
-  bool *resArray = malloc_shared<bool>(1, Q);
+  bool *resArray = malloc_shared<bool>(1, q);
   resArray[0] = true;
 
-  Q.single_task([=]() {
+  q.single_task([=]() {
      sycl::vec<int, 4> old_v =
          sycl::vec<int, 4>(000, 100, 200, 300);
      sycl::vec<int, 4> new_v = sycl::vec<int, 4>();
@@ -32,5 +32,5 @@ int main() {
     std::cout << "passed\n";
   else
     std::cout << "failed\n";
-  free(resArray, Q);
+  free(resArray, q);
 }

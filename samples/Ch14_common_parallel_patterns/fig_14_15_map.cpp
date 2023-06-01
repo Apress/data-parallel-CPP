@@ -11,16 +11,16 @@
 using namespace sycl;
 
 int main() {
-  queue Q;
+  queue q;
 
   const size_t N = 64;
-  float* input = malloc_shared<float>(N, Q);
-  float* output = malloc_shared<float>(N, Q);
+  float* input = malloc_shared<float>(N, q);
+  float* output = malloc_shared<float>(N, q);
   std::iota(input, input + N, 1);
   std::fill(output, output + N, 0);
 
   // Compute the square root of each input value
-  Q.parallel_for(N, [=](id<1> i) {
+  q.parallel_for(N, [=](id<1> i) {
      output[i] = sqrt(input[i]);
    }).wait();
 
@@ -34,7 +34,7 @@ int main() {
   }
   std::cout << ((passed) ? "SUCCESS" : "FAILURE") << "\n";
 
-  free(output, Q);
-  free(input, Q);
+  free(output, q);
+  free(input, q);
   return (passed) ? 0 : 1;
 }

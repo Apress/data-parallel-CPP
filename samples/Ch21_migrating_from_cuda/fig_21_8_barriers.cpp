@@ -7,13 +7,13 @@
 using namespace sycl;
 
 int main() {
-  queue Q{property::queue::in_order()};
+  queue q{property::queue::in_order()};
   std::cout << "Running on device: "
-            << Q.get_device().get_info<info::device::name>()
+            << q.get_device().get_info<info::device::name>()
             << "\n";
 
   // BEGIN CODE SNIP
-  Q.parallel_for(nd_range<1>{16, 16}, [=](auto item) {
+  q.parallel_for(nd_range<1>{16, 16}, [=](auto item) {
      // Equivalent of __syncthreads, or
      // this_thread_block().sync():
      group_barrier(item.get_group());
