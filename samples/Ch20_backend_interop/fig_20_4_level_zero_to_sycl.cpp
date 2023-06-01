@@ -81,8 +81,6 @@ int main(int argc, char* argv[]) {
   ze_context_handle_t l0Context = nullptr;
   ze_context_desc_t l0ContextDesc = {};
   l0ContextDesc.stype = ZE_STRUCTURE_TYPE_CONTEXT_DESC;
-  // CHECK_CALL(zeContextCreate(l0Driver, &l0ContextDesc,
-  // &l0Context));
   CHECK_CALL(zeContextCreateEx(l0Driver, &l0ContextDesc, 1,
                                &l0Device, &l0Context));
 

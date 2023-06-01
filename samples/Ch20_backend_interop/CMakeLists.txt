@@ -53,3 +53,17 @@ add_book_sample(
     TEST
     TARGET fig_20_9_filter_selector
     SOURCES fig_20_9_filter_selector.cpp)
+
+add_book_sample(
+    TEST
+    TARGET fig_20_X_interop_handle_opencl
+    SOURCES fig_20_X_interop_handle_opencl.cpp
+    LIBS OpenCL)
+
+if(NOT NOl0)
+add_book_sample(
+    TEST
+    TARGET fig_20_X_interop_handle_level_zero
+    SOURCES fig_20_X_interop_handle_level_zero.cpp
+    LIBS ze_loader)
+endif()
