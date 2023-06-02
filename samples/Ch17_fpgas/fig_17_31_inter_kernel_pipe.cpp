@@ -26,8 +26,7 @@ int main() {
   queue q{ext::intel::fpga_emulator_selector_v};
 
   // BEGIN CODE SNIP
-  // Create alias for pipe type so that consistent across
-  // uses
+  // Create alias for pipe type to be consistent across uses
   using my_pipe = ext::intel::pipe<class some_pipe, int>;
 
   // ND-range kernel
