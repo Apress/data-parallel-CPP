@@ -72,16 +72,28 @@ int main(int argc, char* argv[]) {
 
   buffer<int> b{16};
   queue q{d};
-  auto l0Context =
-      get_native<backend::ext_oneapi_level_zero>(
-          q.get_context());
 
   // BEGIN CODE SNIP
   q.submit([&](handler& h) {
     accessor a{b, h};
     h.host_task([=](interop_handle ih) {
-      // Get the Level Zero memory allocation from the
-      // interop handle:
+      // Get the Level Zero device from the interop handle:
+      auto l0Device = ih.get_native_device<
+          backend::ext_oneapi_level_zero>();
+
+      // Query the device name from Level Zero:
+      ze_device_properties_t l0DeviceProps = {};
+      l0DeviceProps.stype =
+          ZE_STRUCTURE_TYPE_DEVICE_PROPERTIES;
+      CHECK_CALL(
+          zeDeviceGetProperties(l0Device, &l0DeviceProps));
+      std::cout << "Device name from Level Zero is: "
+                << l0DeviceProps.name << "\n";
+
+      // Get the Level Zero context and memory allocation
+      // from the interop handle:
+      auto l0Context = ih.get_native_context<
+          backend::ext_oneapi_level_zero>();
       auto ptr =
           ih.get_native_mem<backend::ext_oneapi_level_zero>(
               a);

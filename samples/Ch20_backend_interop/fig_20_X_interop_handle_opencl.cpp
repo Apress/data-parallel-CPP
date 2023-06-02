@@ -70,28 +70,27 @@ int main(int argc, char* argv[]) {
   q.submit([&](handler& h) {
     accessor a{b, h};
     h.host_task([=](interop_handle ih) {
-      // Get the OpenCL queue from the interop handle:
-      auto nq = ih.get_native_queue<backend::opencl>();
+      // Get the OpenCL device from the interop handle:
+      auto openclDevice =
+          ih.get_native_device<backend::opencl>();
 
-      // Query device name from the OpenCL queue:
-      cl_device_id nd;
-      clGetCommandQueueInfo(nq, CL_QUEUE_DEVICE, sizeof(nd),
-                            &nd, nullptr);
-
+      // Query the device name from the OpenCL device:
       size_t sz = 0;
-      clGetDeviceInfo(nd, CL_DEVICE_NAME, 0, nullptr, &sz);
+      clGetDeviceInfo(openclDevice, CL_DEVICE_NAME, 0,
+                      nullptr, &sz);
       std::string openclDeviceName(sz, ' ');
-      clGetDeviceInfo(nd, CL_DEVICE_NAME, sz,
+      clGetDeviceInfo(openclDevice, CL_DEVICE_NAME, sz,
                       &openclDeviceName[0], nullptr);
-      std::cout << "Queue device name from OpenCL is: "
+      std::cout << "Device name from OpenCL is: "
                 << openclDeviceName << "\n";
 
       // Get the OpenCL buffer from the interop handle:
-      auto nmem = ih.get_native_mem<backend::opencl>(a)[0];
+      auto openclMem =
+          ih.get_native_mem<backend::opencl>(a)[0];
 
       // Query the size of the OpenCL buffer:
-      clGetMemObjectInfo(nmem, CL_MEM_SIZE, sizeof(sz), &sz,
-                         nullptr);
+      clGetMemObjectInfo(openclMem, CL_MEM_SIZE, sizeof(sz),
+                         &sz, nullptr);
       std::cout << "Buffer size from OpenCL is: " << sz
                 << " bytes\n";
     });
