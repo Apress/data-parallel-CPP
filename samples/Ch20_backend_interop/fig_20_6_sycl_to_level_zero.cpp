@@ -37,21 +37,21 @@ int main(int argc, char* argv[]) {
                  "platform and device.\n";
   }
 
-  std::vector<platform> l0Platforms =
+  std::vector<platform> level0Platforms =
       getLevelZeroPlatforms();
-  if (l0Platforms.size() == 0) {
+  if (level0Platforms.size() == 0) {
     std::cout << "Could not find any SYCL platforms "
                  "associated with a Level Zero backend!\n";
     return 0;
   }
-  if (platformIndex >= l0Platforms.size()) {
+  if (platformIndex >= level0Platforms.size()) {
     std::cout << "Platform index " << platformIndex
               << " exceeds the number of platforms "
                  "associated with a Level Zero backend!\n";
     return -1;
   }
 
-  platform p = l0Platforms[platformIndex];
+  platform p = level0Platforms[platformIndex];
   if (deviceIndex >= p.get_devices().size()) {
     std::cout << "Device index " << deviceIndex
               << " exceeds the number of devices in the "
@@ -65,32 +65,33 @@ int main(int argc, char* argv[]) {
             << d.get_info<info::device::name>() << "\n";
 
   // BEGIN CODE SNIP
-  ze_device_handle_t l0Device =
+  ze_device_handle_t level0Device =
       get_native<backend::ext_oneapi_level_zero>(d);
-  ze_context_handle_t l0Context =
+  ze_context_handle_t level0Context =
       get_native<backend::ext_oneapi_level_zero>(c);
 
   // Query the device name from Level Zero:
-  ze_device_properties_t l0DeviceProps = {};
-  l0DeviceProps.stype = ZE_STRUCTURE_TYPE_DEVICE_PROPERTIES;
+  ze_device_properties_t level0DeviceProps = {};
+  level0DeviceProps.stype =
+      ZE_STRUCTURE_TYPE_DEVICE_PROPERTIES;
 
-  zeDeviceGetProperties(l0Device, &l0DeviceProps);
+  zeDeviceGetProperties(level0Device, &level0DeviceProps);
 
   std::cout << "Device name from SYCL is: "
             << d.get_info<info::device::name>() << "\n";
   std::cout << "Device name from Level Zero is: "
-            << l0DeviceProps.name << "\n";
+            << level0DeviceProps.name << "\n";
 
   // Allocate some memory from Level Zero:
-  void* l0Ptr = nullptr;
-  ze_host_mem_alloc_desc_t l0HostAllocDesc = {};
-  l0HostAllocDesc.stype =
+  void* level0Ptr = nullptr;
+  ze_host_mem_alloc_desc_t level0HostAllocDesc = {};
+  level0HostAllocDesc.stype =
       ZE_STRUCTURE_TYPE_HOST_MEM_ALLOC_DESC;
-  zeMemAllocHost(l0Context, &l0HostAllocDesc, sizeof(int),
-                 0, &l0Ptr);
+  zeMemAllocHost(level0Context, &level0HostAllocDesc,
+                 sizeof(int), 0, &level0Ptr);
 
   // Clean up Level Zero objects when done:
-  zeMemFree(l0Context, l0Ptr);
+  zeMemFree(level0Context, level0Ptr);
   // END CODE SNIP
 
   return 0;
