@@ -10,14 +10,6 @@
 #include <vector>
 using namespace sycl;
 
-#define CHECK_CALL(_call)                          \
-  do {                                             \
-    ze_result_t result = _call;                    \
-    if (result != ZE_RESULT_SUCCESS) {             \
-      printf("%s returned %u!\n", #_call, result); \
-    }                                              \
-  } while (0)
-
 std::vector<platform> getLevelZeroPlatforms() {
   std::vector<platform> platforms;
   for (auto& p : platform::get_platforms()) {
@@ -45,21 +37,21 @@ int main(int argc, char* argv[]) {
                  "platform and device.\n";
   }
 
-  std::vector<platform> l0Platforms =
+  std::vector<platform> level0Platforms =
       getLevelZeroPlatforms();
-  if (l0Platforms.size() == 0) {
+  if (level0Platforms.size() == 0) {
     std::cout << "Could not find any SYCL platforms "
                  "associated with a Level Zero backend!\n";
     return 0;
   }
-  if (platformIndex >= l0Platforms.size()) {
+  if (platformIndex >= level0Platforms.size()) {
     std::cout << "Platform index " << platformIndex
               << " exceeds the number of platforms "
                  "associated with a Level Zero backend!\n";
     return -1;
   }
 
-  platform p = l0Platforms[platformIndex];
+  platform p = level0Platforms[platformIndex];
   if (deviceIndex >= p.get_devices().size()) {
     std::cout << "Device index " << deviceIndex
               << " exceeds the number of devices in the "
@@ -78,21 +70,21 @@ int main(int argc, char* argv[]) {
     accessor a{b, h};
     h.host_task([=](interop_handle ih) {
       // Get the Level Zero device from the interop handle:
-      auto l0Device = ih.get_native_device<
+      auto level0Device = ih.get_native_device<
           backend::ext_oneapi_level_zero>();
 
       // Query the device name from Level Zero:
-      ze_device_properties_t l0DeviceProps = {};
-      l0DeviceProps.stype =
+      ze_device_properties_t level0DeviceProps = {};
+      level0DeviceProps.stype =
           ZE_STRUCTURE_TYPE_DEVICE_PROPERTIES;
-      CHECK_CALL(
-          zeDeviceGetProperties(l0Device, &l0DeviceProps));
+      zeDeviceGetProperties(level0Device,
+                            &level0DeviceProps);
       std::cout << "Device name from Level Zero is: "
-                << l0DeviceProps.name << "\n";
+                << level0DeviceProps.name << "\n";
 
       // Get the Level Zero context and memory allocation
       // from the interop handle:
-      auto l0Context = ih.get_native_context<
+      auto level0Context = ih.get_native_context<
           backend::ext_oneapi_level_zero>();
       auto ptr =
           ih.get_native_mem<backend::ext_oneapi_level_zero>(
@@ -100,8 +92,8 @@ int main(int argc, char* argv[]) {
 
       // Query the size of the memory allocation:
       size_t sz = 0;
-      CHECK_CALL(zeMemGetAddressRange(l0Context, ptr,
-                                      nullptr, &sz));
+      zeMemGetAddressRange(level0Context, ptr, nullptr,
+                           &sz);
       std::cout << "Buffer size from Level Zero is: " << sz
                 << " bytes\n";
     });
