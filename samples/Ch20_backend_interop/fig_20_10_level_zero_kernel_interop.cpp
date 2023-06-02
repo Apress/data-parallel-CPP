@@ -11,14 +11,6 @@
 #include <vector>
 using namespace sycl;
 
-#define CHECK_CALL(_call)                          \
-  do {                                             \
-    ze_result_t result = _call;                    \
-    if (result != ZE_RESULT_SUCCESS) {             \
-      printf("%s returned %u!\n", #_call, result); \
-    }                                              \
-  } while (0)
-
 std::vector<platform> getLevelZeroPlatforms() {
   std::vector<platform> platforms;
   for (auto& p : platform::get_platforms()) {
@@ -119,16 +111,14 @@ int main(int argc, char* argv[]) {
     moduleDesc.format = ZE_MODULE_FORMAT_IL_SPIRV;
     moduleDesc.inputSize = spirv.size();
     moduleDesc.pInputModule = spirv.data();
-    CHECK_CALL(zeModuleCreate(l0Context, l0Device,
-                              &moduleDesc, &l0Module,
-                              nullptr));
+    zeModuleCreate(l0Context, l0Device, &moduleDesc,
+                   &l0Module, nullptr);
 
     ze_kernel_handle_t l0Kernel = nullptr;
     ze_kernel_desc_t kernelDesc = {};
     kernelDesc.stype = ZE_STRUCTURE_TYPE_KERNEL_DESC;
     kernelDesc.pKernelName = "add";
-    CHECK_CALL(
-        zeKernelCreate(l0Module, &kernelDesc, &l0Kernel));
+    zeKernelCreate(l0Module, &kernelDesc, &l0Kernel);
 
     // Create a SYCL kernel from the Level Zero kernel:
     auto skb =

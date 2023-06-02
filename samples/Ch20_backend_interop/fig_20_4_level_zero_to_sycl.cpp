@@ -10,14 +10,6 @@
 #include <vector>
 using namespace sycl;
 
-#define CHECK_CALL(_call)                          \
-  do {                                             \
-    ze_result_t result = _call;                    \
-    if (result != ZE_RESULT_SUCCESS) {             \
-      printf("%s returned %u!\n", #_call, result); \
-    }                                              \
-  } while (0)
-
 int main(int argc, char* argv[]) {
   int l0DriverIndex = 0;
   int l0DeviceIndex = 0;
@@ -42,13 +34,13 @@ int main(int argc, char* argv[]) {
     data[i] = i;
   }
 
-  CHECK_CALL(zeInit(0));
+  zeInit(0);
 
   // Create an Level Zero context and some Level Zero memory
   // allocations:
 
   uint32_t l0NumDrivers = 0;
-  CHECK_CALL(zeDriverGet(&l0NumDrivers, nullptr));
+  zeDriverGet(&l0NumDrivers, nullptr);
 
   if (l0NumDrivers == 0) {
     std::cout << "Could not find any Level Zero drivers!\n";
@@ -61,11 +53,11 @@ int main(int argc, char* argv[]) {
   }
 
   std::vector<ze_driver_handle_t> l0Drivers(l0NumDrivers);
-  CHECK_CALL(zeDriverGet(&l0NumDrivers, l0Drivers.data()));
+  zeDriverGet(&l0NumDrivers, l0Drivers.data());
 
   ze_driver_handle_t l0Driver = l0Drivers[l0DriverIndex];
   uint32_t l0NumDevices = 0;
-  CHECK_CALL(zeDeviceGet(l0Driver, &l0NumDevices, nullptr));
+  zeDeviceGet(l0Driver, &l0NumDevices, nullptr);
 
   if (l0DeviceIndex >= l0NumDevices) {
     std::cout << "Could not find Level Zero device "
@@ -74,22 +66,21 @@ int main(int argc, char* argv[]) {
   }
 
   std::vector<ze_device_handle_t> l0Devices(l0NumDevices);
-  CHECK_CALL(zeDeviceGet(l0Driver, &l0NumDevices,
-                         l0Devices.data()));
+  zeDeviceGet(l0Driver, &l0NumDevices, l0Devices.data());
 
   ze_device_handle_t l0Device = l0Devices[l0DeviceIndex];
   ze_context_handle_t l0Context = nullptr;
   ze_context_desc_t l0ContextDesc = {};
   l0ContextDesc.stype = ZE_STRUCTURE_TYPE_CONTEXT_DESC;
-  CHECK_CALL(zeContextCreateEx(l0Driver, &l0ContextDesc, 1,
-                               &l0Device, &l0Context));
+  zeContextCreateEx(l0Driver, &l0ContextDesc, 1, &l0Device,
+                    &l0Context);
 
   void* l0Ptr = nullptr;
   ze_host_mem_alloc_desc_t l0HostAllocDesc = {};
   l0HostAllocDesc.stype =
       ZE_STRUCTURE_TYPE_HOST_MEM_ALLOC_DESC;
-  CHECK_CALL(zeMemAllocHost(l0Context, &l0HostAllocDesc,
-                            size * sizeof(int), 0, &l0Ptr));
+  zeMemAllocHost(l0Context, &l0HostAllocDesc,
+                 size * sizeof(int), 0, &l0Ptr);
 
   std::memcpy(l0Ptr, data.data(), size * sizeof(int));
 
@@ -124,8 +115,8 @@ int main(int argc, char* argv[]) {
 
   std::memcpy(data.data(), l0Ptr, size * sizeof(int));
 
-  CHECK_CALL(zeMemFree(l0Context, l0Ptr));
-  CHECK_CALL(zeContextDestroy(l0Context));
+  zeMemFree(l0Context, l0Ptr);
+  zeContextDestroy(l0Context);
 
   for (int i = 0; i < size; i++) {
     if (data[i] != i + 1) {

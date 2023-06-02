@@ -10,14 +10,6 @@
 #include <vector>
 using namespace sycl;
 
-#define CHECK_CALL(_call)                          \
-  do {                                             \
-    ze_result_t result = _call;                    \
-    if (result != ZE_RESULT_SUCCESS) {             \
-      printf("%s returned %u!\n", #_call, result); \
-    }                                              \
-  } while (0)
-
 std::vector<platform> getLevelZeroPlatforms() {
   std::vector<platform> platforms;
   for (auto& p : platform::get_platforms()) {
@@ -81,8 +73,8 @@ int main(int argc, char* argv[]) {
   // Query the device name from Level Zero:
   ze_device_properties_t l0DeviceProps = {};
   l0DeviceProps.stype = ZE_STRUCTURE_TYPE_DEVICE_PROPERTIES;
-  CHECK_CALL(
-      zeDeviceGetProperties(l0Device, &l0DeviceProps));
+
+  zeDeviceGetProperties(l0Device, &l0DeviceProps);
 
   std::cout << "Device name from SYCL is: "
             << d.get_info<info::device::name>() << "\n";
@@ -94,11 +86,11 @@ int main(int argc, char* argv[]) {
   ze_host_mem_alloc_desc_t l0HostAllocDesc = {};
   l0HostAllocDesc.stype =
       ZE_STRUCTURE_TYPE_HOST_MEM_ALLOC_DESC;
-  CHECK_CALL(zeMemAllocHost(l0Context, &l0HostAllocDesc,
-                            sizeof(int), 0, &l0Ptr));
+  zeMemAllocHost(l0Context, &l0HostAllocDesc, sizeof(int),
+                 0, &l0Ptr);
 
   // Clean up Level Zero objects when done:
-  CHECK_CALL(zeMemFree(l0Context, l0Ptr));
+  zeMemFree(l0Context, l0Ptr);
   // END CODE SNIP
 
   return 0;
