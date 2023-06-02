@@ -8,8 +8,6 @@
 #include <utility>
 using namespace sycl;
 
-class KernelSwap;
-
 int main() {
   std::array<int, 2> arr{8, 9};
   buffer<int> buf{arr};
