@@ -60,34 +60,41 @@ int main(int argc, char* argv[]) {
   }
 
   device d = p.get_devices()[deviceIndex];
-  context c = context{d};
-
   std::cout << "Running on device: "
             << d.get_info<info::device::name>() << "\n";
 
+  buffer<int> b{16};
+  queue q{d};
+
   // BEGIN CODE SNIP
-  cl_device_id openclDevice =
-      get_native<backend::opencl>(d);
-  cl_context openclContext = get_native<backend::opencl>(c);
+  q.submit([&](handler& h) {
+    accessor a{b, h};
+    h.host_task([=](interop_handle ih) {
+      // Get the OpenCL device from the interop handle:
+      auto openclDevice =
+          ih.get_native_device<backend::opencl>();
 
-  // Query the device name from OpenCL:
-  size_t sz = 0;
-  clGetDeviceInfo(openclDevice, CL_DEVICE_NAME, 0, nullptr,
-                  &sz);
-  std::string openclDeviceName(sz, ' ');
-  clGetDeviceInfo(openclDevice, CL_DEVICE_NAME, sz,
-                  &openclDeviceName[0], nullptr);
-  std::cout << "Device name from OpenCL is: "
-            << openclDeviceName << "\n";
+      // Query the device name from the OpenCL device:
+      size_t sz = 0;
+      clGetDeviceInfo(openclDevice, CL_DEVICE_NAME, 0,
+                      nullptr, &sz);
+      std::string openclDeviceName(sz, ' ');
+      clGetDeviceInfo(openclDevice, CL_DEVICE_NAME, sz,
+                      &openclDeviceName[0], nullptr);
+      std::cout << "Device name from OpenCL is: "
+                << openclDeviceName << "\n";
 
-  // Allocate some memory from OpenCL:
-  cl_mem openclBuffer = clCreateBuffer(
-      openclContext, 0, sizeof(int), nullptr, nullptr);
+      // Get the OpenCL buffer from the interop handle:
+      auto openclMem =
+          ih.get_native_mem<backend::opencl>(a)[0];
 
-  // Clean up OpenCL objects when done:
-  clReleaseDevice(openclDevice);
-  clReleaseContext(openclContext);
-  clReleaseMemObject(openclBuffer);
+      // Query the size of the OpenCL buffer:
+      clGetMemObjectInfo(openclMem, CL_MEM_SIZE, sizeof(sz),
+                         &sz, nullptr);
+      std::cout << "Buffer size from OpenCL is: " << sz
+                << " bytes\n";
+    });
+  });
   // END CODE SNIP
 
   return 0;

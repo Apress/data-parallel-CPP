@@ -59,39 +59,45 @@ int main(int argc, char* argv[]) {
   }
 
   device d = p.get_devices()[deviceIndex];
-  context c = context{d};
-
   std::cout << "Running on device: "
             << d.get_info<info::device::name>() << "\n";
 
+  buffer<int> b{16};
+  queue q{d};
+
   // BEGIN CODE SNIP
-  ze_device_handle_t level0Device =
-      get_native<backend::ext_oneapi_level_zero>(d);
-  ze_context_handle_t level0Context =
-      get_native<backend::ext_oneapi_level_zero>(c);
+  q.submit([&](handler& h) {
+    accessor a{b, h};
+    h.host_task([=](interop_handle ih) {
+      // Get the Level Zero device from the interop handle:
+      auto level0Device = ih.get_native_device<
+          backend::ext_oneapi_level_zero>();
 
-  // Query the device name from Level Zero:
-  ze_device_properties_t level0DeviceProps = {};
-  level0DeviceProps.stype =
-      ZE_STRUCTURE_TYPE_DEVICE_PROPERTIES;
+      // Query the device name from Level Zero:
+      ze_device_properties_t level0DeviceProps = {};
+      level0DeviceProps.stype =
+          ZE_STRUCTURE_TYPE_DEVICE_PROPERTIES;
+      zeDeviceGetProperties(level0Device,
+                            &level0DeviceProps);
+      std::cout << "Device name from Level Zero is: "
+                << level0DeviceProps.name << "\n";
 
-  zeDeviceGetProperties(level0Device, &level0DeviceProps);
+      // Get the Level Zero context and memory allocation
+      // from the interop handle:
+      auto level0Context = ih.get_native_context<
+          backend::ext_oneapi_level_zero>();
+      auto ptr =
+          ih.get_native_mem<backend::ext_oneapi_level_zero>(
+              a);
 
-  std::cout << "Device name from SYCL is: "
-            << d.get_info<info::device::name>() << "\n";
-  std::cout << "Device name from Level Zero is: "
-            << level0DeviceProps.name << "\n";
-
-  // Allocate some memory from Level Zero:
-  void* level0Ptr = nullptr;
-  ze_host_mem_alloc_desc_t level0HostAllocDesc = {};
-  level0HostAllocDesc.stype =
-      ZE_STRUCTURE_TYPE_HOST_MEM_ALLOC_DESC;
-  zeMemAllocHost(level0Context, &level0HostAllocDesc,
-                 sizeof(int), 0, &level0Ptr);
-
-  // Clean up Level Zero objects when done:
-  zeMemFree(level0Context, level0Ptr);
+      // Query the size of the memory allocation:
+      size_t sz = 0;
+      zeMemGetAddressRange(level0Context, ptr, nullptr,
+                           &sz);
+      std::cout << "Buffer size from Level Zero is: " << sz
+                << " bytes\n";
+    });
+  });
   // END CODE SNIP
 
   return 0;

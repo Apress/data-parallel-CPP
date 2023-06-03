@@ -10,23 +10,15 @@
 #include <vector>
 using namespace sycl;
 
-#define CHECK_CALL(_call)                          \
-  do {                                             \
-    ze_result_t result = _call;                    \
-    if (result != ZE_RESULT_SUCCESS) {             \
-      printf("%s returned %u!\n", #_call, result); \
-    }                                              \
-  } while (0)
-
 int main(int argc, char* argv[]) {
-  int l0DriverIndex = 0;
-  int l0DeviceIndex = 0;
+  int level0DriverIndex = 0;
+  int level0DeviceIndex = 0;
 
   if (argc > 1) {
-    l0DriverIndex = std::stoi(argv[1]);
+    level0DriverIndex = std::stoi(argv[1]);
   }
   if (argc > 2) {
-    l0DeviceIndex = std::stoi(argv[2]);
+    level0DeviceIndex = std::stoi(argv[2]);
   }
   if (argc <= 1) {
     std::cout << "Run as ./<progname> <Level Zero driver "
@@ -42,72 +34,74 @@ int main(int argc, char* argv[]) {
     data[i] = i;
   }
 
-  CHECK_CALL(zeInit(0));
+  zeInit(0);
 
   // Create an Level Zero context and some Level Zero memory
   // allocations:
 
-  uint32_t l0NumDrivers = 0;
-  CHECK_CALL(zeDriverGet(&l0NumDrivers, nullptr));
+  uint32_t level0NumDrivers = 0;
+  zeDriverGet(&level0NumDrivers, nullptr);
 
-  if (l0NumDrivers == 0) {
+  if (level0NumDrivers == 0) {
     std::cout << "Could not find any Level Zero drivers!\n";
     return 0;
   }
-  if (l0DriverIndex >= l0NumDrivers) {
+  if (level0DriverIndex >= level0NumDrivers) {
     std::cout << "Could not find Level Zero driver "
-              << l0DriverIndex << "!\n";
+              << level0DriverIndex << "!\n";
     return -1;
   }
 
-  std::vector<ze_driver_handle_t> l0Drivers(l0NumDrivers);
-  CHECK_CALL(zeDriverGet(&l0NumDrivers, l0Drivers.data()));
+  std::vector<ze_driver_handle_t> level0Drivers(
+      level0NumDrivers);
+  zeDriverGet(&level0NumDrivers, level0Drivers.data());
 
-  ze_driver_handle_t l0Driver = l0Drivers[l0DriverIndex];
-  uint32_t l0NumDevices = 0;
-  CHECK_CALL(zeDeviceGet(l0Driver, &l0NumDevices, nullptr));
+  ze_driver_handle_t level0Driver =
+      level0Drivers[level0DriverIndex];
+  uint32_t level0NumDevices = 0;
+  zeDeviceGet(level0Driver, &level0NumDevices, nullptr);
 
-  if (l0DeviceIndex >= l0NumDevices) {
+  if (level0DeviceIndex >= level0NumDevices) {
     std::cout << "Could not find Level Zero device "
-              << l0DeviceIndex << "!\n";
+              << level0DeviceIndex << "!\n";
     return -1;
   }
 
-  std::vector<ze_device_handle_t> l0Devices(l0NumDevices);
-  CHECK_CALL(zeDeviceGet(l0Driver, &l0NumDevices,
-                         l0Devices.data()));
+  std::vector<ze_device_handle_t> level0Devices(
+      level0NumDevices);
+  zeDeviceGet(level0Driver, &level0NumDevices,
+              level0Devices.data());
 
-  ze_device_handle_t l0Device = l0Devices[l0DeviceIndex];
-  ze_context_handle_t l0Context = nullptr;
-  ze_context_desc_t l0ContextDesc = {};
-  l0ContextDesc.stype = ZE_STRUCTURE_TYPE_CONTEXT_DESC;
-  // CHECK_CALL(zeContextCreate(l0Driver, &l0ContextDesc,
-  // &l0Context));
-  CHECK_CALL(zeContextCreateEx(l0Driver, &l0ContextDesc, 1,
-                               &l0Device, &l0Context));
+  ze_device_handle_t level0Device =
+      level0Devices[level0DeviceIndex];
+  ze_context_handle_t level0Context = nullptr;
+  ze_context_desc_t level0ContextDesc = {};
+  level0ContextDesc.stype = ZE_STRUCTURE_TYPE_CONTEXT_DESC;
+  zeContextCreateEx(level0Driver, &level0ContextDesc, 1,
+                    &level0Device, &level0Context);
 
-  void* l0Ptr = nullptr;
-  ze_host_mem_alloc_desc_t l0HostAllocDesc = {};
-  l0HostAllocDesc.stype =
+  void* level0Ptr = nullptr;
+  ze_host_mem_alloc_desc_t level0HostAllocDesc = {};
+  level0HostAllocDesc.stype =
       ZE_STRUCTURE_TYPE_HOST_MEM_ALLOC_DESC;
-  CHECK_CALL(zeMemAllocHost(l0Context, &l0HostAllocDesc,
-                            size * sizeof(int), 0, &l0Ptr));
+  zeMemAllocHost(level0Context, &level0HostAllocDesc,
+                 size * sizeof(int), 0, &level0Ptr);
 
-  std::memcpy(l0Ptr, data.data(), size * sizeof(int));
+  std::memcpy(level0Ptr, data.data(), size * sizeof(int));
 
   {
     // BEGIN CODE SNIP
     // Create SYCL objects from the native backend objects.
     device d = make_device<backend::ext_oneapi_level_zero>(
-        l0Device);
+        level0Device);
     context c =
         make_context<backend::ext_oneapi_level_zero>(
-            {l0Context,
+            {level0Context,
              {d},
              ext::oneapi::level_zero::ownership::keep});
     buffer data_buf =
         make_buffer<backend::ext_oneapi_level_zero, int>(
-            {l0Ptr,
+            {level0Ptr,
              ext::oneapi::level_zero::ownership::keep},
             c);
 
@@ -124,10 +118,10 @@ int main(int argc, char* argv[]) {
     // END CODE SNIP
   }
 
-  std::memcpy(data.data(), l0Ptr, size * sizeof(int));
+  std::memcpy(data.data(), level0Ptr, size * sizeof(int));
 
-  CHECK_CALL(zeMemFree(l0Context, l0Ptr));
-  CHECK_CALL(zeContextDestroy(l0Context));
+  zeMemFree(level0Context, level0Ptr);
+  zeContextDestroy(level0Context);
 
   for (int i = 0; i < size; i++) {
     if (data[i] != i + 1) {

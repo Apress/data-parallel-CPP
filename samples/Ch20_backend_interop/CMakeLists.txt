@@ -37,19 +37,33 @@ endif()
 
 add_book_sample(
     TEST
-    TARGET fig_20_7_opencl_kernel_interop
-    SOURCES fig_20_7_opencl_kernel_interop.cpp
+    TARGET fig_20_7_interop_handle_opencl
+    SOURCES fig_20_7_interop_handle_opencl.cpp
     LIBS OpenCL)
 
-if(NOT NOL0)
+if(NOT NOl0)
 add_book_sample(
     TEST
-    TARGET fig_20_8_level_zero_kernel_interop
-    SOURCES fig_20_8_level_zero_kernel_interop.cpp
+    TARGET fig_20_8_interop_handle_level_zero
+    SOURCES fig_20_8_interop_handle_level_zero.cpp
     LIBS ze_loader)
 endif()
 
 add_book_sample(
     TEST
-    TARGET fig_20_9_filter_selector
-    SOURCES fig_20_9_filter_selector.cpp)
+    TARGET fig_20_9_opencl_kernel_interop
+    SOURCES fig_20_9_opencl_kernel_interop.cpp
+    LIBS OpenCL)
+
+if(NOT NOL0)
+add_book_sample(
+    TEST
+    TARGET fig_20_10_level_zero_kernel_interop
+    SOURCES fig_20_10_level_zero_kernel_interop.cpp
+    LIBS ze_loader)
+endif()
+
+add_book_sample(
+    TEST
+    TARGET fig_20_11_filter_selector
+    SOURCES fig_20_11_filter_selector.cpp)

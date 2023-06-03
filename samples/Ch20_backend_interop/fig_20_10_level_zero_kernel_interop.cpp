@@ -11,14 +11,6 @@
 #include <vector>
 using namespace sycl;
 
-#define CHECK_CALL(_call)                          \
-  do {                                             \
-    ze_result_t result = _call;                    \
-    if (result != ZE_RESULT_SUCCESS) {             \
-      printf("%s returned %u!\n", #_call, result); \
-    }                                              \
-  } while (0)
-
 std::vector<platform> getLevelZeroPlatforms() {
   std::vector<platform> platforms;
   for (auto& p : platform::get_platforms()) {
@@ -48,15 +40,15 @@ int main(int argc, char* argv[]) {
                  "device.\n";
   }
 
-  std::vector<platform> l0Platforms =
+  std::vector<platform> level0Platforms =
       getLevelZeroPlatforms();
-  if (l0Platforms.size() == 0) {
+  if (level0Platforms.size() == 0) {
     std::cout << "Could not find any SYCL platforms "
                  "associated with "
                  "a Level Zero backend!\n";
     return 0;
   }
-  if (platformIndex >= l0Platforms.size()) {
+  if (platformIndex >= level0Platforms.size()) {
     std::cout << "Platform index " << platformIndex
               << " exceeds the number of platforms "
                  "associated with a "
@@ -64,7 +56,7 @@ int main(int argc, char* argv[]) {
     return -1;
   }
 
-  platform p = l0Platforms[platformIndex];
+  platform p = level0Platforms[platformIndex];
   if (deviceIndex >= p.get_devices().size()) {
     std::cout << "Device index " << deviceIndex
               << " exceeds the number of devices in the "
@@ -107,36 +99,35 @@ int main(int argc, char* argv[]) {
         compiler.compile(kernelSource);
 
     // Get the native Level Zero context and device:
-    auto l0Context =
+    auto level0Context =
         get_native<backend::ext_oneapi_level_zero>(c);
-    auto l0Device =
+    auto level0Device =
         get_native<backend::ext_oneapi_level_zero>(d);
 
     // Create a Level Zero kernel using this context:
-    ze_module_handle_t l0Module = nullptr;
+    ze_module_handle_t level0Module = nullptr;
     ze_module_desc_t moduleDesc = {};
     moduleDesc.stype = ZE_STRUCTURE_TYPE_MODULE_DESC;
     moduleDesc.format = ZE_MODULE_FORMAT_IL_SPIRV;
     moduleDesc.inputSize = spirv.size();
     moduleDesc.pInputModule = spirv.data();
-    CHECK_CALL(zeModuleCreate(l0Context, l0Device,
-                              &moduleDesc, &l0Module,
-                              nullptr));
+    zeModuleCreate(level0Context, level0Device, &moduleDesc,
+                   &level0Module, nullptr);
 
-    ze_kernel_handle_t l0Kernel = nullptr;
+    ze_kernel_handle_t level0Kernel = nullptr;
     ze_kernel_desc_t kernelDesc = {};
     kernelDesc.stype = ZE_STRUCTURE_TYPE_KERNEL_DESC;
     kernelDesc.pKernelName = "add";
-    CHECK_CALL(
-        zeKernelCreate(l0Module, &kernelDesc, &l0Kernel));
+    zeKernelCreate(level0Module, &kernelDesc,
+                   &level0Kernel);
 
     // Create a SYCL kernel from the Level Zero kernel:
     auto skb =
         make_kernel_bundle<backend::ext_oneapi_level_zero,
                            bundle_state::executable>(
-            {l0Module}, c);
+            {level0Module}, c);
     auto sk = make_kernel<backend::ext_oneapi_level_zero>(
-        {skb, l0Kernel}, c);
+        {skb, level0Kernel}, c);
 
     // Use the Level Zero kernel with a SYCL queue:
     q.submit([&](handler& h) {
