@@ -10,6 +10,8 @@
 // to leverage the out-of-execution of instructions from Xeon CPU and to 
 // hide memory load and store latency  
 
+// clang-format off
+
 # %bb.0:                        # %entry
 vbroadcastsd    %xmm0, %zmm0    # broadcast “scalar” to SIMD reg zmm0
 movq    $-32, %rax
