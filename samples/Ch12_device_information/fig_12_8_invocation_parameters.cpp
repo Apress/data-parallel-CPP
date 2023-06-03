@@ -24,8 +24,7 @@ int main() {
 
   std::cout << "Max WG size is " << maxWG
             << "\nGlobal memory size is " << maxGmem
-            << "\nLocal memory size is " << maxLmem
-            << "\n";
+            << "\nLocal memory size is " << maxLmem << "\n";
 
   return 0;
 }

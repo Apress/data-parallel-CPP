@@ -87,53 +87,48 @@ int main() {
 
   range<2> global(Ny, 8);
   range<2> local(1, 8);
-  q.parallel_for(
-       nd_range<2>(global, local),
-       [=
-  ](nd_item<2> it) {
-         const uint32_t j = it.get_global_id(0);
-         sub_group sg = it.get_sub_group();
+  q.parallel_for(nd_range<2>(global, local), [=](nd_item<2>
+                                                     it) {
+     const uint32_t j = it.get_global_id(0);
+     sub_group sg = it.get_sub_group();
 
-         // Treat each row as a queue of i values to compute
-         // Initially the head of the queue is at 0
-         uint32_t iq = 0;
+     // Treat each row as a queue of i values to compute
+     // Initially the head of the queue is at 0
+     uint32_t iq = 0;
 
-         // Initially each work-item in the sub-group works
-         // on contiguous values
-         uint32_t i = iq + sg.get_local_id()[0];
-         iq += sg.get_local_range()[0];
+     // Initially each work-item in the sub-group works
+     // on contiguous values
+     uint32_t i = iq + sg.get_local_id()[0];
+     iq += sg.get_local_range()[0];
 
-         // Initialize the iterator variables
-         uint32_t count;
-         float cr, ci, zr, zi;
-         if (i < Nx) {
+     // Initialize the iterator variables
+     uint32_t count;
+     float cr, ci, zr, zi;
+     if (i < Nx) {
+       reset(params, i, j, count, cr, ci, zr, zi);
+     }
+
+     // Keep iterating as long as one work-item has work
+     // to do
+     while (any_of_group(sg, i < Nx)) {
+       uint32_t converged = next_iteration(
+           params, i, j, count, cr, ci, zr, zi, mandelbrot);
+       if (any_of_group(sg, converged)) {
+         // Replace pixels that have converged using an
+         // unpack Pixels that haven't converged are not
+         // replaced
+         uint32_t index = exclusive_scan_over_group(
+             sg, converged, plus<>());
+         i = (converged) ? iq + index : i;
+         iq += reduce_over_group(sg, converged, plus<>());
+
+         // Reset the iterator variables for the new i
+         if (converged) {
            reset(params, i, j, count, cr, ci, zr, zi);
          }
-
-         // Keep iterating as long as one work-item has work
-         // to do
-         while (any_of_group(sg, i < Nx)) {
-           uint32_t converged =
-               next_iteration(params, i, j, count, cr, ci,
-                              zr, zi, mandelbrot);
-           if (any_of_group(sg, converged)) {
-             // Replace pixels that have converged using an
-             // unpack Pixels that haven't converged are not
-             // replaced
-             uint32_t index = exclusive_scan_over_group(
-                 sg, converged, plus<>());
-             i = (converged) ? iq + index : i;
-             iq +=
-                 reduce_over_group(sg, converged, plus<>());
-
-             // Reset the iterator variables for the new i
-             if (converged) {
-               reset(params, i, j, count, cr, ci, zr, zi);
-             }
-           }
-         }
-       })
-      .wait();
+       }
+     }
+   }).wait();
 
   // Produce an image as a PPM file
   constexpr uint32_t max_color = 65535;

@@ -31,8 +31,8 @@ int main() {
     accessor a{buf_a, h, read_only};
     accessor b{buf_b, h, read_only};
     accessor c{buf_c, h, read_write};
-    h.parallel_for(
-        N, [=](id<1> i) { c[i] += a[i] + b[i]; });
+    h.parallel_for(N,
+                   [=](id<1> i) { c[i] += a[i] + b[i]; });
   });
   q.submit([&](handler &h) {
     h.require(pc);

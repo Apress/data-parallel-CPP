@@ -263,6 +263,4 @@ Found Platform:
     info::device::partition_max_sub_devices is '0'
     Many more queries are available than shown here!
 
-
-      
 #endif

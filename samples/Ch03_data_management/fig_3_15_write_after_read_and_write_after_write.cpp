@@ -41,7 +41,8 @@ int main() {
   host_accessor host_acc_a(a_buf, read_only);
   host_accessor host_acc_b(b_buf, read_only);
   for (int i = 0; i < N; i++) {
-    std::cout << host_acc_a[i] << " " << host_acc_b[i] << " ";
+    std::cout << host_acc_a[i] << " " << host_acc_b[i]
+              << " ";
   }
   std::cout << "\n";
   return 0;
