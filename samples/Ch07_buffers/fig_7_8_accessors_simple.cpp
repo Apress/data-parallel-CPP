@@ -29,8 +29,8 @@ int main() {
     accessor a{a_buf, h};
     accessor b{b_buf, h};
     accessor c{c_buf, h};
-    h.parallel_for(
-        N, [=](id<1> i) { c[i] += a[i] + b[i]; });
+    h.parallel_for(N,
+                   [=](id<1> i) { c[i] += a[i] + b[i]; });
   });
   q.submit([&](handler &h) {
     h.require(pc);

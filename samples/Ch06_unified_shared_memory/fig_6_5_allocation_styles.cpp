@@ -12,8 +12,8 @@ int main() {
   // Allocate N floats
 
   // C-style
-  float *f1 = static_cast<float *>(
-      malloc_shared(N * sizeof(float), q.get_device(), q.get_context()));
+  float *f1 = static_cast<float *>(malloc_shared(
+      N * sizeof(float), q.get_device(), q.get_context()));
 
   // C++-style
   float *f2 = malloc_shared<float>(N, q);

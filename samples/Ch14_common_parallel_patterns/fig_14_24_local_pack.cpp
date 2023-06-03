@@ -38,36 +38,34 @@ int main() {
 
   range<2> global(N, 8);
   range<2> local(1, 8);
-  q.parallel_for(
-       nd_range<2>(global, local),
-       [=](nd_item<2> it) {
-             int i = it.get_global_id(0);
-             sub_group sg = it.get_sub_group();
-             int sglid = sg.get_local_id()[0];
-             int sgrange = sg.get_local_range()[0];
+  q.parallel_for(nd_range<2>(global, local), [=](nd_item<2>
+                                                     it) {
+     int i = it.get_global_id(0);
+     sub_group sg = it.get_sub_group();
+     int sglid = sg.get_local_id()[0];
+     int sgrange = sg.get_local_range()[0];
 
-             uint32_t k = 0;
-             for (int j = sglid; j < N; j += sgrange) {
-               // Compute distance between i and neighbor j
-               float r = distance(position[i], position[j]);
+     uint32_t k = 0;
+     for (int j = sglid; j < N; j += sgrange) {
+       // Compute distance between i and neighbor j
+       float r = distance(position[i], position[j]);
 
-               // Pack neighbors that require
-               // post-processing into a list
-               uint32_t pack = (i != j) and (r <= CUTOFF);
-               uint32_t offset = exclusive_scan_over_group(
-                   sg, pack, plus<>());
-               if (pack) {
-                 neighbors[i * MAX_K + k + offset] = j;
-               }
+       // Pack neighbors that require
+       // post-processing into a list
+       uint32_t pack = (i != j) and (r <= CUTOFF);
+       uint32_t offset =
+           exclusive_scan_over_group(sg, pack, plus<>());
+       if (pack) {
+         neighbors[i * MAX_K + k + offset] = j;
+       }
 
-               // Keep track of how many neighbors have been
-               // packed so far
-               k += reduce_over_group(sg, pack, plus<>());
-             }
-             num_neighbors[i] =
-                 reduce_over_group(sg, k, maximum<>());
-           })
-      .wait();
+       // Keep track of how many neighbors have been
+       // packed so far
+       k += reduce_over_group(sg, pack, plus<>());
+     }
+     num_neighbors[i] =
+         reduce_over_group(sg, k, maximum<>());
+   }).wait();
 
   // Check that all outputs match serial execution
   bool passed = true;

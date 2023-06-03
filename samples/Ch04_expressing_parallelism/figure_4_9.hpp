@@ -2,18 +2,18 @@
 
 // SPDX-License-Identifier: MIT
 
-// These ".hpp" files are text from the book that are snipets
-// that are not set up to be compiled as is.
+// These ".hpp" files are text from the book that are
+// snipets that are not set up to be compiled as is.
 
 template <int Dimensions = 1>
 class range {
-public:
+ public:
   // Construct a range with one, two or three dimensions
   range(size_t dim0);
   range(size_t dim0, size_t dim1);
   range(size_t dim0, size_t dim1, size_t dim2);
 
-  // Return the size of the range in a specific dimension 
+  // Return the size of the range in a specific dimension
   size_t get(int dimension) const;
   size_t &operator[](int dimension);
   size_t operator[](int dimension) const;

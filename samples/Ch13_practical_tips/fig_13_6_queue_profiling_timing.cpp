@@ -47,10 +47,9 @@ void VectorAdd(queue &q, const IntArray &a,
       << "profiling: Vector add completed on device in "
       << timeA << " nanoseconds\n";
   std::cout << "chrono: Vector add completed on device in "
-            << timeB*1000 << " nanoseconds\n";
+            << timeB * 1000 << " nanoseconds\n";
   std::cout << "chrono more than profiling by "
-            << (timeB*1000 - timeA) << " nanoseconds\n";
-  
+            << (timeB * 1000 - timeA) << " nanoseconds\n";
 }
 
 void InitializeArray(IntArray &a) {
@@ -77,10 +76,11 @@ int main() {
 // some sample output seen:
 //
 // Vector size: 65536
-// Running on device: Intel(R) Core(TM) i7-8665U CPU @ 1.90GHz
-// profiling: Vector add completed on device in 6.6073e+06 nanoseconds
-// chrono: Vector add completed on device in 1.51392e+08 nanoseconds
-// chrono more than profiling by 1.44785e+08 nanoseconds
+// Running on device: Intel(R) Core(TM) i7-8665U CPU
+// @ 1.90GHz profiling: Vector add completed on device
+// in 6.6073e+06 nanoseconds chrono: Vector add completed on
+// device in 1.51392e+08 nanoseconds chrono more than
+// profiling by 1.44785e+08 nanoseconds
 //
 //
 //

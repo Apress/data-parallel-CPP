@@ -19,7 +19,7 @@ int main() {
   }
 
   auto q = GPU_is_available ? queue(gpu_selector_v)
-                              : queue(default_selector_v);
+                            : queue(default_selector_v);
 
   std::cout
       << "After checking for a GPU, we are running on:\n "
