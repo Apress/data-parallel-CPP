@@ -7,22 +7,23 @@
 
 class handler {
   ...
-      // Specifies event(s) that must be complete before the
-      // action Copy to/from an accessor. Valid
-      // combinations: Src: accessor,   Dest: shared_ptr
-      // Src: accessor,   Dest: pointer
-      // Src: shared_ptr  Dest: accessor
-      // Src: pointer     Dest: accessor
-      // Src: accesssor   Dest: accessor
-      template <typename T_Src, typename T_Dst, int Dims,
-                access::mode AccessMode,
-                access::target AccessTarget,
-                access::placeholder IsPlaceholder =
-                    access::placeholder::false_t>
-      void copy(accessor<T_Src, Dims, AccessMode,
-                         AccessTarget, IsPlaceholder>
-                    Src,
-                shared_ptr_class<T_Dst> Dst);
+  // Specifies event(s) that must be complete before the
+  // action. Copy to/from an accessor.
+  // Valid combinations:
+  // Src: accessor,   Dest: shared_ptr
+  // Src: accessor,   Dest: pointer
+  // Src: shared_ptr  Dest: accessor
+  // Src: pointer     Dest: accessor
+  // Src: accesssor   Dest: accessor
+  template <typename T_Src, typename T_Dst, int Dims,
+            access::mode AccessMode,
+            access::target AccessTarget,
+            access::placeholder IsPlaceholder =
+                access::placeholder::false_t>
+  void copy(accessor<T_Src, Dims, AccessMode,
+                     AccessTarget, IsPlaceholder>
+                Src,
+            shared_ptr_class<T_Dst> Dst);
   void copy(shared_ptr_class<T_Src> Src,
             accessor<T_Dst, Dims, AccessMode, AccessTarget,
                      IsPlaceholder>

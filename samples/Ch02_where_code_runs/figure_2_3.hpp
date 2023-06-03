@@ -13,11 +13,11 @@ class queue {
 
   queue(const async_handler &, const property_list & = {});
 
-  // Create a queue using a DeviceSelector.  A
-  // DeviceSelector is a callable that ranks devices
-  // numerically.  There are a few SYCL-defined device
-  // selectors available such as cpu_selector_v and
-  // gpu_selector_v.
+  // Create a queue using a DeviceSelector.
+  // A DeviceSelector is a callable that ranks
+  // devices numerically. There are a few SYCL-defined
+  // device selectors available such as 
+  // cpu_selector_v and gpu_selector_v.
   template <typename DeviceSelector>
   explicit queue(const DeviceSelector &deviceSelector,
                  const property_list &propList = {});
@@ -27,8 +27,8 @@ class queue {
   queue(const device &, const property_list & = {});
 
   // Create a queue associated with a device in a specific
-  // SYCL context A device selector may be used in place of
-  // a device.
+  // SYCL context. A device selector may be used in place
+  // of a device.
   queue(const context &, const device &,
         const property_list & = {});
 };
