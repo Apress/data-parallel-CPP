@@ -15,7 +15,7 @@ int main() {
   sycl::queue q;
   const int n = 10;
   sycl::usm_allocator<int, sycl::usm::alloc::shared> alloc(
-      q.get_context(), q.get_device());
+      q);
   std::vector<int, decltype(alloc)> vec(n, alloc);
 
   std::fill(oneapi::dpl::execution::make_device_policy(q),
