@@ -41,7 +41,7 @@ add_book_sample(
     SOURCES fig_20_7_interop_handle_opencl.cpp
     LIBS OpenCL)
 
-if(NOT NOl0)
+if(NOT NOL0)
 add_book_sample(
     TEST
     TARGET fig_20_8_interop_handle_level_zero
