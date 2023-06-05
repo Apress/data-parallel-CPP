@@ -6,6 +6,7 @@
 #include <cassert>
 #include <cfloat>
 #include <iostream>
+#include <limits>
 #include <string>
 #include <sycl/sycl.hpp>
 using namespace sycl;
@@ -20,7 +21,7 @@ double triad(const std::vector<float>& vecA,
   assert(vecA.size() == vecB.size() &&
          vecB.size() == vecC.size());
   const size_t array_size = vecA.size();
-  double min_time_ns = DBL_MAX;
+  double min_time_ns = std::numeric_limits<double>::max();
 
   queue q{property::queue::enable_profiling{}};
   std::cout << "Running on device: "
