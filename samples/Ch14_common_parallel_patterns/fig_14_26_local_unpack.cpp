@@ -67,7 +67,7 @@ int main() {
   queue q;
 
   // Set up parameters to control divergence, image size,
-  // etc
+  // etc.
   Parameters params;
   params.xc = 0.0f;
   params.yc = 0.0f;
@@ -115,8 +115,9 @@ int main() {
            params, i, j, count, cr, ci, zr, zi, mandelbrot);
        if (any_of_group(sg, converged)) {
          // Replace pixels that have converged using an
-         // unpack Pixels that haven't converged are not
-         // replaced
+         // unpack.
+         // Pixels that haven't converged are not
+	 // replaced.
          uint32_t index = exclusive_scan_over_group(
              sg, converged, plus<>());
          i = (converged) ? iq + index : i;

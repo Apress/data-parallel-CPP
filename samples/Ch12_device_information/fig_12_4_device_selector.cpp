@@ -43,10 +43,17 @@ int main() {
   // Sample output using a system with a GPU:
   // After checking for a GPU, we are running on:
   //  Intel(R) Gen9 HD Graphics NEO.
+  // After checking for a GPU, we are running on:
+  //  NVIDIA GeForce RTX 3060
+  // After checking for a GPU, we are running on:
+  //  Intel(R) Data Center GPU Max 1100
+  // After checking for a GPU, we are running on:
+  //  AMD Radeon RX 5700 XT
+											      
   //
   // Sample output using a system with an FPGA accelerator,
-  // but no GPU: After checking for a GPU, we are running
-  // on:
+  // but no GPU:
+  // After checking for a GPU, we are running on:
   //  Custom device selector did not select a device.
   //  Caught this SYCL exception: No device of requested
   //  type available.
