@@ -30,7 +30,7 @@ int main() {
   int HW_SPECIFIC_ADVICE_RO = 0;
   q.mem_advise(read_only_data, BLOCK_SIZE,
                HW_SPECIFIC_ADVICE_RO);
-  event e = q.prefetch(data, BLOCK_SIZE);
+  event e = q.prefetch(data, BLOCK_SIZE * sizeof(int));
 
   for (int b = 0; b < NUM_BLOCKS; b++) {
     q.parallel_for(range{BLOCK_SIZE}, e, [=](id<1> i) {
@@ -39,7 +39,7 @@ int main() {
     if ((b + 1) < NUM_BLOCKS) {
       // Prefetch next block
       e = q.prefetch(data + (b + 1) * BLOCK_SIZE,
-                     BLOCK_SIZE*sizeof(int));
+                     BLOCK_SIZE * sizeof(int));
     }
   }
   q.wait();
