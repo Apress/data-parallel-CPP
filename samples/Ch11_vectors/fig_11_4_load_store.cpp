@@ -20,13 +20,13 @@ int main() {
 
   queue q;
   q.submit([&](handler& h) {
-    accessor buf{fpBuf, h};
+    accessor acc{fpBuf, h};
 
     h.parallel_for(workers, [=](id<1> idx) {
       float16 inpf16;
-      inpf16.load(idx, buf.get_pointer());
+      inpf16.load(idx, acc.get_pointer());
       float16 result = inpf16 * 2.0f;
-      result.store(idx, buf.get_pointer());
+      result.store(idx, acc.get_pointer());
     });
   });
   // END CODE SNIP
