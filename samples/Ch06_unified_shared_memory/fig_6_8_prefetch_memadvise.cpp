@@ -15,9 +15,12 @@ int main() {
   int *data = malloc_shared<int>(N, q);
   int *read_only_data = malloc_shared<int>(BLOCK_SIZE, q);
 
+  for (int i = 0; i < N; i++) {
+    data[i] = -i;
+  }
+
   // Never updated after initialization
   for (int i = 0; i < BLOCK_SIZE; i++) {
-    data[i] = -i;
     read_only_data[i] = i;
   }
 
