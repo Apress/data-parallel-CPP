@@ -19,7 +19,7 @@ class item {
   range<Dimensions> get_range() const;
   size_t get_range(int dimension) const;
 
-  // Return the offset of this item (if with_offset == true)
+  // Return the offset of this item (if WithOffset == true)
   id<Dimensions> get_offset() const;
 
   // Return the linear index of this item
