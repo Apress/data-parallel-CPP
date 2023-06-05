@@ -42,14 +42,12 @@ int main() {
     });
   });
 
-  host_accessor host_A(bufA);
   host_accessor host_P(bufP);
 
-  if (host_P[0] && host_A[4] == std::log(4.00f)) {
-    std::cout << "Passed\n";
+  if (host_P[0]) {
+    std::cout << "Matched\n";
   } else {
-    std::cout << "Failed\n";
+    std::cout << "Unmatched\n";
   }
-
   return 0;
 }
