@@ -23,22 +23,6 @@ std::tuple<size_t, size_t> distribute_range(group<1> g,
   return {group_start, group_end};
 }
 
-// Define shorthand aliases for the types of atomic needed
-// by this kernel
-namespace {
-template <typename T>
-using local_atomic_ref =
-    atomic_ref<T, memory_order::relaxed,
-               memory_scope::work_group,
-               access::address_space::local_space>;
-
-template <typename T>
-using global_atomic_ref =
-    atomic_ref<T, memory_order::relaxed,
-               memory_scope::system,
-               access::address_space::global_space>;
-}  // namespace
-
 int main() {
   queue q;
 
@@ -75,7 +59,9 @@ int main() {
            for (int i = group_start + it.get_local_id(0);
                 i < group_end; i += it.get_local_range(0)) {
              int32_t b = input[i] % B;
-             local_atomic_ref<uint32_t>(local[b])++;
+             atomic_ref<uint32_t, memory_order::relaxed,
+                        memory_scope::work_group,
+                        access::address_space::local_space>(local[b])++;
            }
            group_barrier(
                grp);  // Wait for all local histogram
@@ -85,7 +71,8 @@ int main() {
            // global memory
            for (int32_t b = it.get_local_id(0); b < B;
                 b += it.get_local_range(0)) {
-             global_atomic_ref<uint32_t>(histogram[b]) +=
+             atomic_ref<uint32_t, memory_order::relaxed, memory_scope::system,
+                        access::address_space::global_space>(histogram[b]) +=
                  local[b];
            }
          });
