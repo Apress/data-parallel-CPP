@@ -16,8 +16,10 @@ int main() {
   int *read_only_data = malloc_shared<int>(BLOCK_SIZE, q);
 
   // Never updated after initialization
-  for (int i = 0; i < BLOCK_SIZE; i++)
+  for (int i = 0; i < BLOCK_SIZE; i++) {
+    data[i] = -i;
     read_only_data[i] = i;
+  }
 
   // Mark this data as "read only" so the runtime can copy
   // it to the device instead of migrating it from the host.
