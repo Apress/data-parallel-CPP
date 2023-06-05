@@ -47,8 +47,6 @@ double run_sycl(const std::vector<T>& vecA,
       auto tileA = local_accessor<T, 1>(tile_size, h);
 
       // BEGIN CODE SNIP
-
-      // Template type T is the type of data stored in the matrix
       h.parallel_for(
           nd_range<2>{{M, N}, {1, tile_size}},
           [=](nd_item<2> item) {
@@ -59,6 +57,8 @@ double run_sycl(const std::vector<T>& vecA,
             // Index in the local index space:
             int i = item.get_local_id()[1];
 
+            // Template type T is the type of data stored in
+            // the matrix
             T sum = 0;
             for (int kk = 0; kk < K; kk += tile_size) {
               // Load the matrix tile from matrix A, and

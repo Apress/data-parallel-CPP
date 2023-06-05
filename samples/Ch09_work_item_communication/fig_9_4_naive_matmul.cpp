@@ -40,12 +40,12 @@ double run_sycl(const std::vector<T>& vecA,
       accessor matrixC{bufC, h};
 
       // BEGIN CODE SNIP
-
-      // Template type T is the type of data stored in the matrix
       h.parallel_for(range{M, N}, [=](id<2> id) {
         int m = id[0];
         int n = id[1];
 
+        // Template type T is the type of data stored
+        // in the matrix
         T sum = 0;
         for (int k = 0; k < K; k++) {
           sum += matrixA[m][k] * matrixB[k][n];

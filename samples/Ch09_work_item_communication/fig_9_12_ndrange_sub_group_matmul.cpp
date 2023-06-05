@@ -43,8 +43,6 @@ double run_sycl(const std::vector<T>& vecA,
       // BEGIN CODE SNIP
       // Note: This example assumes that the sub-group size
       // is greater than or equal to the tile size!
-
-      // Template type T is the type of data stored in the matrix
       constexpr int tile_size = 4;
       h.parallel_for(
           nd_range<2>{{M, N}, {1, tile_size}},
@@ -58,6 +56,8 @@ double run_sycl(const std::vector<T>& vecA,
             // Index in the local index space:
             int i = item.get_local_id()[1];
 
+            // Template type T is the type of data stored
+            // in the matrix
             T sum = 0;
             for (int kk = 0; kk < K; kk += tile_size) {
               // Load the matrix tile from matrix A.

@@ -36,8 +36,6 @@ double run_sycl(const std::vector<T>& vecA,
 
     q.submit([&](handler& h) {
       // BEGIN CODE SNIP
-      // Template type T is the type of data stored in the matrix
-
       // Traditional accessors, representing matrices in
       // global memory:
       accessor matrixA{bufA, h};
@@ -46,6 +44,8 @@ double run_sycl(const std::vector<T>& vecA,
 
       // Local accessor, for one matrix tile:
       constexpr int tile_size = 16;
+
+      // Template type T is the type of data stored in the matrix
       auto tileA = local_accessor<T, 1>(tile_size, h);
 
       h.parallel_for(
