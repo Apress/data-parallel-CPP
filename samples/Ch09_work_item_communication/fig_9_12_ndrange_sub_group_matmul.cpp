@@ -9,6 +9,7 @@ using namespace sycl;
 extern const int matrixSize = 128;
 static const int iterations = 16;
 
+// T is the type of data stored in the matrix
 template <typename T>
 double run_sycl(const std::vector<T>& vecA,
                 const std::vector<T>& vecB,
@@ -42,6 +43,8 @@ double run_sycl(const std::vector<T>& vecA,
       // BEGIN CODE SNIP
       // Note: This example assumes that the sub-group size
       // is greater than or equal to the tile size!
+
+      // Template type T is the type of data stored in the matrix
       constexpr int tile_size = 4;
       h.parallel_for(
           nd_range<2>{{M, N}, {1, tile_size}},

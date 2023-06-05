@@ -36,6 +36,8 @@ double run_sycl(const std::vector<T>& vecA,
 
     q.submit([&](handler& h) {
       // BEGIN CODE SNIP
+      // Template type T is the type of data stored in the matrix
+
       // Traditional accessors, representing matrices in
       // global memory:
       accessor matrixA{bufA, h};

@@ -40,6 +40,8 @@ double run_sycl(const std::vector<T>& vecA,
       accessor matrixC{bufC, h};
 
       // BEGIN CODE SNIP
+
+      // Template type T is the type of data stored in the matrix
       h.parallel_for(range{M, N}, [=](id<2> id) {
         int m = id[0];
         int n = id[1];
