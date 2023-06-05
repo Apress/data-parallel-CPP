@@ -9,6 +9,7 @@ using namespace sycl;
 extern const int matrixSize = 128;
 static const int iterations = 16;
 
+// T is the type of data stored in the matrix
 template <typename T>
 double run_sycl(const std::vector<T>& vecA,
                 const std::vector<T>& vecB,
@@ -56,6 +57,8 @@ double run_sycl(const std::vector<T>& vecA,
             // Index in the local index space:
             int i = item.get_local_id()[1];
 
+            // Template type T is the type of data stored in
+            // the matrix
             T sum = 0;
             for (int kk = 0; kk < K; kk += tile_size) {
               // Load the matrix tile from matrix A, and

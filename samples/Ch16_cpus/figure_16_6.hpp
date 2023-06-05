@@ -13,7 +13,7 @@ double triad(const std::vector<double>& vecA,
              std::vector<double>& vecC) {
   assert(vecA.size() == vecB.size() == vecC.size());
   const size_t array_size = vecA.size();
-  double min_time_ns = DBL_MAX;
+  double min_time_ns = std::numeric_limits<double>::max();
 
   queue Q{property::queue::enable_profiling{}};
   std::cout << "Running on device: "
