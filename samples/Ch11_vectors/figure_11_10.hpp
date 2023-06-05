@@ -13,4 +13,4 @@ q.submit([&](sycl::handler &h) { // assume sub group size is 8
     // ...
     float x = dowork(&y4);  // the “dowork” expects y4,
                             // i.e., vec_y[8][4] layout
-});
+  });
