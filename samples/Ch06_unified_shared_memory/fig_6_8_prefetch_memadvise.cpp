@@ -39,7 +39,7 @@ int main() {
     if ((b + 1) < NUM_BLOCKS) {
       // Prefetch next block
       e = q.prefetch(data + (b + 1) * BLOCK_SIZE,
-                     BLOCK_SIZE);
+                     BLOCK_SIZE*sizeof(int));
     }
   }
   q.wait();
