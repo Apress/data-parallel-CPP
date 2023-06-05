@@ -19,6 +19,7 @@ bool checkEqual(marray<T, N> A, marray<T, N> B) {
 }
 
 int main() {
+  // BEGIN CODE SNIP
   queue q;
   marray<float, 4> input{1.0004f, 1e-4f, 1.4f, 14.0f};
   marray<float, 4> res[M];
@@ -38,6 +39,7 @@ int main() {
       });
     });
   }
+  // END CODE SNIP
 
   if (checkEqual(res[0], res[M / 2]))
     std::cout << "passed\n";

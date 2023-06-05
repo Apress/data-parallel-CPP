@@ -5,7 +5,7 @@
 // These ".hpp" files are text from the book that are
 // snipets that are not set up to be compiled as is.
 
-template <int… swizzleindexes>
+template <int... swizzleindexes>
 __swizzled_vec__ swizzle() const;
 __swizzled_vec__ XYZW_ACCESS() const;
 __swizzled_vec__ RGBA_ACCESS() const;
