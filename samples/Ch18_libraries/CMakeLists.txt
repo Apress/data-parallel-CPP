@@ -12,41 +12,41 @@ endif()
 
 add_book_sample(
     TEST
-    TARGET fig_18_7_swap
-    SOURCES fig_18_7_swap.cpp)
+    TARGET fig_18_2_swap
+    SOURCES fig_18_2_swap.cpp)
 
 if(NOT NODPL)
 add_book_sample(
     TEST
-    TARGET fig_18_11_std_fill
-    SOURCES fig_18_11_std_fill.cpp)
+    TARGET fig_18_6_std_fill
+    SOURCES fig_18_6_std_fill.cpp)
 endif()
 
 if(NOT NODPL)
 add_book_sample(
     TEST
-    TARGET fig_18_12_std_fill_default_policy
-    SOURCES fig_18_12_std_fill_default_policy.cpp)
+    TARGET fig_18_7_std_fill_default_policy
+    SOURCES fig_18_7_std_fill_default_policy.cpp)
 endif()
 
 if(NOT NODPL)
 add_book_sample(
     TEST
-    TARGET fig_18_13_binary_search
-    SOURCES fig_18_13_binary_search.cpp)
+    TARGET fig_18_8_binary_search
+    SOURCES fig_18_8_binary_search.cpp)
 endif()
 
 if(NOT NODPL)
 add_book_sample(
     TEST
-    TARGET fig_18_14_pstl_usm_device
-    SOURCES fig_18_14_pstl_usm_device.cpp)
+    TARGET fig_18_9_pstl_usm_device
+    SOURCES fig_18_9_pstl_usm_device.cpp)
 endif()
 
 if(NOT NODPL)
 add_book_sample(
     TEST
-    TARGET fig_18_15_pstl_usm
-    SOURCES fig_18_15_pstl_usm.cpp)
+    TARGET fig_18_10_pstl_usm
+    SOURCES fig_18_10_pstl_usm.cpp)
 endif()
 
