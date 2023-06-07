@@ -29,7 +29,7 @@ int main() {
     //  equivalent to the swizzle order that we need, for
     //  example zyx() or any combination of the elements.
     //  The swizzle need not be the same size as the
-    //  original vector
+    //  original vector.
     h.parallel_for(size, [=](id<1> idx) {
       auto e = a[idx];
       float w = e.w();
