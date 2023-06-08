@@ -19,12 +19,14 @@ class AddWithAttribute {
   [[sycl::reqd_work_group_size(1, 1, 8)]] void operator()(
       id<3> _i) const {
     auto i = _i[2];
+    data_acc[i] = data_acc[i] + 1;
+  }
 #else
   [[sycl::reqd_work_group_size(8)]] void operator()(
       id<1> i) const {
-#endif
     data_acc[i] = data_acc[i] + 1;
   }
+#endif
 
  private:
   accessor<int> data_acc;
@@ -40,12 +42,14 @@ class MulWithAttribute {
       [[sycl::reqd_work_group_size(1, 1,
                                    8)]] (id<3> _i) const {
     auto i = _i[2];
+    data_acc[i] = data_acc[i] * 2;
+  }
 #else
   void operator()
       [[sycl::reqd_work_group_size(8)]] (id<1> i) const {
-#endif
     data_acc[i] = data_acc[i] * 2;
   }
+#endif
 
  private:
   accessor<int> data_acc;
@@ -73,21 +77,25 @@ int main() {
       accessor data_acc{data_buf, h};
 #ifdef TEMPORARY_FIX
       h.parallel_for(nd_range<3>{{1, 1, size}, {1, 1, 8}},
-#else
-      h.parallel_for(nd_range{{size}, {8}},
-#endif
                      AddWithAttribute(data_acc));
     });
+#else
+      h.parallel_for(nd_range{{size}, {8}},
+                     AddWithAttribute(data_acc));
+    });
+#endif
 
     q.submit([&](handler& h) {
       accessor data_acc{data_buf, h};
 #ifdef TEMPORARY_FIX
       h.parallel_for(nd_range<3>{{1, 1, size}, {1, 1, 8}},
-#else
-      h.parallel_for(nd_range{{size}, {8}},
-#endif
                      MulWithAttribute(data_acc));
     });
+#else
+      h.parallel_for(nd_range{{size}, {8}},
+                     MulWithAttribute(data_acc));
+    });
+#endif
   }
 
   for (int i = 0; i < size; i++) {
