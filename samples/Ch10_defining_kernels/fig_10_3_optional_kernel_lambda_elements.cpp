@@ -39,16 +39,19 @@ int main() {
           [[sycl::reqd_work_group_size(1, 1, 8)]]
               ->void {
                 auto i = _i[2];
+                data_acc[i] = data_acc[i] + 1;
+              });
+    });
 #else
       h.parallel_for(
           nd_range{{size}, {8}},
           [=](id<1> i) noexcept
           [[sycl::reqd_work_group_size(8)]]
               ->void {
-#endif
                 data_acc[i] = data_acc[i] + 1;
               });
     });
+#endif
     // END CODE SNIP
   }
 
