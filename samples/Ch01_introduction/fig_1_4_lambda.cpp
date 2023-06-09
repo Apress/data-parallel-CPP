@@ -13,7 +13,7 @@ void print_values(const int& i, const int& j, const int& k,
 }
 
 int main() {
-  // START CODE SNIP
+  // BEGIN CODE SNIP
   int i = 1, j = 10, k = 100, l = 1000;
 
   auto lambda = [i, &j](int k0, int& l0) -> int {

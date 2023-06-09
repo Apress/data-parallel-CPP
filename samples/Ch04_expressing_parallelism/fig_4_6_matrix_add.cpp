@@ -31,7 +31,7 @@ int main() {
       accessor b{b_buf, h};
       accessor c{c_buf, h};
 
-      // START CODE SNIP
+      // BEGIN CODE SNIP
       h.parallel_for(range{N, M}, [=](id<2> idx) {
         c[idx] = a[idx] + b[idx];
       });

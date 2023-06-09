@@ -18,7 +18,7 @@ int main() {
             << q.get_device().get_info<info::device::name>()
             << "\n";
 
-  // START CODE SNIP
+  // BEGIN CODE SNIP
 
   q.submit([&](handler& h) {
     accessor acc{B, h};

@@ -6,7 +6,7 @@
 using namespace sycl;
 
 int main() {
-  // START CODE SNIP
+  // BEGIN CODE SNIP
 
   try {
     // Do some SYCL work

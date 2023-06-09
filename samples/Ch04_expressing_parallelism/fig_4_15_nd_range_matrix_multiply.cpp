@@ -35,7 +35,7 @@ int main() {
       accessor b{b_buf, h};
       accessor c{c_buf, h};
 
-      // START CODE SNIP
+      // BEGIN CODE SNIP
       range global{N, N};
       range local{B, B};
       h.parallel_for(nd_range{global, local},

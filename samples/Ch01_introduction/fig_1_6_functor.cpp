@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-// START CODE SNIP
+// BEGIN CODE SNIP
 class Functor {
  public:
   Functor(int i, int &j) : my_i{i}, my_jRef{j} {}

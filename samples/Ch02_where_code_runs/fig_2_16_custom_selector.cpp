@@ -6,7 +6,7 @@
 #include <sycl/sycl.hpp>
 using namespace sycl;
 
-// START CODE SNIP
+// BEGIN CODE SNIP
 int my_selector(const device &dev) {
   if (dev.get_info<info::device::name>().find("pac_a10") !=
           std::string::npos &&
