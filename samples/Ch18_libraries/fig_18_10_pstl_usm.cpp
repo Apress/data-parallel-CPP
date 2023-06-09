@@ -2,11 +2,6 @@
 
 // SPDX-License-Identifier: MIT
 
-// -------------------------------------------------------
-// Changed from Book:
-// old naming dpstd:: is now oneapi::dpl::
-// -------------------------------------------------------
-
 #include <oneapi/dpl/algorithm>
 #include <oneapi/dpl/execution>
 #include <sycl/sycl.hpp>

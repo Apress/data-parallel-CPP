@@ -46,8 +46,8 @@ int main() {
                        for (int k = 0; k < N; ++k) {
                          c[j][i] += a[j][k] * b[k][i];
                        }
-                       // END CODE SNIP
                      });
+      // END CODE SNIP
     });
   }
 

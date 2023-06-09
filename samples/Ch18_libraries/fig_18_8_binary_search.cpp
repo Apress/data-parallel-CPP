@@ -2,14 +2,6 @@
 
 // SPDX-License-Identifier: MIT
 
-// -------------------------------------------------------
-// Changed from Book:
-// dpstd:: is now
-//   oneapi::dpl::
-// dpstd::execution::default_policy is now
-//   oneapi::dpl::execution::dpcpp_default
-// -------------------------------------------------------
-
 // clang-format off
 #include <oneapi/dpl/algorithm>
 // clang-format on

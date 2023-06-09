@@ -8,8 +8,7 @@
 class handler {
   ...
       // Specifies event(s) that must be complete before the
-      // action
-      //   defined in this command group executes.
+      // action defined in this command group executes.
       void depends_on({event / std::vector<event> & });
 
   // Enqueues a memcpy from Src to Dest.

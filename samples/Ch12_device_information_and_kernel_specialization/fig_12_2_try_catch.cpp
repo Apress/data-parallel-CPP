@@ -31,12 +31,12 @@ int main() {
   //  Intel(R) Gen9 HD Graphics NEO.
   //
   // sample output using a system with an FPGA accelerator,
-  // but no GPU: Caught this SYCL exception: No device of
+  // but no GPU:
+  // Caught this SYCL exception: No device of
   // requested type 'info::device_type::gpu' available.
   // ...(PI_ERROR_DEVICE_NOT_FOUND)
   // After checking for a GPU, we are running on:
   // Intel(R) Core(TM) i7-8665U CPU @ 1.90GHz
-  //
 
   // END CODE SNIP
   return 0;

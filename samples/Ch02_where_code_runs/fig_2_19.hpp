@@ -17,7 +17,7 @@ class handler {
   void update_host(AccessorT acc);
 
   // Submit a memset operation writing
-  //to the specified pointer.
+  // to the specified pointer.
   // Return an event representing this operation.
   event memset(void *ptr, int value, size_t count);
 

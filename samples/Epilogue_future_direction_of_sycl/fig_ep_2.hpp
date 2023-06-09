@@ -20,9 +20,10 @@ q.parallel_for(..., sycl::nd_item<1> it)
 
   // Invoke SIMD function (scale) using work-items in the
   // sub-group x values from each work-item are combined
-  // into a simd<float, 8> n values are defined to be the
-  // same (uniform) across all work-items Returned
-  // simd<float, 8> is unpacked
+  // into a simd<float, 8>
+  // The value of n is defined to be the
+  // same (uniform) across all work-items
+  // Returned simd<float, 8> is unpacked
   sycl::sub_group sg = it.get_sub_group();
   float y = invoke_simd(sg, scale, x, uniform(n));
 });

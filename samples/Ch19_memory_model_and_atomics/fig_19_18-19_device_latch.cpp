@@ -18,22 +18,22 @@ struct device_latch {
     auto grp = it.get_group();
     group_barrier(grp);
     // Elect one work-item per work-group to be involved in
-    // the synchronization All other work-items wait at the
-    // barrier after the branch
+    // the synchronization. All other work-items wait at the
+    // barrier after the branch.
     if (grp.leader()) {
       atomic_ref<size_t, memory_order::acq_rel,
                  memory_scope::device,
                  access::address_space::global_space>
           atomic_counter(counter);
 
-      // Signal arrival at the barrier
+      // Signal arrival at the barrier.
       // Previous writes should be visible to all work-items
-      // on the device
+      // on the device.
       atomic_counter++;
 
-      // Wait for all work-groups to arrive
+      // Wait for all work-groups to arrive.
       // Synchronize with previous releases by all
-      // work-items on the device
+      // work-items on the device.
       while (atomic_counter.load() != expected) {
       }
     }

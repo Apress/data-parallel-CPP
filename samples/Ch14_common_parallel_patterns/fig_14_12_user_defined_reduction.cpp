@@ -2,12 +2,6 @@
 
 // SPDX-License-Identifier: MIT
 
-// -------------------------------------------------------
-// Changed from Book:
-//   dropped 'using namespace sycl::ONEAPI'
-//   this allows reduction to use the sycl::reduction
-// -------------------------------------------------------
-
 #include <iostream>
 #include <random>
 #include <sycl/sycl.hpp>

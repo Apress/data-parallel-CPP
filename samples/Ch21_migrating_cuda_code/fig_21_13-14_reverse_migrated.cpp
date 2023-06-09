@@ -54,8 +54,8 @@ int main() try {
         });
   });
   /*
-  DPCT1003:2: Migrated API does not return error code. (*,
-  0) is inserted. You may need to rewrite this code.
+  DPCT1003:2: Migrated API does not return error code.
+  (*,0) is inserted. You may need to rewrite this code.
   */
   dpct::err0 result = (dev_ct1.queues_wait_and_throw(), 0);
   /*
