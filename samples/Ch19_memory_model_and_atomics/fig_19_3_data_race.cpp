@@ -14,6 +14,7 @@ int main() {
   const size_t N = 32;
   const size_t M = 4;
 
+  // BEGIN CODE SNIP
   int* data = malloc_shared<int>(N, q);
   std::fill(data, data + N, 0);
 
@@ -25,6 +26,7 @@ int main() {
   for (int i = 0; i < N; ++i) {
     std::cout << "data [" << i << "] = " << data[i] << "\n";
   }
+  // END CODE SNIP
 
   bool passed = true;
   int* gold = (int*)malloc(N * sizeof(int));

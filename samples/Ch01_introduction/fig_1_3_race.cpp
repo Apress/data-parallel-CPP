@@ -15,6 +15,8 @@ const auto sz = secret.size();
 int main() {
   queue q;
 
+  // BEGIN CODE SNIP
+  // ...we are changing one line from Figure 1-1
   char* result = malloc_shared<char>(sz, q);
 
   // Introduce potential data race!  We don't define a
@@ -26,6 +28,8 @@ int main() {
      result[i] -= 1;
    }).wait();
 
+  // ...
+  // END CODE SNIP
   std::cout << result << "\n";
   free(result, q);
   return 0;

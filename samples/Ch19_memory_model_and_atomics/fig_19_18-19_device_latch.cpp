@@ -8,6 +8,7 @@
 
 using namespace sycl;
 
+// BEGIN CODE SNIP
 struct device_latch {
   explicit device_latch(size_t num_groups)
       : counter(0), expected(num_groups) {}
@@ -42,6 +43,7 @@ struct device_latch {
   size_t counter;
   size_t expected;
 };
+// END CODE SNIP
 
 int main() {
   queue q;
@@ -61,6 +63,7 @@ int main() {
   size_t* sums = sycl::malloc_shared<size_t>(
       num_groups * items_per_group, q);
 
+  // BEGIN CODE SNIP
   // Allocate a one-time-use device_latch in USM
   void* ptr = sycl::malloc_shared(sizeof(device_latch), q);
   device_latch* latch = new (ptr) device_latch(num_groups);
@@ -82,6 +85,7 @@ int main() {
      });
    }).wait();
   free(ptr, q);
+  // END CODE SNIP
 
   // Check that all work-items saw all writes
   bool passed = true;

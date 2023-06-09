@@ -36,6 +36,7 @@ int main() {
   std::generate(input, input + N, std::mt19937{});
   std::fill(histogram, histogram + B, 0);
 
+  // BEGIN CODE SNIP
   q.submit([&](handler& h) {
      auto local = local_accessor<uint32_t, 1>{B, h};
      h.parallel_for(
@@ -77,6 +78,7 @@ int main() {
            }
          });
    }).wait();
+  // END CODE SNIP
 
   // Compute reference histogram serially on the host
   bool passed = true;

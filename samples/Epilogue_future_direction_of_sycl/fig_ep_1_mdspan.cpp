@@ -9,6 +9,7 @@ using namespace sycl;
 namespace stdex = std::experimental;
 
 int main() {
+  // BEGIN CODE SNIP
   queue q;
   constexpr int N = 4;
   constexpr int M = 2;
@@ -20,6 +21,7 @@ int main() {
      int j = idx[1];
      view(i, j) = i * M + j;
    }).wait();
+  // END CODE SNIP
 
   bool passed = true;
   for (int i = 0; i < N; ++i) {

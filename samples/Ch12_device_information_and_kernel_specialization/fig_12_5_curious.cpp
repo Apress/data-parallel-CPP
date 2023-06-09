@@ -7,6 +7,7 @@
 using namespace sycl;
 
 int main() {
+  // BEGIN CODE SNIP
   // Loop through available platforms
   for (auto const& this_platform :
        platform::get_platforms()) {
@@ -25,6 +26,7 @@ int main() {
     }
     std::cout << "\n";
   }
+  // END CODE SNIP
 
   return 0;
 }

@@ -5,6 +5,7 @@
 // These ".hpp" files are text from the book that are
 // snippets that are not set up to be compiled as is.
 
+// BEGIN CODE SNIP
 class queue {
  public:
   // Create a queue associated with a default
@@ -32,3 +33,4 @@ class queue {
   queue(const context &, const device &,
         const property_list & = {});
 };
+// END CODE SNIP

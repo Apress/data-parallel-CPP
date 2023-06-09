@@ -7,6 +7,7 @@
 using namespace sycl;
 
 int main() {
+  // BEGIN CODE SNIP
   queue q;
   device dev = q.get_device();
 
@@ -26,5 +27,6 @@ int main() {
             << "\nGlobal memory size is " << maxGmem
             << "\nLocal memory size is " << maxLmem << "\n";
 
+  // END CODE SNIP
   return 0;
 }

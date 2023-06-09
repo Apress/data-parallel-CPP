@@ -13,7 +13,7 @@ void print_values(const int& i, const int& j, const int& k,
 }
 
 int main() {
-  // START BOOK SNIP
+  // START CODE SNIP
   int i = 1, j = 10, k = 100, l = 1000;
 
   auto lambda = [i, &j](int k0, int& l0) -> int {
@@ -30,7 +30,7 @@ int main() {
   std::cout << "Second call returned " << lambda(k, l)
             << "\n";
   print_values(i, j, k, l);
-  // END BOOK SNIP
+  // END CODE SNIP
 
   return 0;
 }

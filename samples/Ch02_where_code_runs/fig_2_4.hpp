@@ -5,6 +5,7 @@
 // These ".hpp" files are text from the book that are
 // snippets that are not set up to be compiled as is.
 
+// BEGIN CODE SNIP
 class queue {
  public:
   // Submit a command group to this queue.
@@ -23,3 +24,4 @@ class queue {
   // async_handler function.
   void wait_and_throw();
 };
+// END CODE SNIP

@@ -6,6 +6,7 @@
 #include <sycl/sycl.hpp>
 using namespace sycl;
 
+// BEGIN CODE SNIP
 template <typename queryT, typename T>
 void do_query(const T& obj_to_query,
               const std::string& name, int indent = 4) {
@@ -122,6 +123,7 @@ int main() {
   }
   return 0;
 }
+// END CODE SNIP
 
 #if 0
 // Some sample outputs:

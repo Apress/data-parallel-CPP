@@ -9,6 +9,7 @@
 using namespace sycl;
 
 int main() {
+  // BEGIN CODE SNIP
   queue q;
 
   bool *resArray = malloc_shared<bool>(1, q);
@@ -27,6 +28,7 @@ int main() {
        resArray[0] = false;
      }
    }).wait();
+  // END CODE SNIP
 
   if (resArray[0])
     std::cout << "passed\n";

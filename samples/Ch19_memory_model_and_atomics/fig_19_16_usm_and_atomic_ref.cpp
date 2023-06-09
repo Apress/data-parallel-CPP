@@ -22,6 +22,7 @@ int main() {
   int* data = malloc_shared<int>(N, q);
   std::fill(data, data + N, 0);
 
+  // BEGIN CODE SNIP
   q.parallel_for(N, [=](id<1> i) {
      int j = i % M;
      atomic_ref<int, memory_order::relaxed,
@@ -30,6 +31,7 @@ int main() {
          atomic_data(data[j]);
      atomic_data += 1;
    }).wait();
+  // END CODE SNIP
 
   for (int i = 0; i < N; ++i) {
     std::cout << "data [" << i << "] = " << data[i] << "\n";

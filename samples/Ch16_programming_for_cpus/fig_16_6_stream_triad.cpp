@@ -11,9 +11,10 @@
 #include <sycl/sycl.hpp>
 using namespace sycl;
 
+constexpr size_t default_array_size = 256;
+// BEGIN CODE SNIP
 constexpr int num_runs = 10;
 constexpr size_t scalar = 3;
-constexpr size_t default_array_size = 256;
 
 double triad(const std::vector<float>& vecA,
              const std::vector<float>& vecB,
@@ -57,6 +58,7 @@ double triad(const std::vector<float>& vecA,
 
   return min_time_ns;
 }
+// END CODE SNIP
 
 int main(int argc, char* argv[]) {
   size_t array_size;

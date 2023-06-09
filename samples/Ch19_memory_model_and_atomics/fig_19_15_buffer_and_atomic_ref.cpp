@@ -19,6 +19,7 @@ int main() {
   {
     buffer buf(data);
 
+    // BEGIN CODE SNIP
     q.submit([&](handler& h) {
       accessor acc{buf, h};
       h.parallel_for(N, [=](id<1> i) {
@@ -30,6 +31,7 @@ int main() {
         atomic_acc += 1;
       });
     });
+    // END CODE SNIP
   }
 
   for (int i = 0; i < N; ++i) {

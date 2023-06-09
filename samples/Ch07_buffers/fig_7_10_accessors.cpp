@@ -2,6 +2,7 @@
 
 // SPDX-License-Identifier: MIT
 
+// BEGIN CODE SNIP
 #include <cassert>
 #include <sycl/sycl.hpp>
 using namespace sycl;
@@ -46,3 +47,4 @@ int main() {
   }
   return 0;
 }
+// END CODE SNIP

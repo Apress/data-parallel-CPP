@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-// START BOOK SNIP
+// START CODE SNIP
 class Functor {
  public:
   Functor(int i, int &j) : my_i{i}, my_jRef{j} {}
@@ -20,7 +20,7 @@ class Functor {
   int my_i;
   int &my_jRef;
 };
-// END BOOK SNIP
+// END CODE SNIP
 
 int main() {
   int i = 1, j = 10, k = 100, l = 1000;

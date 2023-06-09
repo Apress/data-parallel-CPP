@@ -8,6 +8,7 @@
 using namespace sycl;
 
 int main() {
+  // BEGIN CODE SNIP
   const int n = 16, w = 16;
 
   queue q;
@@ -37,6 +38,7 @@ int main() {
          group_barrier(sg);
        })
       .wait();
+  // END CODE SNIP
 
   if (a[0] == 3 && a[9] == 12)
     std::cout << "passed\n";

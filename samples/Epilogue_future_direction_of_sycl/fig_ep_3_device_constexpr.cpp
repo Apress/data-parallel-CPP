@@ -11,6 +11,7 @@ int main() {
 
   q.submit([&](handler& h) {
      stream out(9, 9, h);
+     // BEGIN CODE SNIP
      h.parallel_for(range{1}, [=](id<1> idx) {
        if_device_has<aspect::cpu>([&]() {
          /* Code specialized for CPUs */
@@ -20,5 +21,6 @@ int main() {
          out << "On a GPU!" << endl;
        });
      });
+     // END CODE SNIP
    }).wait();
 }

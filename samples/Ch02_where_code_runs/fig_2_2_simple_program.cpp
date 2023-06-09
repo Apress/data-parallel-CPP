@@ -7,6 +7,7 @@
 #include <sycl/sycl.hpp>
 using namespace sycl;
 
+// BEGIN CODE SNIP
 int main() {
   constexpr int size = 16;
   std::array<int, size> data;
@@ -30,3 +31,4 @@ int main() {
 
   return 0;
 }
+// END CODE SNIP
