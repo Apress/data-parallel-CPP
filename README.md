@@ -2,6 +2,8 @@
 
 ## This branch (sycl121\_original\_publication)
 
+We do not recommend using this branch; we recommend using the main branch.
+
 This sycl121\_original\_publication branch corresponds to the original publication of the book, when SYCL 1.2.1 was the most recent version of the SYCL specification from The Khronos Group.  
 
 Since then, SYCL 2020 was released which incluedes many enhancements and changes relative to SYCL 1.2.1 (the now old version).  The main branch in this repository now tracks SYCL 2020 to be compatible with recent compilers, and this sycl121\_original\_publication branch maintains the original source in case anybody needs to reference it.
