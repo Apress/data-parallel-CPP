@@ -29,7 +29,6 @@ int main() {
   int32_t* tmp = malloc_device<int32_t>(G, q);
 
   // BEGIN CODE SNIP
-  // END CODE SNIP
   // Phase 1: Compute local scans over input blocks
   q.submit([&](handler& h) {
      auto local = local_accessor<int32_t, 1>(L, h);
