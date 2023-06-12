@@ -34,3 +34,7 @@ int main() {
 
   return 0;
 }
+
+// Example output:
+// Device : Intel(R) Xeon(R) Gold 6128 CPU @ 3.40GHz
+// Caught SYCL ASYNC exception!!

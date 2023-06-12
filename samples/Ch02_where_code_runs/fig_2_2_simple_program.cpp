@@ -2,12 +2,12 @@
 
 // SPDX-License-Identifier: MIT
 
+// BEGIN CODE SNIP
 #include <array>
 #include <iostream>
 #include <sycl/sycl.hpp>
 using namespace sycl;
 
-// BEGIN CODE SNIP
 int main() {
   constexpr int size = 16;
   std::array<int, size> data;

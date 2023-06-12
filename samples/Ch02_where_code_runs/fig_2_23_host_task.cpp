@@ -45,3 +45,15 @@ int main() {
 
   return 0;
 }
+
+// Example Output:
+// Selected device: NVIDIA GeForce RTX 3060
+// host_task @ 0 = 0
+// host_task @ 1 = 1
+// host_task @ 2 = 2
+// host_task @ 3 = 3
+// main @ 0 = 0
+// main @ 1 = 1
+// main @ 2 = 2
+// main @ 3 = 3
+						    

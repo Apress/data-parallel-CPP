@@ -26,18 +26,22 @@ int main() {
       << q.get_device().get_info<info::device::name>()
       << "\n";
 
-  // sample output using a system with a GPU:
-  // After checking for a GPU, we are running on:
-  //  Intel(R) Gen9 HD Graphics NEO.
-  //
-  // sample output using a system with an FPGA accelerator,
-  // but no GPU:
-  // Caught this SYCL exception: No device of
-  // requested type 'info::device_type::gpu' available.
-  // ...(PI_ERROR_DEVICE_NOT_FOUND)
-  // After checking for a GPU, we are running on:
-  // Intel(R) Core(TM) i7-8665U CPU @ 1.90GHz
-
   // END CODE SNIP
   return 0;
 }
+
+// After checking for a GPU, we are running on:
+//  AMD Radeon RX 5700 XT
+// After checking for a GPU, we are running on:
+//  Intel(R) Data Center GPU Max 1100
+// After checking for a GPU, we are running on:
+//  NVIDIA GeForce RTX 3060
+// After checking for a GPU, we are running on:
+//  Intel(R) UHD Graphics 770
+// 
+// Example Output (using a system without GPU):
+// Caught this SYCL exception: No device of
+// requested type 'info::device_type::gpu' available.
+// ...(PI_ERROR_DEVICE_NOT_FOUND)
+// After checking for a GPU, we are running on:
+//  AMD Ryzen 5 3600 6-Core Processor

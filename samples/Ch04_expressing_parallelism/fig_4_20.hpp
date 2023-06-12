@@ -10,5 +10,6 @@ void body(group& g);
 h.parallel_for(nd_range{global, local}, [=](nd_item<1> it) {
   group<1> g = it.get_group();
   range<1> r = g.get_local_range();
-  ... body(g);
+  ...
+  body(g);
 });

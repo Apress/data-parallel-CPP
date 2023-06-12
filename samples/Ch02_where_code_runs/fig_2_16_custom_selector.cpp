@@ -27,3 +27,6 @@ int main() {
 
   return 0;
 }
+
+// Example Output:
+// Selected device is: pac_a10 : Intel PAC Platform (pac_ee00000)

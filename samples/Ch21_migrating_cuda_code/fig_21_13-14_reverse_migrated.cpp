@@ -10,6 +10,7 @@
 
 constexpr size_t size = 1024 * 1024;
 
+// BEGIN CODE SNIP
 void Reverse(int *ptr, size_t size,
              const sycl::nd_item<3> &item_ct1,
              int *scratch) {
@@ -22,6 +23,7 @@ void Reverse(int *ptr, size_t size,
   item_ct1.barrier(sycl::access::fence_space::local_space);
   ptr[gid] = scratch[256 - lid - 1];
 }
+// END CODE SNIP
 
 int main() try {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
@@ -29,11 +31,13 @@ int main() try {
   std::array<int, size> data;
   std::iota(data.begin(), data.end(), 0);
 
+  // BEGIN CODE SNIP
   dpct::device_info deviceProp;
   dpct::dev_mgr::instance().get_device(0).get_device_info(
       deviceProp);
   std::cout << "Running on device: "
             << deviceProp.get_name() << "\n";
+  // END CODE SNIP
 
   int *ptr = nullptr;
   ptr = sycl::malloc_device<int>(size, q_ct1);

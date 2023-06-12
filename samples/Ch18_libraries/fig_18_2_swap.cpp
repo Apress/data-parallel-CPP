@@ -33,3 +33,8 @@ int main() {
             << "\n";
   return 0;
 }
+
+// Sample output:
+// 8, 9
+// 9, 8
+	       

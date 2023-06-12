@@ -19,10 +19,12 @@ int main() {
   std::iota(input, input + N, 1);
   std::fill(output, output + N, 0);
 
+  // BEGIN CODE SNIP
   // Compute the square root of each input value
   q.parallel_for(N, [=](id<1> i) {
      output[i] = sqrt(input[i]);
    }).wait();
+  // END CODE SNIP
 
   // Check that all outputs match serial execution.
   bool passed = true;

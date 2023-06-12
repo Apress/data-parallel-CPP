@@ -7,6 +7,7 @@
 using namespace sycl;
 
 int main() {
+  // BEGIN CODE SNIP
   queue q;
   int my_ints[42];
 
@@ -38,6 +39,7 @@ int main() {
       my_ints,
       range(42),
       {property::buffer::context_bound{q.get_context()}}};
+  // END CODE SNIP
 
   return 0;
 }

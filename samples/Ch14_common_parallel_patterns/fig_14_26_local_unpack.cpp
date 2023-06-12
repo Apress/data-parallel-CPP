@@ -108,8 +108,8 @@ int main() {
        reset(params, i, j, count, cr, ci, zr, zi);
      }
 
-     // Keep iterating as long as one work-item has work
-     // to do
+     // BEGIN CODE SNIP
+     // Keep iterating as long as one work-item has work to do
      while (any_of_group(sg, i < Nx)) {
        uint32_t converged = next_iteration(
            params, i, j, count, cr, ci, zr, zi, mandelbrot);
@@ -128,6 +128,7 @@ int main() {
          }
        }
      }
+    // END CODE SNIP
    }).wait();
 
   // Produce an image as a PPM file

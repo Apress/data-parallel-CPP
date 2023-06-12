@@ -41,6 +41,7 @@ double run_sycl(const std::vector<T>& vecA,
 
       // This kernel processes columns of the result matrix
       // in parallel.
+      // BEGIN CODE SNIP
       h.parallel_for(N, [=](item<1> idx) {
         int n = idx[0];
 
@@ -52,6 +53,7 @@ double run_sycl(const std::vector<T>& vecA,
           matrixC[m * N + n] = sum;
         }
       });
+      // END CODE SNIP
     });
 
     q.wait();  // So that we know the kernel has finished

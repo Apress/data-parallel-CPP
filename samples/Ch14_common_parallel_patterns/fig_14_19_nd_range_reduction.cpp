@@ -18,6 +18,7 @@ int main() {
   std::iota(data, data + N, 1);
   *sum = 0;
 
+  // BEGIN CODE SNIP
   q.parallel_for(nd_range<1>{N, B}, [=](nd_item<1> it) {
      int i = it.get_global_id(0);
      auto grp = it.get_group();
@@ -30,6 +31,7 @@ int main() {
            *sum) += group_sum;
      }
    }).wait();
+  // END CODE SNIP
 
   std::cout << "sum = " << *sum << "\n";
   bool passed = (*sum == ((N * (N + 1)) / 2));

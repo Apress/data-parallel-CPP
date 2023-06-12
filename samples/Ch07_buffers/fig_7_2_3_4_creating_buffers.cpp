@@ -6,6 +6,7 @@
 using namespace sycl;
 
 int main() {
+  // BEGIN CODE SNIP
   // Create a buffer of 2x5 ints using the default allocator
   buffer<int, 2, buffer_allocator<int>> b1{range<2>{2, 5}};
 
@@ -22,7 +23,9 @@ int main() {
   std::allocator<float> myFloatAlloc;
   buffer<float, 1, std::allocator<float>> b4{range(20),
                                              myFloatAlloc};
+  // END CODE SNIP
 
+  // BEGIN CODE SNIP
   // Create a buffer of 4 doubles and initialize it from a
   // host pointer
   double myDoubles[4] = {1.1, 2.2, 3.3, 4.4};
@@ -36,7 +39,9 @@ int main() {
   // Create a buffer from a shared pointer to int
   auto sharedPtr = std::make_shared<int>(42);
   buffer b7{sharedPtr, range{1}};
+  // END CODE SNIP
 
+  // BEGIN CODE SNIP
   // Create a buffer of ints from an input iterator
   std::vector<int> myVec;
   buffer b8{myVec.begin(), myVec.end()};
@@ -47,6 +52,7 @@ int main() {
   buffer<int, 2> b10{range{2, 5}};
   buffer b11{b10, id{0, 0}, range{1, 5}};
   buffer b12{b10, id{1, 0}, range{1, 5}};
+  // END CODE SNIP
 
   return 0;
 }

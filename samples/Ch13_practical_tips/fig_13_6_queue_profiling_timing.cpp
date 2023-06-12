@@ -73,14 +73,20 @@ int main() {
   return 0;
 }
 
-// some sample output seen:
-//
 // Vector size: 65536
-// Running on device: Intel(R) Core(TM) i7-8665U CPU
-// @ 1.90GHz profiling: Vector add completed on device
-// in 6.6073e+06 nanoseconds chrono: Vector add completed on
-// device in 1.51392e+08 nanoseconds chrono more than
-// profiling by 1.44785e+08 nanoseconds
-//
-//
-//
+// Running on device: Intel(R) UHD Graphics P630 [0x3e96]
+// profiling: Vector add completed on device in 57602 nanoseconds
+// chrono: Vector add completed on device in 2.85489e+08 nanoseconds
+// chrono more than profiling by 2.85431e+08 nanoseconds
+// 
+// Vector size: 65536
+// Running on device: NVIDIA GeForce RTX 3060
+// profiling: Vector add completed on device in 17410 nanoseconds
+// chrono: Vector add completed on device in 3.6071e+07 nanoseconds
+// chrono more than profiling by 3.60536e+07 nanoseconds
+// 
+// Vector size: 65536
+// Running on device: Intel(R) Data Center GPU Max 1100
+// profiling: Vector add completed on device in 9440 nanoseconds
+// chrono: Vector add completed on device in 5.6976e+07 nanoseconds
+// chrono more than profiling by 5.69666e+07 nanoseconds

@@ -9,6 +9,7 @@
 using namespace sycl;
 
 int main() {
+  // BEGIN CODE SNIP
   constexpr int size = 9;
   std::array<float, size> a;
   std::array<float, size> b;
@@ -41,6 +42,7 @@ int main() {
       }
     });
   });
+  // END CODE SNIP
 
   host_accessor host_P(bufP);
 

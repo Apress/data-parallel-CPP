@@ -23,3 +23,7 @@ int main() {
 
   return 0;
 }
+
+// Example Output:
+// Selected device 1: Intel(R) UHD Graphics [0x9a60]
+//   Selected device 2: pac_a10 : Intel PAC Platform (pac_ee00000)

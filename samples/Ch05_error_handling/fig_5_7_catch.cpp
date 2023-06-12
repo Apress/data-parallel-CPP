@@ -30,3 +30,7 @@ int main() {
 
   return 0;
 }
+
+// Example output:
+// Caught synchronous SYCL exception: Requested sub-buffer size exceeds the size of the parent buffer -30 (PI_ERROR_INVALID_VALUE)
+  

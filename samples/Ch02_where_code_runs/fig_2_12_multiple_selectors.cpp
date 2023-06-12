@@ -28,3 +28,15 @@ int main() {
 
   return 0;
 }
+
+// Example Output:
+// default_selector_v: Selected device: Intel(R) UHD Graphics [0x9a60]
+//   -> Device vendor: Intel(R) Corporation
+//   cpu_selector_v: Selected device: 11th Gen Intel(R) Core(TM) i9-11900KB @ 3.30GHz
+//   -> Device vendor: Intel(R) Corporation
+//   gpu_selector_v: Selected device: Intel(R) UHD Graphics [0x9a60]
+//   -> Device vendor: Intel(R) Corporation
+//   accelerator_selector_v: Selected device: Intel(R) FPGA Emulation Device
+//   -> Device vendor: Intel(R) Corporation
+//   fpga_selector_v: Selected device: pac_a10 : Intel PAC Platform (pac_ee00000)
+// -> Device vendor: Intel Corp

@@ -17,12 +17,14 @@ int main() {
   std::iota(data, data + N, 1);
   *sum = 0;
 
+  // BEGIN CODE SNIP
   q.parallel_for(N, [=](id<1> i) {
      atomic_ref<int, memory_order::relaxed,
                 memory_scope::system,
                 access::address_space::global_space>(
          *sum) += data[i];
    }).wait();
+  // END CODE SNIP
 
   std::cout << "sum = " << *sum << "\n";
   bool passed = (*sum == ((N * (N + 1)) / 2));

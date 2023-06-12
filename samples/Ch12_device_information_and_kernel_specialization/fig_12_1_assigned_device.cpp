@@ -17,3 +17,11 @@ int main() {
 
   return 0;
 }
+
+// Example Outputs (one line per run – depends on system):
+// By default, we are running on NVIDIA GeForce RTX 3060
+// By default, we are running on AMD Radeon RX 5700 XT
+// By default, we are running on Intel(R) UHD Graphics 770
+// By default, we are running on Intel(R) Xeon(R) Gold 6336Y CPU @ 2.40GHz
+// By default, we are running on Intel(R) Data Center GPU Max 1100
+  

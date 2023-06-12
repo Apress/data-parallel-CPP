@@ -36,6 +36,7 @@ int main() {
   std::fill(num_neighbors, num_neighbors + N, 0);
   std::fill(neighbors, neighbors + N * MAX_K, 0);
 
+  // BEGIN CODE SNIP
   range<2> global(N, 8);
   range<2> local(1, 8);
   q.parallel_for(nd_range<2>(global, local), [=](nd_item<2>
@@ -66,6 +67,7 @@ int main() {
      num_neighbors[i] =
          reduce_over_group(sg, k, maximum<>());
    }).wait();
+  // END CODE SNIP
 
   // Check that all outputs match serial execution
   bool passed = true;

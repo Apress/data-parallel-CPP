@@ -20,3 +20,7 @@ int main() {
 
   return 0;
 }
+
+// Example Output:
+// Selected device: AMD Radeon RX 5700 XT
+// -> Device vendor: AMD Corporation

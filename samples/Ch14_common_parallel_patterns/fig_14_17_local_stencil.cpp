@@ -29,6 +29,7 @@ int main() {
     buffer<float, 2> input_buf(input.data(), alloc_range);
     buffer<float, 2> output_buf(output.data(), alloc_range);
 
+    // BEGIN CODE SNIP
     q.submit([&](handler& h) {
       accessor input{input_buf, h};
       accessor output{output_buf, h};
@@ -76,6 +77,7 @@ int main() {
                 (self + north + east + south + west) / 5.0f;
           });
     });
+    // END CODE SNIP
   }
 
   // Check that all outputs match serial execution

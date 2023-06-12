@@ -20,3 +20,8 @@ int main() {
 
   return 0;
 }
+
+// Example Output:
+// Selected device: Intel(R) Xeon(R) Gold 6128 CPU @ 3.40GHz
+//   -> Device vendor: Intel(R) Corporation
+  

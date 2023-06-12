@@ -41,6 +41,7 @@ double run_sycl(const std::vector<T>& vecA,
 
       // A work-group consisting of a single work-item is
       // inefficient!
+      // BEGIN CODE SNIP
       h.parallel_for(
           nd_range<1>{M, 1}, [=](nd_item<1> idx) {
             int m = idx.get_global_id(0);
@@ -54,6 +55,7 @@ double run_sycl(const std::vector<T>& vecA,
               matrixC[m * N + n] = sum;
             }
           });
+      // END CODE SNIP
     });
 
     q.wait();  // So that we know the kernel has finished

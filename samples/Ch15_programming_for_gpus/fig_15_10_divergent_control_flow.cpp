@@ -21,6 +21,7 @@ int main() {
   q.submit([&](handler& h) {
     accessor dataAcc{dataBuf, h};
 
+    // BEGIN CODE SNIP
     h.parallel_for(array_size, [=](id<1> i) {
       auto condition = i[0] & 1;
       if (condition) {
@@ -29,6 +30,7 @@ int main() {
         dataAcc[i] = dataAcc[i] + 1;  // even
       }
     });
+    // END CODE SNIP
   });
 
   host_accessor dataAcc{dataBuf};

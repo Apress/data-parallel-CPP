@@ -7,4 +7,4 @@
 
 uint32_t index =
     exclusive_scan(g, (uint32_t)predicate, plus<>());
-if (predicate) dst[index] = value
+if (predicate) dst[index] = value;

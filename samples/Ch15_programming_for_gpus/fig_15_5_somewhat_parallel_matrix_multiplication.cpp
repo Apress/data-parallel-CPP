@@ -39,6 +39,7 @@ double run_sycl(const std::vector<T>& vecA,
       accessor matrixB{bufB, h};
       accessor matrixC{bufC, h};
 
+      // BEGIN CODE SNIP
       h.parallel_for(range{M}, [=](id<1> idx) {
         int m = idx[0];
 
@@ -50,6 +51,7 @@ double run_sycl(const std::vector<T>& vecA,
           matrixC[m * N + n] = sum;
         }
       });
+      // END CODE SNIP
     });
 
     q.wait();  // So that we know the kernel has finished

@@ -28,6 +28,8 @@ int main() {
   // the device
   int32_t* tmp = malloc_device<int32_t>(G, q);
 
+  // BEGIN CODE SNIP
+  // END CODE SNIP
   // Phase 1: Compute local scans over input blocks
   q.submit([&](handler& h) {
      auto local = local_accessor<int32_t, 1>(L, h);
@@ -58,7 +60,9 @@ int main() {
        }
      });
    }).wait();
+  // END CODE SNIP
 
+  // BEGIN CODE SNIP
   // Phase 2: Compute scan over partial results
   q.submit([&](handler& h) {
      auto local = local_accessor<int32_t, 1>(G, h);
@@ -85,7 +89,9 @@ int main() {
        tmp[i] = local[li];
      });
    }).wait();
+  // END CODE SNIP
 
+  // BEGIN CODE SNIP
   // Phase 3: Update local scans using partial results
   q.parallel_for(nd_range<1>(N, L), [=](nd_item<1> it) {
      int g = it.get_group(0);
@@ -94,7 +100,8 @@ int main() {
        output[i] += tmp[g - 1];
      }
    }).wait();
-
+  // END CODE SNIP
+  
   // Check that all outputs match serial execution
   bool passed = true;
   int32_t gold = 0;

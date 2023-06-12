@@ -11,3 +11,8 @@ int main() {
 
   throw(something_went_wrong{});
 }
+
+// Example output:
+// Hello
+// terminate called after throwing an instance of 'something_went_wrong'
+// Aborted

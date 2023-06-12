@@ -38,3 +38,8 @@ int main() {
 
   return 0;
 }
+
+// Example Output:
+// Found an OpenCL SYCL device: pthread-12th Gen Intel(R) Core(TM) i9-12900K
+// Found a Level Zero SYCL device: Intel(R) UHD Graphics 770 [0x4680]
+  

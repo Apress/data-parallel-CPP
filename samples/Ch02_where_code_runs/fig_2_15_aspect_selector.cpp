@@ -32,3 +32,7 @@ int main() {
 
   return 0;
 }
+
+// Example Output:
+// First selected device is: Intel(R) UHD Graphics [0x9a60]
+//   Second selected device is: 11th Gen Intel(R) Core(TM) i9-11900KB @ 3.30GHz

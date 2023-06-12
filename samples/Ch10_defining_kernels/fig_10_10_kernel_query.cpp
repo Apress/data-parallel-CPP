@@ -69,3 +69,19 @@ int main() {
   std::cout << "Success!\n";
   return 0;
 }
+
+
+// Example Output:
+// Running on device: NVIDIA GeForce RTX 3060
+// The maximum work-group size for the kernel and this device is: 1024
+// The preferred work-group size multiple for the kernel and this device is: 32
+// 
+// Example Output:
+// Running on device: Intel(R) Data Center GPU Max 1100
+// The maximum work-group size for the kernel and this device is: 1024
+// The preferred work-group size multiple for the kernel and this device is: 16
+// 
+// Example Output:
+// Running on device: Intel(R) UHD Graphics 770
+// The maximum work-group size for the kernel and this device is: 512
+// The preferred work-group size multiple for the kernel and this device is: 64

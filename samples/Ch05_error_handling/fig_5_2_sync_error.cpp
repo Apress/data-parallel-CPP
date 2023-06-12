@@ -15,3 +15,9 @@ int main() {
 
   return 0;
 }
+
+// Example Output:
+// terminate called after throwing an instance of 'sycl::_V1::invalid_object_error'
+// what():  Requested sub-buffer size exceeds the size of the parent buffer -30 (PI_ERROR_INVALID_VALUE)
+//   Aborted
+  

@@ -45,3 +45,13 @@ int main() {
   free(data, q);
   return (passed) ? 0 : 1;
 }
+
+
+// N = 2, M = 2:
+// data [0] = 1
+// data [1] = 1
+// 
+// N = 2, M = 1:
+// data [0] = 1
+// data [1] = 0
+	       

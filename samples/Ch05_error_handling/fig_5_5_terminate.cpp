@@ -9,3 +9,8 @@ int main() {
 
   std::terminate();
 }
+
+// Example output:
+// Hello
+// terminate called without an active exception
+// Aborted
