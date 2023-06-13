@@ -1,15 +1,17 @@
 # Data Parallel C++ Book Source Samples
 
-This repository accompanies [*Data Parallel C++: Mastering DPC++ for Programming of Heterogeneous Systems using C++ and SYCL*](https://www.apress.com/9781484255735) by James Reinders, Ben Ashbaugh, James Brodman, Michael Kinsner, John Pennycook, Xinmin Tian (Apress, 2020).
+This repository accompanies [*Data Parallel C++: Mastering DPC++ for Programming of Heterogeneous Systems using C++ and SYCL*](https://www.apress.com/9781484255735) by James Reinders, Ben Ashbaugh, James Brodman, Michael Kinsner, John Pennycook, Xinmin Tian (Apress, 2020) and the upcoming second edition (available late 2023).
 
 [comment]: #cover
 ![Cover image](images/9781484255735.jpg)
 
 ## Purpose of this branch (main)
 
-This branch (main) contains source code derived from what was published with the First Edition of the DPC++ book, but modified to be compatible with the SYCL 2020 specification which was released by The Khronos Group after book publication.  The original book source was primarily based on the older SYCL 1.2.1 specification, and many enhancements and changes were added in the later SYCL 2020 specification.  More importantly, most current toolchains which support SYCL are based on SYCL 2020, so this main branch is intended to be compatible with recent compiler and toolchain releases.
+This branch (main) contains source code derived from what will be published with the Second Edition of the DPC++ book (2023).  We say 'derived' because we will update it as needed to keep it useful - as we did after the first edition was published. We welcome feedback.
+The sycl121_original_publication branch contains the source code published in the first edition.
+The first edition's book source was primarily based on the older SYCL 1.2.1 specification, and many enhancements and changes were added by the time the SYCL 2020 specification was published after our book.  Since current toolchains which support SYCL are based on SYCL 2020, so this main branch is intended to be compatible with recent compiler and toolchain releases.
 
-The Second Edition of the DPC++ book, likely to release in 2023, will be based on the updated code examples in this main branch.
+The Second Edition of the DPC++ book, will be released before the end of 2023, will be based on the updated code examples in this main branch.
 
 ## Overview
 
@@ -25,9 +27,10 @@ Download the files as a zip using the green button, or clone the repository to y
 
 ## How to Build the Samples
 
-The samples in this repository are intended to compile with the open source project toolchain linked below, or
-with the 2023.0 release or newer of the DPC++ toolchain.  If you have an older toolchain installed, you may encounter
-compilation errors due to evolution of the features and extensions.
+The samples in this repository are intended to compile with any modern C++ with SYCL compiler.
+We have tested it with the open source DPC++ project toolchain linked below, and with the 2023.0 release and newer of the oneAPI prebuilt icpx compilers based on the DPC++ open source project.  If you have an older toolchain installed, you may encounter compilation errors due to evolution of the features and extensions.
+Recent testing verified that OpenSYCL (previously HipSYCL), with a few rare exceptions that should be resolved soon, is able to support all these examples as well.
+We will welcome any feedback regarding compatibility with any C++ compiler that has SYCL support.
 
 ### Prerequisites
 
