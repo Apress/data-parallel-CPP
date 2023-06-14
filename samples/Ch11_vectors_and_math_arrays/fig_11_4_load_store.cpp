@@ -24,9 +24,9 @@ int main() {
 
     h.parallel_for(workers, [=](id<1> idx) {
       float16 inpf16;
-      inpf16.load(idx, acc.get_pointer());
+      inpf16.load(idx, acc.get_multi_ptr<access::decorated::no>());
       float16 result = inpf16 * 2.0f;
-      result.store(idx, acc.get_pointer());
+      result.store(idx, acc.get_multi_ptr<access::decorated::no>());
     });
   });
   // END CODE SNIP
