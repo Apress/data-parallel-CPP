@@ -9,7 +9,7 @@ using namespace sycl;
 constexpr int N = 4;
 
 int main() {
-  queue q{gpu_selector_v};
+  queue q;
   int* A = malloc_shared<int>(N, q);
 
   std::cout << "Selected device: "
