@@ -35,6 +35,13 @@ option(NODPCT   "Disable samples that require the DPC++ Compatibility Tool (dpct
 option(NOL0     "Disable samples that require the oneAPI Level Zero Headers and Loader." ON)
 option(WITHCUDA "Enable CUDA device support for the samples.")
 
+set(CUDA_GPU_ARCH "sm_60" CACHE STRING "CUDA GPUs to compile for.")
+if (WITHCUDA)
+    mark_as_advanced(CLEAR FORCE CUDA_GPU_ARCH)
+else()
+    mark_as_advanced(FORCE CUDA_GPU_ARCH)
+endif()
+
 enable_testing()
 
 add_subdirectory(samples)
