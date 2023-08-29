@@ -72,7 +72,7 @@ int main() {
            // global memory
            for (int32_t b = it.get_local_id(0); b < B;
                 b += it.get_local_range(0)) {
-             atomic_ref<uint32_t, memory_order::relaxed, memory_scope::system,
+             atomic_ref<uint32_t, memory_order::relaxed, memory_scope::device,
                         access::address_space::global_space>(histogram[b]) +=
                  local[b];
            }

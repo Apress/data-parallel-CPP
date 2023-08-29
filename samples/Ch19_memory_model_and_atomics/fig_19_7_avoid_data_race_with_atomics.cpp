@@ -21,7 +21,7 @@ int main() {
   q.parallel_for(N, [=](id<1> i) {
      int j = i % M;
      atomic_ref<int, memory_order::relaxed,
-                memory_scope::system,
+                memory_scope::device,
                 access::address_space::global_space>
          atomic_data(data[j]);
      atomic_data += 1;

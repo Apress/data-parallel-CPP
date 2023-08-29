@@ -20,7 +20,7 @@ int main() {
   // BEGIN CODE SNIP
   q.parallel_for(N, [=](id<1> i) {
      atomic_ref<int, memory_order::relaxed,
-                memory_scope::system,
+                memory_scope::device,
                 access::address_space::global_space>(
          *sum) += data[i];
    }).wait();

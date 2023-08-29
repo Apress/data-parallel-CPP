@@ -25,7 +25,7 @@ int main() {
       h.parallel_for(N, [=](id<1> i) {
         int j = i % M;
         atomic_ref<int, memory_order::relaxed,
-                   memory_scope::system,
+                   memory_scope::device,
                    access::address_space::global_space>
             atomic_acc(acc[j]);
         atomic_acc += 1;

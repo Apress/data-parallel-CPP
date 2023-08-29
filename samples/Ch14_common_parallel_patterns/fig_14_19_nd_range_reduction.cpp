@@ -26,7 +26,7 @@ int main() {
          reduce_over_group(grp, data[i], plus<>());
      if (grp.leader()) {
        atomic_ref<int, memory_order::relaxed,
-                  memory_scope::system,
+                  memory_scope::device,
                   access::address_space::global_space>(
            *sum) += group_sum;
      }
