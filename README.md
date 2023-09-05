@@ -5,6 +5,9 @@ This repository accompanies [*Data Parallel C++: Mastering C++ for Programming o
 [comment]: #cover
 ![Cover image](images/9781484255735.jpg)
 
+![Cover_2ndEdition_image](https://github.com/Apress/data-parallel-CPP/assets/6556265/a3c8aa4f-2219-40b6-9dd7-1556391087bb)
+
+
 ## Purpose of this branch (main)
 
 This branch (main) contains source code derived from what will be published with the Second Edition of the DPC++ book (2023).  We say 'derived' because we will update it as needed to keep it useful - as we did after the first edition was published. We welcome feedback.
