@@ -12,8 +12,8 @@ template <typename T>
 double triad(T* __restrict VA, T* __restrict VB,
              T* __restrict VC, size_t array_size,
              const T scalar) {
-  double ts = timer_start() for (size_t id = 0;
-                                 id < array_size; id++) {
+  double ts = timer_start();
+  for (size_t id = 0; id < array_size; id++) {
     VC[id] = VA[id] + scalar * VB[id];
   }
   double te = timer_end();
