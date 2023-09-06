@@ -18,8 +18,8 @@ function(add_book_sample)
     add_executable(${BOOK_SAMPLE_TARGET} ${BOOK_SAMPLE_SOURCES})
 
     if(WITHCUDA)
-        set(BOOK_SAMPLE_ADDITIONAL_COMPILE_OPTIONS ${BOOK_SAMPLE_ADDITIONAL_COMPILE_OPTIONS} -fsycl-targets=nvptx64-nvidia-cuda,spir64)
-        set(BOOK_SAMPLE_LIBS ${BOOK_SAMPLE_LIBS} -fsycl-targets=nvptx64-nvidia-cuda,spir64)
+        set(BOOK_SAMPLE_ADDITIONAL_COMPILE_OPTIONS ${BOOK_SAMPLE_ADDITIONAL_COMPILE_OPTIONS} -fsycl-targets=nvptx64-nvidia-cuda,spir64 -Xsycl-target-backend=nvptx64-nvidia-cuda --cuda-gpu-arch=${CUDA_GPU_ARCH})
+        set(BOOK_SAMPLE_LIBS ${BOOK_SAMPLE_LIBS} -fsycl-targets=nvptx64-nvidia-cuda,spir64 -Xsycl-target-backend=nvptx64-nvidia-cuda --cuda-gpu-arch=${CUDA_GPU_ARCH})
     endif()
 
     target_compile_options(${BOOK_SAMPLE_TARGET} PRIVATE -fsycl -fsycl-unnamed-lambda -ferror-limit=1 -Wall -Wpedantic ${BOOK_SAMPLE_ADDITIONAL_COMPILE_OPTIONS})
