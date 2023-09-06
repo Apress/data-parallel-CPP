@@ -45,7 +45,7 @@ int main() {
            auto grp = it.get_group();
 
            // Phase 1: Work-items co-operate to zero local
-           // memory
+           // memory.
            for (int32_t b = it.get_local_id(0); b < B;
                 b += it.get_local_range(0)) {
              local[b] = 0;
@@ -53,8 +53,8 @@ int main() {
            group_barrier(grp);  // Wait for all to be zeroed
 
            // Phase 2: Work-groups each compute a chunk of
-           // the input Work-items co-operate to compute
-           // histogram in local memory
+           // the input. Work-items co-operate to compute
+           // histogram in local memory.
            const auto [group_start, group_end] =
                distribute_range(grp, N);
            for (int i = group_start + it.get_local_id(0);
@@ -66,7 +66,7 @@ int main() {
            }
            group_barrier(
                grp);  // Wait for all local histogram
-                      // updates to complete
+                      // updates to complete.
 
            // Phase 3: Work-items co-operate to update
            // global memory
