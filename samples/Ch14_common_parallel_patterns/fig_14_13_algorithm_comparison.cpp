@@ -28,7 +28,7 @@ int main() {
 
   // BEGIN CODE SNIP
   // std::reduce
-  // Each work-item reduces over a given input range
+  // Each work-item reduces over a given input range.
   q.parallel_for(number_of_reductions, [=](size_t i) {
      output1[i] = std::reduce(
          input + i * elements_per_reduction,
@@ -36,9 +36,9 @@ int main() {
    }).wait();
 
   // sycl::joint_reduce
-  // Each work-group reduces over a given input range
+  // Each work-group reduces over a given input range.
   // The elements are automatically distributed over
-  // work-items in the group
+  // work-items in the group.
   q.parallel_for(nd_range<1>{number_of_reductions *
                                  elements_per_reduction,
                              elements_per_reduction},
@@ -59,8 +59,8 @@ int main() {
 
   // sycl::reduce_over_group
   // Each work-group reduces over data held in work-item
-  // private memory Each work-item is responsible for
-  // loading and contributing one value
+  // private memory. Each work-item is responsible for
+  // loading and contributing one value.
   q.parallel_for(
        nd_range<1>{
            number_of_reductions * elements_per_reduction,
