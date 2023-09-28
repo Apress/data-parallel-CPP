@@ -1,7 +1,12 @@
 Errata for the Second Edition
 
 The following are known issues contained in the book
-Data Parallel C++: Programming Acclerated Systems using C++ and SYCL
+Data Parallel C++: Programming Accelerated Systems using C++ and SYCL
 by James Reinders, Ben Ashbaugh, James Brodman, Michael Kinsner, John Pennycook, Xinmin Tian (Apress, 2023/2024).
 
-None for the moment.
+p.252 - Figure 10-3: Because this is an nd_range parallel_for, the argument to
+the kernel lambda expression must be an nd_item, not an id.
+
+p.258 - Figure 10-7: Because these functors are used by an nd_range
+parallel_for, the argument to the overloaded function call operator() must be an
+nd_item, not an id.
