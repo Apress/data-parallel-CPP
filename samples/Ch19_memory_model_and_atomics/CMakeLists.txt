@@ -32,6 +32,5 @@ add_book_sample(
     SOURCES fig_19_17_histogram.cpp)
 
 add_book_sample(
-    TEST
     TARGET fig_19_18-19_device_latch
     SOURCES fig_19_18-19_device_latch.cpp)
