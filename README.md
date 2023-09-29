@@ -1,6 +1,6 @@
 # Data Parallel C++ Book Source Samples
 
-This repository accompanies [*Data Parallel C++: Mastering C++ for Programming of Accelerated Systems using C++ with SYCL*](https://www.apress.com/9781484255735) by James Reinders, Ben Ashbaugh, James Brodman, Michael Kinsner, John Pennycook, Xinmin Tian second edition (Apress, available October 24, 2023), and the first edition (Apress, 2020).
+This repository accompanies [*Data Parallel C++: Programming Accelerated Systems using C++ with SYCL*](https://www.apress.com/9781484255735) by James Reinders, Ben Ashbaugh, James Brodman, Michael Kinsner, John Pennycook, Xinmin Tian second edition (Apress, available October 24, 2023), and the first edition (Apress, 2020).
 
 [comment]: #cover
 
