@@ -4,7 +4,7 @@ This repository accompanies [*Data Parallel C++: Mastering C++ for Programming o
 
 [comment]: #cover
 
-<img alt="Cover 2nd Edition" src="https://github.com/Apress/data-parallel-CPP/assets/6556265/a3c8aa4f-2219-40b6-9dd7-1556391087bb" height="300"> <img alt="Cover 1st Edition" src="https://github.com/Apress/data-parallel-CPP/assets/6556265/78b56260-e976-459a-bab9-a8c1bae01246" height="300">
+<img alt="Cover 2nd Edition" src="images/cover_second_edition.jpg" height="300"> <img alt="Cover 1st Edition" src="images/cover_first_edition.jpg" height="300">
 
 ## Purpose of this branch (main)
 
