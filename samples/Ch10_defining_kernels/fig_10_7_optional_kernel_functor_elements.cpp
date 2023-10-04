@@ -12,7 +12,8 @@ class AddWithAttribute {
  public:
   AddWithAttribute(accessor<int> acc) : data_acc(acc) {}
   [[sycl::reqd_work_group_size(8)]] void operator()(
-      id<1> i) const {
+      nd_item<1> item) const {
+    auto i = item.get_global_id();
     data_acc[i] = data_acc[i] + 1;
   }
 
@@ -23,8 +24,9 @@ class AddWithAttribute {
 class MulWithAttribute {
  public:
   MulWithAttribute(accessor<int> acc) : data_acc(acc) {}
-  void operator()
-      [[sycl::reqd_work_group_size(8)]] (id<1> i) const {
+  void operator() [[sycl::reqd_work_group_size(8)]] (
+      nd_item<1> item) const {
+    auto i = item.get_global_id();
     data_acc[i] = data_acc[i] * 2;
   }
 

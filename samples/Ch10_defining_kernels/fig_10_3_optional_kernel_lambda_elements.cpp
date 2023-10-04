@@ -30,11 +30,11 @@ int main() {
 
       h.parallel_for(
           nd_range{{size}, {8}},
-          [=](id<1> i) noexcept
-          [[sycl::reqd_work_group_size(8)]]
-              ->void {
-                data_acc[i] = data_acc[i] + 1;
-              });
+          [=](nd_item<1> item) noexcept
+          [[sycl::reqd_work_group_size(8)]] -> void {
+            auto i = item.get_global_id();
+            data_acc[i] = data_acc[i] + 1;
+          });
     });
     // END CODE SNIP
   }
