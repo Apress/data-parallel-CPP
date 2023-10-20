@@ -30,7 +30,7 @@ Download the files as a zip using the green button, or clone the repository to y
 
 The samples in this repository are intended to compile with any modern C++ with SYCL compiler.
 We have tested it with the open source DPC++ project toolchain linked below, and with the 2023.2 release and newer of the oneAPI prebuilt icpx compilers based on the DPC++ open source project.  If you have an older toolchain installed, you may encounter compilation errors due to evolution of the features and extensions.
-Recent testing verified that Adaptivecpp (previously HipSYCL), with a few rare exceptions that should be resolved soon, is able to support all these examples as well.
+Recent testing verified that AdaptiveCpp (previously HipSYCL), with a few rare exceptions that should be resolved soon, is able to support all these examples as well.
 We will welcome any feedback regarding compatibility with any C++ compiler that has SYCL support.
 
 ### Prerequisites
