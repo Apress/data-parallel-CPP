@@ -2,11 +2,11 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <array>
 #include <dpct/dpct.hpp>
 #include <iostream>
 #include <numeric>
 #include <sycl/sycl.hpp>
+#include <vector>
 
 constexpr size_t size = 1024 * 1024;
 
@@ -28,7 +28,7 @@ void Reverse(int *ptr, size_t size,
 int main() try {
   dpct::device_ext &dev_ct1 = dpct::get_current_device();
   sycl::queue &q_ct1 = dev_ct1.default_queue();
-  std::array<int, size> data;
+  std::vector<int> data(size);
   std::iota(data.begin(), data.end(), 0);
 
   // BEGIN CODE SNIP

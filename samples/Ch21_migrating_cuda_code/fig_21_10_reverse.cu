@@ -4,9 +4,9 @@
 
 #include <cuda_runtime.h>
 
-#include <array>
 #include <iostream>
 #include <numeric>
+#include <vector>
 
 constexpr size_t size = 1024 * 1024;
 
@@ -22,7 +22,7 @@ __global__ void Reverse(int* ptr, size_t size) {
 }
 
 int main() {
-  std::array<int, size> data;
+  std::vector<int> data(size);
   std::iota(data.begin(), data.end(), 0);
 
   cudaDeviceProp deviceProp;
