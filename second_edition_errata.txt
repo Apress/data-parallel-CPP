@@ -10,3 +10,11 @@ the kernel lambda expression must be an nd_item, not an id.
 p.258 - Figure 10-7: Because these functors are used by an nd_range
 parallel_for, the argument to the overloaded function call operator() must be an
 nd_item, not an id.
+
+p. 599-602 - Figure 21-10 with impact on full code for 21-13 & 21-14.  Change "std:array" to "std:vector" as a better coding method.
+Chapter 21 - examples based on 21-10 (CUDA) and the resulting code (C++ with SYCL) 
+This example is better written using std:vector instead of std::array to avoid large stack allocation.
+On some systems (e.g., Windows), this will prevent a program failure due to stack overflow.
+Modified code for Ch21_migrating_cuda_code/fig_21_10_reverse.cu and Ch21_migrating_cuda_code/fig_21_13-14_reverse_migrated.cpp in the github repo.
+Per Issue#125: switch from std::array to std::vector to avoid large stack allocation.
+
