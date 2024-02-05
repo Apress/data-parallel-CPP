@@ -8,7 +8,7 @@ using namespace sycl;
 
 // Array type and data size for this example.
 constexpr size_t array_size = (1 << 16);
-typedef std::array<int, array_size> IntArray;
+typedef std::vector<int> IntArray;
 
 void VectorAdd(queue &q, const IntArray &a,
                const IntArray &b, IntArray &sum) {
@@ -57,7 +57,7 @@ void InitializeArray(IntArray &a) {
 }
 
 int main() {
-  IntArray a, b, sum;
+  IntArray a(array_size), b(array_size), sum(array_size);
   InitializeArray(a);
   InitializeArray(b);
 
