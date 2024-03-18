@@ -23,8 +23,8 @@ int main(int argc, char* argv[]) {
   if (argc <= 1) {
     std::cout << "Run as ./<progname> <Level Zero driver "
                  "index> <Level Zero device index>\n";
-    std::cout << "Defaulting to the first OpenCL Level "
-                 "Zero driver and device.\n";
+    std::cout << "Defaulting to the first Level Zero "
+                 "driver and device.\n";
   }
 
   constexpr size_t size = 16;
