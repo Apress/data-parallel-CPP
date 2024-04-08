@@ -20,6 +20,9 @@ p. 365 - Figure 14-11: The histogram has B bins, so the reduction should be over
 not over 16 elements.  Additionally, the sample should read the data to histogram from the "data"
 array rather than reading the id "i".
 
+p. 371 - Figure 14-15: Need to add "sycl::" to the call to "sqrt" to disambiguate which function to call.
+Without the explicit namespace the call could be to "sycl::sqrt" or to "std::sqrt".
+
 p. 599-602 - Figure 21-10 with impact on full code for 21-13 & 21-14.  Change "std:array" to "std:vector" as a better coding method.
 Same as above, this example is better written using std:vector instead of std::array to avoid large stack allocation.
 Chapter 21 - examples based on 21-10 (CUDA) and the resulting code (C++ with SYCL)

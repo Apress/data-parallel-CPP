@@ -22,7 +22,7 @@ int main() {
   // BEGIN CODE SNIP
   // Compute the square root of each input value
   q.parallel_for(N, [=](id<1> i) {
-     output[i] = sqrt(input[i]);
+     output[i] = sycl::sqrt(input[i]);
    }).wait();
   // END CODE SNIP
 
