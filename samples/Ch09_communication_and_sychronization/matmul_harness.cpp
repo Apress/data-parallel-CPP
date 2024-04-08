@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 #include <algorithm>
+#include <cstdlib>
 #include <iostream>
 #include <sycl/sycl.hpp>
 using namespace sycl;
@@ -93,7 +94,7 @@ int main() {
                 seconds /
                 1e9;
   std::cout << "Success!\n";
-  std::cout << "GFlops: " << gflops << std::endl;
+  std::cout << "GFlops: " << gflops << "\n";
 
   return 0;
 }
