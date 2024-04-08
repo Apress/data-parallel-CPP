@@ -16,6 +16,10 @@ This example is better written using std:vector instead of std::array to avoid l
 On some systems (e.g., Windows), this will prevent a program failure due to stack overflow.
 Modified code for Ch13_practical_tips/fig_13_6_queue_profiling_timing.cpp in the GitHub repo.
 
+p. 365 - Figure 14-11: The histogram has B bins, so the reduction should be over B elements and
+not over 16 elements.  Additionally, the sample should read the data to histogram from the "data"
+array rather than reading the id "i".
+
 p. 371 - Figure 14-15: Need to add "sycl::" to the call to "sqrt" to disambiguate which function to call.
 Without the explicit namespace the call could be to "sycl::sqrt" or to "std::sqrt".
 

@@ -22,9 +22,9 @@ int main() {
      // BEGIN CODE SNIP
      h.parallel_for(
          range{N},
-         reduction(span<int, 16>(histogram, 16), plus<>()),
+         reduction(span<int, B>(histogram, B), plus<>()),
          [=](id<1> i, auto& histogram) {
-           histogram[i % B]++;
+           histogram[data[i] % B]++;
          });
      // END CODE SNIP
    }).wait();
