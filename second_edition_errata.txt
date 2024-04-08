@@ -16,6 +16,9 @@ This example is better written using std:vector instead of std::array to avoid l
 On some systems (e.g., Windows), this will prevent a program failure due to stack overflow.
 Modified code for Ch13_practical_tips/fig_13_6_queue_profiling_timing.cpp in the GitHub repo.
 
+p. 371 - Figure 14-15: Need to add "sycl::" to the call to "sqrt" to disambiguate which function to call.
+Without the explicit namespace the call could be to "sycl::sqrt" or to "std::sqrt".
+
 p. 599-602 - Figure 21-10 with impact on full code for 21-13 & 21-14.  Change "std:array" to "std:vector" as a better coding method.
 Same as above, this example is better written using std:vector instead of std::array to avoid large stack allocation.
 Chapter 21 - examples based on 21-10 (CUDA) and the resulting code (C++ with SYCL)
