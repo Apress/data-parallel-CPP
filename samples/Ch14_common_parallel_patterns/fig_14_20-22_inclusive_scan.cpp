@@ -41,7 +41,7 @@ int main() {
        group_barrier(it.get_group());
 
        // Perform inclusive scan in local memory
-       for (int32_t d = 0; d <= log2((float)L) - 1; ++d) {
+       for (int32_t d = 0; d <= sycl::log2((float)L) - 1; ++d) {
          uint32_t stride = (1 << d);
          int32_t update =
              (li >= stride) ? local[li - stride] : 0;
@@ -74,7 +74,7 @@ int main() {
        group_barrier(it.get_group());
 
        // Perform inclusive scan in local memory
-       for (int32_t d = 0; d <= log2((float)G) - 1; ++d) {
+       for (int32_t d = 0; d <= sycl::log2((float)G) - 1; ++d) {
          uint32_t stride = (1 << d);
          int32_t update =
              (li >= stride) ? local[li - stride] : 0;
