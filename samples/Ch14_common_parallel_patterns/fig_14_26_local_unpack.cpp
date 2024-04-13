@@ -72,7 +72,7 @@ int main() {
   params.xc = 0.0f;
   params.yc = 0.0f;
   params.zoom = 1.0f;
-  params.zoom_px = pow(2.0f, 3.0f - params.zoom) * 1e-3f;
+  params.zoom_px = std::pow(2.0f, 3.0f - params.zoom) * 1e-3f;
   params.x_span = Nx * params.zoom_px;
   params.y_span = Ny * params.zoom_px;
   params.x0 = params.xc - params.x_span * 0.5f;
@@ -116,7 +116,7 @@ int main() {
        if (any_of_group(sg, converged)) {
          // Replace pixels that have converged using an
          // unpack. Pixels that haven't converged are not
-	 // replaced.
+         // replaced.
          uint32_t index = exclusive_scan_over_group(
              sg, converged, plus<>());
          i = (converged) ? iq + index : i;

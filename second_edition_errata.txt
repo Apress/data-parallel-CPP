@@ -23,6 +23,9 @@ array rather than reading the id "i".
 p. 371 - Figure 14-15: Need to add "sycl::" to the call to "sqrt" to disambiguate which function to call.
 Without the explicit namespace the call could be to "sycl::sqrt" or to "std::sqrt".
 
+p. 375 - Figure 24-20: Need to add "sycl::" to the call to "log2" to disambiguate which function to call.
+Without the explicit namespace the call could be to "sycl::log2" or to "std::log2".
+
 p. 599-602 - Figure 21-10 with impact on full code for 21-13 & 21-14.  Change "std:array" to "std:vector" as a better coding method.
 Same as above, this example is better written using std:vector instead of std::array to avoid large stack allocation.
 Chapter 21 - examples based on 21-10 (CUDA) and the resulting code (C++ with SYCL)
