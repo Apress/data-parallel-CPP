@@ -4,7 +4,7 @@
 
 #include <algorithm>
 #include <cstdio>
-#include <cstdlib>
+#include <cmath>
 #include <numeric>
 #include <sycl/sycl.hpp>
 

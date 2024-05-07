@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 #include <array>
+#include <cmath>
 #include <sycl/sycl.hpp>
 using namespace sycl;
 
