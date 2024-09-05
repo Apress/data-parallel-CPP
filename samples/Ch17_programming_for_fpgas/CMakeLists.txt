@@ -26,8 +26,8 @@ add_book_sample(
     TARGET fig_17_22_loop_carried_state
     SOURCES fig_17_22_loop_carried_state.cpp)
 
-if(NOT WITHCUDA)
-# TEMPORARILY DISABLE: doesn't work with CUDA backend.
+if(NOT WITHCUDA AND NOT WITHROCM)
+# TEMPORARILY DISABLE: doesn't work with CUDA or ROCm backend.
 add_book_sample(
     TARGET fig_17_31_inter_kernel_pipe
     SOURCES fig_17_31_inter_kernel_pipe.cpp)
