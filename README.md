@@ -107,3 +107,26 @@ See your CMake documentation for more details.
 | NODPCT | BOOL | Disable samples that require the DPC++ Compatibility Tool (dpct).  Default: `FALSE`
 | NOL0 | BOOL | Disable samples that require the oneAPI Level Zero Headers and Loader.  Default: `TRUE`
 | WITHCUDA | BOOL | Enable CUDA device support for the samples.  Default: `FALSE`
+| WITHROCM | BOOL | Enable ROCm device support for the samples.  Default: `FALSE`
+
+## NVIDIA/ROCm Device Support
+
+> **Note**: 
+> Currently, `fig_17_31_inter_kernel_pipe` is disabled for NVIDIA/ROCm devices, as they are not supported.
+
+You can set the `WITHCUDA` or `WITHROCM` variable to build for CUDA or ROCM devices. For example, for a CUDA device:
+
+```sh
+cmake -G "Unix Makefiles" .. -DWITHCUDA=ON
+```
+
+or for a ROCM device:
+
+```sh
+cmake -G "Unix Makefiles" .. -DWITHROCM=ON
+```
+
+You can also set the target GPU architecture (which is necessary for ROCm devices and set to `gfx1100` by default) like:
+```sh
+cmake -G "Unix Makefiles" .. -DWITHROCM=ON -DROCM_GPU_ARCH=gfx1030
+```
