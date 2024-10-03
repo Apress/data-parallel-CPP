@@ -27,13 +27,13 @@ int main() {
     host_accessor host_accessor(my_buffer);
 
     for (int i = 0; i < N; i++) {
-      // access myBuffer on host
+      // access my_buffer on host
       std::cout << host_accessor[i] << " ";
     }
     std::cout << "\n";
   }
 
-  // myData is updated when myBuffer is
+  // my_data is updated when my_buffer is
   // destroyed upon exiting scope
   for (int i = 0; i < N; i++) {
     std::cout << my_data[i] << " ";
