@@ -18,12 +18,10 @@ class handler {
 
   // Submit a memset operation writing
   // to the specified pointer.
-  // Return an event representing this operation.
-  event memset(void *ptr, int value, size_t count);
+  void memset(void *ptr, int value, size_t count);
 
   // Submit a memcpy operation copying from src to dest.
-  // Return an event representing this operation.
-  event memcpy(void *dest, const void *src, size_t count);
+  void memcpy(void *dest, const void *src, size_t count);
 
   // Copy to/from an accessor and host memory.
   // Accessors are required to have appropriate correct
