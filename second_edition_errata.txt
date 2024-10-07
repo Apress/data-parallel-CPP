@@ -4,8 +4,15 @@ The following are known issues contained in the book
 Data Parallel C++: Programming Accelerated Systems using C++ and SYCL
 by James Reinders, Ben Ashbaugh, James Brodman, Michael Kinsner, John Pennycook, Xinmin Tian (Apress, 2023/2024).
 
+p.57 - Figure 2-19: The return type for the member functions memset and memcpy
+of the handler class is void, not event.
+
 p.79 - Figure 3-6: The comments in the code incorrectly refer to the names
 myBuffer and myData instead of my_buffer and my_data.
+
+p.94 - Figure 3-17: The member functions depends_on and fill are declared with
+inconsistent indentation. The first parameter of the range parallel_for is not
+a valid C++ identifier, need to replace with, e.g., NumWorkItems.
 
 p.252 - Figure 10-3: Because this is an nd_range parallel_for, the argument to
 the kernel lambda expression must be an nd_item, not an id.
