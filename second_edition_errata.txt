@@ -14,6 +14,9 @@ p.94 - Figure 3-17: The member functions depends_on and fill are declared with
 inconsistent indentation. The first parameter of the range parallel_for is not
 a valid C++ identifier, need to replace with, e.g., NumWorkItems.
 
+p.125 - Figure 4-19: The group class provides get_group_id and get_group_linear_id
+member functions, not get_id nor get_linear_id.
+
 p.252 - Figure 10-3: Because this is an nd_range parallel_for, the argument to
 the kernel lambda expression must be an nd_item, not an id.
 
