@@ -10,9 +10,9 @@ class group {
  public:
   // Return the index of this group in the kernel's
   // execution range
-  id<Dimensions> get_id() const;
-  size_t get_id(int dimension) const;
-  size_t get_linear_id() const;
+  id<Dimensions> get_group_id() const;
+  size_t get_group_id(int dimension) const;
+  size_t get_group_linear_id() const;
 
   // Return the number of groups in the kernel's execution
   // range
