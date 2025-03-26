@@ -2,9 +2,12 @@
 
 // SPDX-License-Identifier: MIT
 
+#include <iostream>
+#if defined(__has_include) && \
+    __has_include(            \
+        <sycl/ext/intel/experimental/online_compiler.hpp>)
 #include <level_zero/ze_api.h>
 
-#include <iostream>
 #include <sycl/ext/intel/experimental/online_compiler.hpp>
 #include <sycl/ext/oneapi/backend/level_zero.hpp>
 #include <sycl/sycl.hpp>
@@ -153,3 +156,14 @@ int main(int argc, char* argv[]) {
   std::cout << "Success!\n";
   return 0;
 }
+#else
+int main(int argc, char* argv[]) {
+  std::cout
+      << "This sample requires the "
+         "sycl_ext_intel_online_compiler extension.\n"
+      << "This was an experimental extension.\n"
+      << "It does not appear to be available, so this "
+         "sample cannot run.\n";
+  return 0;
+}
+#endif
