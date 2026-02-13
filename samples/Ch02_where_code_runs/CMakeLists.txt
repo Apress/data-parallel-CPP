@@ -22,13 +22,17 @@ add_book_sample(
     TARGET fig_2_10_gpu_selector
     SOURCES fig_2_10_gpu_selector.cpp)
 
+if(NOT NOFPGA)
 add_book_sample(
     TARGET fig_2_12_multiple_selectors
     SOURCES fig_2_12_multiple_selectors.cpp)
+endif()
 
+if(NOT NOFPGA)
 add_book_sample(
     TARGET fig_2_13_gpu_plus_fpga
     SOURCES fig_2_13_gpu_plus_fpga.cpp)
+endif()
 
 add_book_sample(
     TARGET fig_2_15_aspect_selector
