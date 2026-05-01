@@ -38,8 +38,7 @@ add_book_sample(
     SOURCES fig_17_22_loop_carried_state.cpp)
 endif()
 
-if(NOT FPGA AND NOT WITHCUDA AND NOT WITHROCM)
-# TEMPORARILY DISABLE: doesn't work with CUDA or ROCm backend.
+if(NOT NOFPGA AND NOT WITHCUDA AND NOT WITHROCM)
 add_book_sample(
     TARGET fig_17_31_inter_kernel_pipe
     SOURCES fig_17_31_inter_kernel_pipe.cpp)

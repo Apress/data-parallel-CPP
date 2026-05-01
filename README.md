@@ -104,7 +104,7 @@ See your CMake documentation for more details.
 | Variable | Type | Description |
 |:---------|:-----|:------------|
 | NODPL | BOOL | Disable samples that require the oneAPI DPC++ Library (oneDPL).  Default: `FALSE`
-| NODPCT | BOOL | Disable samples that require the DPC++ Compatibility Tool (dpct).  Default: `FALSE`
+| NODPCT | BOOL | Disable samples that require the DPC++ Compatibility Tool (dpct).  Default: `TRUE`
 | NOL0 | BOOL | Disable samples that require the oneAPI Level Zero Headers and Loader.  Default: `TRUE`
 | WITHCUDA | BOOL | Enable CUDA device support for the samples.  Default: `FALSE`
 | WITHROCM | BOOL | Enable ROCm device support for the samples.  Default: `FALSE`
