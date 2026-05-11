@@ -2,8 +2,6 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <cassert>
-#include <cstdio>
 #include <sycl/sycl.hpp>
 
 using namespace sycl;

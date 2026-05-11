@@ -2,7 +2,6 @@
 
 // SPDX-License-Identifier: MIT
 
-#include <cassert>
 #include <sycl/sycl.hpp>
 #define M 32
 
