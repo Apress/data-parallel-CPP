@@ -6,6 +6,7 @@
 #include <CL/cl.h>
 
 #include <iostream>
+#include <string>
 #include <sycl/backend/opencl.hpp>
 #include <sycl/sycl.hpp>
 #include <vector>

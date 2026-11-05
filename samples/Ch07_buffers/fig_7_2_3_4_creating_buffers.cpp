@@ -2,7 +2,9 @@
 
 // SPDX-License-Identifier: MIT
 
+#include <memory>
 #include <sycl/sycl.hpp>
+#include <vector>
 using namespace sycl;
 
 int main() {

@@ -5,6 +5,7 @@
 // clang-format off
 #include <oneapi/dpl/algorithm>
 // clang-format on
+#include <cstdint>
 #include <iostream>
 #include <oneapi/dpl/execution>
 #include <oneapi/dpl/iterator>

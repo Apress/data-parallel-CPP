@@ -2,6 +2,7 @@
 
 // SPDX-License-Identifier: MIT
 
+#include <exception>
 #include <iostream>
 
 int main() {

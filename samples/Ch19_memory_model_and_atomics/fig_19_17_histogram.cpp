@@ -4,9 +4,12 @@
 
 #include <algorithm>
 #include <cstdio>
+#include <cstdlib>
+#include <iostream>
 #include <numeric>
 #include <random>
 #include <sycl/sycl.hpp>
+#include <tuple>
 
 using namespace sycl;
 

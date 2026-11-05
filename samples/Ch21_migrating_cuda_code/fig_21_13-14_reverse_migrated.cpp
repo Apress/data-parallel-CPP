@@ -2,6 +2,7 @@
 
 // SPDX-License-Identifier: MIT
 
+#include <cstdlib>
 #include <dpct/dpct.hpp>
 #include <iostream>
 #include <numeric>

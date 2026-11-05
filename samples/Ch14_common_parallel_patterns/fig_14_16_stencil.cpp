@@ -3,12 +3,14 @@
 // SPDX-License-Identifier: MIT
 
 #include <algorithm>
+#include <cmath>
 #include <cstdio>
 #include <cstdlib>
 #include <iostream>
 #include <numeric>
 #include <random>
 #include <sycl/sycl.hpp>
+#include <vector>
 
 using namespace sycl;
 

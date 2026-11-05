@@ -4,8 +4,10 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
 #include <iostream>
 #include <sycl/sycl.hpp>
+#include <vector>
 using namespace sycl;
 
 using matrixType = float;

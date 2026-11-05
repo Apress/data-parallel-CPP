@@ -7,6 +7,7 @@
 // old naming dpstd:: is now oneapi::dpl::
 // -------------------------------------------------------
 
+#include <algorithm>
 #include <oneapi/dpl/algorithm>
 #include <oneapi/dpl/execution>
 #include <oneapi/dpl/iterator>
