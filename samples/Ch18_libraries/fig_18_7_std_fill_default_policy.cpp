@@ -2,10 +2,13 @@
 
 // SPDX-License-Identifier: MIT
 
+#include <algorithm>
+#include <iostream>
 #include <oneapi/dpl/algorithm>
 #include <oneapi/dpl/execution>
 #include <oneapi/dpl/iterator>
 #include <sycl/sycl.hpp>
+#include <vector>
 
 int main() {
   std::vector<int> v(100000);

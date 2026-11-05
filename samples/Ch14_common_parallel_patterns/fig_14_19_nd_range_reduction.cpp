@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 #include <cstdio>
+#include <iostream>
 #include <numeric>
 #include <sycl/sycl.hpp>
 

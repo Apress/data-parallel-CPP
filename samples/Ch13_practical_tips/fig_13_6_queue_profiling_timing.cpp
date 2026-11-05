@@ -2,8 +2,10 @@
 
 // SPDX-License-Identifier: MIT
 
+#include <chrono>
 #include <iostream>
 #include <sycl/sycl.hpp>
+#include <vector>
 using namespace sycl;
 
 // Array type and data size for this example.

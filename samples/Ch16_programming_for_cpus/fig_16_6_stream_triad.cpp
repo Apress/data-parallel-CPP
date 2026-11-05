@@ -9,6 +9,7 @@
 #include <limits>
 #include <string>
 #include <sycl/sycl.hpp>
+#include <vector>
 using namespace sycl;
 
 constexpr size_t default_array_size = 256;

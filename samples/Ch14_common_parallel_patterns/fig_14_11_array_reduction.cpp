@@ -2,6 +2,7 @@
 
 // SPDX-License-Identifier: MIT
 
+#include <algorithm>
 #include <iostream>
 #include <numeric>
 #include <sycl/sycl.hpp>

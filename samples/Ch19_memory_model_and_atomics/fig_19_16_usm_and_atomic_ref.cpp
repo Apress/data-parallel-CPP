@@ -8,6 +8,7 @@
 // and duplicated here to avoid confusion.
 
 #include <algorithm>
+#include <cstdlib>
 #include <iostream>
 #include <sycl/sycl.hpp>
 

@@ -5,6 +5,7 @@
 #include <level_zero/ze_api.h>
 
 #include <iostream>
+#include <string>
 #include <sycl/ext/oneapi/backend/level_zero.hpp>
 #include <sycl/sycl.hpp>
 #include <vector>

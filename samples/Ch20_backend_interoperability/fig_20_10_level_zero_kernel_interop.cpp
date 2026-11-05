@@ -2,7 +2,9 @@
 
 // SPDX-License-Identifier: MIT
 
+#include <array>
 #include <iostream>
+#include <string>
 #if defined(__has_include) && \
     __has_include(            \
         <sycl/ext/intel/experimental/online_compiler.hpp>)

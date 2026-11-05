@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <iostream>
 #include <sycl/sycl.hpp>
+#include <vector>
 using namespace sycl;
 
 int main() {

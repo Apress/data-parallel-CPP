@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 #include <array>
+#include <iostream>
 #include <sycl/ext/intel/fpga_extensions.hpp>  // For fpga_emulator_selector_v
 #include <sycl/sycl.hpp>
 using namespace sycl;
